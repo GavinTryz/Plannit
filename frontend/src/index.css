@@ -11,3 +11,77 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.backgroundLogin
+{
+  background-image: '/graphicplanet.png';
+  background-position: center;
+  width: 100vw;
+  height: 100vh;
+  background-size: cover;
+}
+
+.loginSection
+{
+  margin: auto;
+  margin-top: 10%;
+  border-radius: 5%;
+  width: 250px;
+  padding: 60px;
+  text-align: center;
+  font-family: helvetica;
+  font-weight: lighter;
+}
+#loginButton
+{
+  border: none;
+  background-color: #1e2638; 
+  border-color: black;
+  padding: 5px 25px 5px 25px;
+  cursor: pointer;
+  margin: 10px 0px 10px 0px;
+}
+#signInName
+{
+  font-size: 15pt;
+  font-family: helvetica;
+  font-weight: lighter;
+  color: white;
+}
+input{
+  border: none;
+  background-color: #1e2638;
+  font-size: 12pt;
+  font-family: helvetica;
+  font-weight: lighter;
+  padding: 10px 15px 10px 15px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  color: white;
+
+}
+.menu
+{
+  margin-left: auto;
+  margin-right: auto;
+  background-color:#1e2638;
+ 
+  margin-top: 0%;
+  font-size: 14pt;
+  font-family: helvetica;
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+
+}
+.linkTextTitle
+{
+  color: white;
+  font-size: 12pt;
+}
+.linkText
+{
+  color: rgb(255, 211, 65);
+  font-size: 12pt;
+  padding: 5pt;
+}
