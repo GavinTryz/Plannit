@@ -48,6 +48,10 @@ code {
   font-weight: lighter;
   color: white;
 }
+#loginResult
+{
+  color: red;
+}
 input{
   border: none;
   background-color: #1e2638;
