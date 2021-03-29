@@ -2,10 +2,32 @@ import React from 'react';
 
 function Login()
 {
+  var obj = {login:loginName.value, password:loginPassword.value};
+  var js = JSON.stringify(obj);
  
+  try
+  {
+    const response = await fetch(bp.buildPath('api/login'), //EDIT FILE NAME
+         {method:'POST', body:js, headers:{'Content-Type' : 'application/json'}});
+   
+    var res = JSON.parse(await response.text());
+   
+    if( res.id <= 0 )
+    {
+      setMessage('User/Password combination incorrect');
+    }
+    else
+    {
+      var user = {firstName:res.firstName, lastName:res.lastName, id:res.id}
+      localStorage.setItem('user_data', JSON.stringify(user));
+     
+      setMessage('');
+      window.location.href = ''; //SET NEW PAGE LOCATION
+    }
+  }
 
 
-    var loginName;
+    /*var loginName;
     var loginPassword;
 
     const doLogin = async event =>
@@ -20,11 +42,12 @@ function Login()
 
 
         alert('yes it is working!');
-    }
+    }*/
+    
+    
     return(
         <div><br />
 
-        
         <div className= 'loginSection'>
             <span>Plannit Sign In</span>
             <form onSubmit = {doLogin}>
