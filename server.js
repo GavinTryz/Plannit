@@ -27,15 +27,13 @@ app.post('/api/login', async (req, res, next) => {
     const {email, password} = req.body;
     const db = client.db();
     const results = await(db.collection('Users').find({email: email, password: password})).toArray();
-    
-    console.log(results);
 
     var userID = -1;
     var firstname = '';
     var lastname = '';
     var error = '';
 
-    var ret;
+    var ret = "";
 
 
     if (results.length > 0)
@@ -54,10 +52,11 @@ app.post('/api/login', async (req, res, next) => {
             try
             {
                 ret = jwt.createToken(firstname, lastname, userID);
+                console.log(ret);
             }
             catch(e)
             {
-                ret = {error:e.message};
+                error = e.message;
             }
         }
         
@@ -69,7 +68,7 @@ app.post('/api/login', async (req, res, next) => {
 
     
     // res.json({firstname: firstname, lastname: lastname, userID: userID, error: error});
-    res.status(200).json(ret);
+    res.status(200).json({error: error, userID: userID, jwtToken: ret});
 })
 
 app.post('/api/register', async (req, res, next) => {
@@ -77,16 +76,14 @@ app.post('/api/register', async (req, res, next) => {
     const db = client.db();
     var error = '';
 
-    var ret;
-
     const results = await(db.collection('Users').find( {email : email} )).toArray();
     
     if (results.length > 0)
     {
-        console.log(results);
         res.status(200).json({
             error: "The user already exists"
         });
+        return;
     }
     else
     {
@@ -97,82 +94,74 @@ app.post('/api/register', async (req, res, next) => {
                 lastname: lastname,
                 email: email,
                 password: password,
-                verified: false}
+                verified: true}
             ]);
-            
-            try
-            {
-                ret = jwt.createToken(firstname, lastname, userID);
-            }
-            catch(e)
-            {
-                ret = {error:e.message};
-            }
         }    
         catch(e)
         {
-            ret = {error:e.message};
+            error = e.message;
         }
-        res.status(200).json(ret);
+        res.status(200).json({error: error});
     }
     
 })
 
 app.post('/api/createWeek', async (req, res, next) => {
     const db = client.db();
-    const {day, startTime, endTime, title, userID} = req.body;
+    const {week, userID, jwtToken} = req.body;
+
+    if (jwt.isExpired(jwtToken))
+    {
+        res.status(200).json({error: "JWT token is no longer valid"});
+        return;
+    }
+
+    var newToken = jwt.refresh(jwtToken);
 
     try
     {
         db.collection('Blocks').insertMany([ 
-            {day: day,
-             startTime: startTime,
-             endTime: endTime,
-             title: title,
+            {week: week,
              userID: userID}
         ]);
-            
-        try
-        {
-            ret = jwt.createToken(day, startTime, endTime, title, userID);
-        }
-        catch(e)
-        {
-            ret = {error:e.message};
-        }
+
+        var error = "";    
     }    
     catch(e)
     {
-        ret = {error:e.message};
+        var error = e.message;
     }
-    res.status(200).json(ret);
+    res.status(200).json({error: error, jwtToken: newToken});
 });
 
 app.post('/api/getWeek', async (req, res, next) => {
     const db = client.db();
-    const {userID} = req.body;
+    const {userID, jwtToken} = req.body;
 
-    try
+    if (jwt.isExpired(jwtToken))
     {
+        res.status(200).json({error: "JWT token is no longer valid"});
+        return;
+    }
+
+    var newToken = jwt.refresh(jwtToken);
+
+    const results = await(
         db.collection('Blocks').find( 
             {userID: userID},
-            {_id:0, day:1, startTime:1, endTime:1, title:1}
-        );
-            
-        try
-        {
-            ret = jwt.createToken(day, startTime, endTime, title);
-        }
-        catch(e)
-        {
-            ret = {error:e.message};
-        }
-    }    
-    catch(e)
+            {_id:0, week:1}
+        )
+    ).toArray();
+
+    if (results.length > 0)
     {
-        ret = {error:e.message};
+        res.status(200).json({results: results, error: "", jwtToken: newToken});
+        return;
     }
-    res.status(200).json(ret);
+    else
+    {
+        res.status(200).json({error: "Could not find any week info", jwtToken: newToken});
+    }
 });
 
 app.listen(5000); // start Node + Express server on port 5000

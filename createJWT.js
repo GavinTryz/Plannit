@@ -1,7 +1,7 @@
-const jwt = require(jsonwebtoken);
+const jwt = require('jsonwebtoken');
 require("dotenv").config();
 
-exports.createToken = function(fn, ln, id)
+var createToken = exports.createToken = function(fn, ln, id)
 {
     try
     {
@@ -9,11 +9,11 @@ exports.createToken = function(fn, ln, id)
         const user = {userId:id, firstName:fn, lastName:ln};
         const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
     
-        var ret = {accessToken:accessToken};
+        var ret = accessToken;
     }
     catch(e)
     {
-        var ret = {error:e.message};
+        var ret = e.message;
     }
     return ret;
 }
@@ -24,6 +24,7 @@ exports.isExpired = function(token)
     {
         if (err)
         {
+            console.log(err);
             return true;
         }
         else
@@ -44,5 +45,7 @@ exports.refresh = function(token)
     var firstName = ud.payload.firstName;
     var lastName = ud.payload.lastName;
 
-    return createToken(firstName, lastName, userId)
+    var token = createToken(firstName,lastName,userId);
+
+    return token;
 }
