@@ -1,5 +1,7 @@
 import React from 'react';
 
+//do npm install redux react-redux
+
 function Login()
 {
   var obj = {login:loginName.value, password:loginPassword.value};
