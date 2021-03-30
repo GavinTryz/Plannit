@@ -1,7 +1,8 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
-const url = 'mongodb+srv://root:7eW0JKa3jcmQNXot@cluster0.abrob.mongodb.net/Plannit?retryWrites=true&w=majority';
+const url = process.env.MONGODB_URL;
 const client = new MongoClient(url);
 client.connect();
 
