@@ -4,6 +4,14 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+//STORE -> GLOBALIZED STATE
+
+//ACTION (just describes action)
+
+//REDUCER (how action modifies storage)
+
+//DISPATCH (executes action)
+
 ReactDOM.render(
   <React.StrictMode>
     <App />
