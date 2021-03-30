@@ -94,7 +94,7 @@ app.post('/api/register', async (req, res, next) => {
                 lastname: lastname,
                 email: email,
                 password: password,
-                verified: true}
+                verified: false}
             ]);
         }    
         catch(e)
