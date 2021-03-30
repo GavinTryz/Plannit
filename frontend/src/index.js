@@ -6,6 +6,8 @@ import reportWebVitals from './reportWebVitals';
 
 /*
 import {createStore} from 'redux';
+import allReducer from '//file location';
+import { Provider } from 'react-redux';
 
 //STORE -> GLOBALIZED STATE
 
@@ -36,9 +38,11 @@ store.dispatch(decrement());  //-1
 */
 
 ReactDOM.render(
+  //<Provider store = {store}>
   <React.StrictMode>
     <App />
   </React.StrictMode>,
+  //<Provider>
   document.getElementById('root')
 );
 
