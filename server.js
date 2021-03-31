@@ -70,7 +70,7 @@ app.post('/api/login', async (req, res, next) => {
     
     // res.json({firstname: firstname, lastname: lastname, userID: userID, error: error});
     res.status(200).json({error: error, userID: userID, jwtToken: ret});
-})
+});
 
 app.post('/api/register', async (req, res, next) => {
     const {firstname, lastname, email, password} = req.body;
@@ -105,7 +105,7 @@ app.post('/api/register', async (req, res, next) => {
         res.status(200).json({error: error});
     }
     
-})
+});
 
 app.post('/api/createWeek', async (req, res, next) => {
     const db = client.db();
@@ -165,4 +165,4 @@ app.post('/api/getWeek', async (req, res, next) => {
     }
 });
 
-app.listen(5000); // start Node + Express server on port 5000
+app.listen(process.env.PORT || 5000); // start Node + Express server on port 5000
