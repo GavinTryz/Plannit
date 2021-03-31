@@ -5,7 +5,7 @@ import React from 'react';
 function Login()
 {
   const storage = require('../tokenStorage/js');
-  const bp = require('./bp.js'); //dunno what bp is...
+  const bp = require('./bp.js');
   
   var loginName;
   var loginPassword;
@@ -46,25 +46,7 @@ function Login()
           alert(e.toString());
           return;
       }
-  }
-
-    /*var loginName;
-    var loginPassword;
-
-    const doLogin = async event =>
-    {
-        event.preventDefault();
-
-        var obj = {
-            login:loginName.value,
-            password:loginPassword.value
-        };
-        var js = JSON.stringify(obj);
-
-
-        alert('yes it is working!');
-    }*/
-    
+  }    
     
     return(
         <div><br />
