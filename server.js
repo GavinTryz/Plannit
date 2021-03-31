@@ -24,6 +24,17 @@ app.use((req, res, next) => {
     next();
 });
 
+if (process.env.NODE_ENV === 'production') 
+{
+  // Set static folder
+  app.use(express.static('frontend/public'));
+
+  app.get('*', (req, res) => 
+  {
+    res.sendFile(path.resolve(__dirname, 'frontend', 'public', 'index.html'));
+  });
+}
+
 app.post('/api/login', async (req, res, next) => {
     const {email, password} = req.body;
     const db = client.db();
