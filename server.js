@@ -1,8 +1,9 @@
 require('dotenv').config();
+const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
-const url = process.env.MONGODB_URL;
+const url = process.env.MONGODB_URI;
 const client = new MongoClient(url);
 client.connect();
 
@@ -24,8 +25,21 @@ app.use((req, res, next) => {
     next();
 });
 
+if (process.env.NODE_ENV === 'production') 
+{
+  // Set static folder
+  app.use(express.static('frontend/public'));
+
+  app.get('*', (req, res) => 
+  {
+    res.sendFile(path.resolve(__dirname, 'frontend', 'public', 'index.html'));
+  });
+}
+
 app.post('/api/login', async (req, res, next) => {
     const {email, password} = req.body;
+    console.log(email);
+    console.log(password);
     const db = client.db();
     const results = await(db.collection('Users').find({email: email, password: password})).toArray();
 
@@ -36,7 +50,7 @@ app.post('/api/login', async (req, res, next) => {
 
     var ret = "";
 
-
+    console.log(results);
     if (results.length > 0)
     {
         const body = results[0];
@@ -70,7 +84,7 @@ app.post('/api/login', async (req, res, next) => {
     
     // res.json({firstname: firstname, lastname: lastname, userID: userID, error: error});
     res.status(200).json({error: error, userID: userID, jwtToken: ret});
-})
+});
 
 app.post('/api/register', async (req, res, next) => {
     const {firstname, lastname, email, password} = req.body;
@@ -105,7 +119,7 @@ app.post('/api/register', async (req, res, next) => {
         res.status(200).json({error: error});
     }
     
-})
+});
 
 app.post('/api/createWeek', async (req, res, next) => {
     const db = client.db();
@@ -165,4 +179,4 @@ app.post('/api/getWeek', async (req, res, next) => {
     }
 });
 
-app.listen(5000); // start Node + Express server on port 5000
+app.listen(process.env.PORT || 5000); // start Node + Express server on port 5000
