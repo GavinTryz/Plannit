@@ -4,37 +4,49 @@ import React from 'react';
 
 function Login()
 {
-  var obj = {login:loginName.value, password:loginPassword.value};
-  var js = JSON.stringify(obj);
- 
-  try
+  const storage = require('../tokenStorage/js');
+  const bp = require('./bp.js'); //dunno what bp is...
+  
+  var loginName;
+  var loginPassword;
+  
+  const [message.setMessage] = useState('');
+  
+  const doLogin = async event =>
   {
-    const response = await fetch(bp.buildPath('api/login'), //EDIT FILE NAME
-         {method:'POST', body:js, headers:{'Content-Type' : 'application/json'}});    //IS API USING POST?
-   
-    var res = JSON.parse(await response.text());
-   
-    if( res.id <= 0 )
-    {
-      setMessage('User/Password combination incorrect');
-    }
-    else
-    {
-      //var user = {firstName:res.firstName, lastName:res.lastName, id:res.id}
-      //localStorage.setItem('user_data', JSON.stringify(user));
-      
-      storage.storeToken(res;)
-     
-      setMessage('');
-      window.location.href = ''; //SET NEW PAGE LOCATION
-    }
-  }
-  catch(e)
-  {
-      alert(e.toString());
-      return;
-  }
+      event.preventDefault();
 
+      var obj = {login:loginName.value, password:loginPassword.value};
+      var js = JSON.stringify(obj);
+
+      try
+      {
+        const response = await fetch(bp.buildPath('api/login'), //EDIT FILE NAME
+             {method:'POST', body:js, headers:{'Content-Type' : 'application/json'}});    //IS API USING POST?
+
+        var res = JSON.parse(await response.text());
+
+        if( res.id <= 0 )
+        {
+          setMessage('User/Password combination incorrect');
+        }
+        else
+        {
+          //var user = {firstName:res.firstName, lastName:res.lastName, id:res.id}
+          //localStorage.setItem('user_data', JSON.stringify(user));
+
+          storage.storeToken(res;)
+
+          setMessage('');
+          window.location.href = ''; //SET NEW PAGE LOCATION
+        }
+      }
+      catch(e)
+      {
+          alert(e.toString());
+          return;
+      }
+  }
 
     /*var loginName;
     var loginPassword;
