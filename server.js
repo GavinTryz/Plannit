@@ -89,7 +89,7 @@ app.post('/api/register', async (req, res, next) => {
     const db = client.db();
     var error = '';
 
-    const results = await(db.collection('Users').find( {email : email} )).toArray();
+    const results = await(db.collection('Users').find( {}, {email : email} )).toArray();
     
     if (results.length > 0)
     {
