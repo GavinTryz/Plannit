@@ -38,6 +38,8 @@ if (process.env.NODE_ENV === 'production')
 
 app.post('/api/login', async (req, res, next) => {
     const {email, password} = req.body;
+    console.log(email);
+    console.log(password);
     const db = client.db();
     const results = await(db.collection('Users').find({email: email, password: password})).toArray();
 
