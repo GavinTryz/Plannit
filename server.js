@@ -48,7 +48,7 @@ app.post('/api/login', async (req, res, next) => {
 
     var ret = "";
 
-
+    console.log(results);
     if (results.length > 0)
     {
         const body = results[0];
