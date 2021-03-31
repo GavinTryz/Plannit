@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
-const url = process.env.MONGODB_URL;
+const url = process.env.MONGODB_URI;
 const client = new MongoClient(url);
 client.connect();
 
