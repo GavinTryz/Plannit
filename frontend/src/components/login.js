@@ -10,7 +10,7 @@ function Login()
   try
   {
     const response = await fetch(bp.buildPath('api/login'), //EDIT FILE NAME
-         {method:'POST', body:js, headers:{'Content-Type' : 'application/json'}});
+         {method:'POST', body:js, headers:{'Content-Type' : 'application/json'}});    //IS API USING POST?
    
     var res = JSON.parse(await response.text());
    
@@ -20,12 +20,19 @@ function Login()
     }
     else
     {
-      var user = {firstName:res.firstName, lastName:res.lastName, id:res.id}
-      localStorage.setItem('user_data', JSON.stringify(user));
+      //var user = {firstName:res.firstName, lastName:res.lastName, id:res.id}
+      //localStorage.setItem('user_data', JSON.stringify(user));
+      
+      storage.storeToken(res;)
      
       setMessage('');
       window.location.href = ''; //SET NEW PAGE LOCATION
     }
+  }
+  catch(e)
+  {
+      alert(e.toString());
+      return;
   }
 
 
