@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 
 /*
 import {createStore} from 'redux';
-import allReducer from '//file location';
+import { allReducer } from '//file location';
 import { Provider } from 'react-redux';
 
 //STORE -> GLOBALIZED STATE
