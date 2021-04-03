@@ -1,6 +1,6 @@
 exports.buildPath = function (route)
 {
-    const app_name = 'plannit';
+    const app_name = 'plannit-cop4331';
 
     if (process.env.Node_ENV === 'production')
     {
@@ -10,4 +10,5 @@ exports.buildPath = function (route)
     {
         return 'https://localhost:5000/' + route;
     }
+
 }

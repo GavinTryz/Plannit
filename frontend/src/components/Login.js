@@ -5,8 +5,7 @@ import {Link } from 'react-router-dom';
 
 function Login()
 {
-
-    const storage = require('../tokenStorage.js');
+    //const storage = require('../tokenStorage.js');
     const bp = require('./bp.js');
 
     const jwt = require('jsonwebtoken');
@@ -15,6 +14,11 @@ function Login()
     var loginPassword;
 
     const [message,setMessage] = useState('');
+
+    //new redux
+    const userData = useSelector(state => state.userData);
+    const counter = useSelector(state => state.counter);
+    const dispatch = useDispatch();
 
     const doLogin = async event => 
     {
@@ -63,7 +67,6 @@ function Login()
                {
                    console.log(error);
                });
-
             }
             catch(e)
             {
@@ -82,7 +85,10 @@ function Login()
                 //var user = {firstName:res.firstName,lastName:res.lastName,id:res.id}
                 //localStorage.setItem('user_data', JSON.stringify(user));
 
-                storage.storeToken(res);
+                //storage.storeToken(res);
+
+                //redux store
+                dispatch(store(res));
 
                 setMessage('');
                 window.location.href = '/dashboard';
@@ -116,4 +122,5 @@ function Login()
 
     );
 }
+
 export default Login;

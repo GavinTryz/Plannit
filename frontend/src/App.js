@@ -4,7 +4,7 @@ import './App.css';
 
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
-import AboutPage from './pages/AboutPage';
+import AboutPage from './pages/AboutPage.js';
 import CreateAccountPage from './pages/CreateAccountPage';
 import Dashboard from './pages/Dashboard';
 
