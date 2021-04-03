@@ -10,4 +10,5 @@ exports.buildPath = function (route)
     {
         return 'https://localhost:5000/' + route;
     }
+
 }
