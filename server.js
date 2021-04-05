@@ -276,6 +276,8 @@ app.post('/api/viewEvent', async (req, res, next) => {
 
     var newToken = jwt.refresh(jwtToken);
 
+    var participants = null;
+
     try 
     {
         const eventInfo = await(
@@ -284,12 +286,13 @@ app.post('/api/viewEvent', async (req, res, next) => {
             )
         ).toArray();
     
-        const participants = await(
+        /* const participants = await(
             db.collection('Participants').find(
                 {eventID: eventID},
                 {_id:0, userID:1}
             )
         ).toArray();
+        */
         
         if (eventInfo.length > 0)
         {
