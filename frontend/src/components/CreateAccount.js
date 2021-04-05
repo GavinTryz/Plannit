@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
-import {Link } from 'react-router-dom';
+import React, {useState} from 'react';
 
 function CreateAccount()
 {   
+    const storage = require('../tokenStorage.js');
+    const bp = require('./bp.js');
+    const jwt = require('jsonwebtoken');
+
     var userFirstName;
     var userLastName;
     var userEmail;
@@ -17,47 +20,44 @@ function CreateAccount()
         var obj = {
             firstname: userFirstName.value,
             lastname: userLastName.value,
-            email: userEmail,
+            email: userEmail.value,
             password: userPassword.value
         };
         var js = JSON.stringify(obj);
 
-        try
-        {    
-            const response = await fetch('http://localhost:5000/api/register',
-                {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
-
-            var res = JSON.parse(await response.text());
-
-            if( res.id <= 0 )
-            {
-                setMessage('Account already exists');
+            try
+            {    
+                const response = await fetch(bp.buildPath('api/register'),
+                    {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
+                    
+                var res = JSON.parse(await response.text());
+    
+                if( res.error)
+                {
+                   setMessage('Email already registered');
+                }
+                else
+                {
+                    setMessage('');
+                    window.location.href = '/login';
+                }
             }
-            else
+            catch(e)
             {
-                // Probably we need to change this.
-                var user = {firstName:res.firstName,lastName:res.lastName,id:res.id}
-                localStorage.setItem('user_data', JSON.stringify(user));
-
-                setMessage('');
-                window.location.href = '/dashboard';
+                alert(e.toString());
+                return;
             }
-        }
-        catch(e)
-        {
-            alert(e.toString());
-            return;
-        }    
     };
+
     return(
         <div className = 'backgroundLogin'><br />
             <div className= 'loginSection'>
                 <span id = 'signInName'>Plannit Create Account</span>
                 <form onSubmit = {doCreateAccount}>
-                    <input id = 'textField' type="text" id="loginName" placeholder="First Name" ref={(c) => userFirstName = c} /><br />
-                    <input id = 'textField' type="text" id="loginName" placeholder="Last Name" ref={(c) => userLastName = c} /><br />
-                    <input id = 'textField' type="text" id="loginName" placeholder="Email" ref={(c) => userEmail = c} /><br />
-                    <input id = 'textField' type="password" id="loginPassword" placeholder="Password" ref={(c) => userPassword = c} /><br />
+                    <input type="text" placeholder="First Name" ref={(c) => userFirstName = c} /><br />
+                    <input type="text" placeholder="Last Name" ref={(c) => userLastName = c} /><br />
+                    <input type="email" placeholder="Email" ref={(c) => userEmail = c} /><br />
+                    <input type="password" placeholder="Password" ref={(c) => userPassword = c} /><br />
                     <input type="submit" id="loginButton" class="buttons" value = "Create Account" onClick={doCreateAccount} /><br />
                 </form>
                 <div id="loginResult">{message}</div>
