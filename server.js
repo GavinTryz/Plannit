@@ -277,17 +277,14 @@ app.post('/api/viewEvent', async (req, res, next) => {
     var newToken = jwt.refresh(jwtToken);
 
     var participants = null;
-    var eventInfo;
 
     try 
     {
-        const response = await(
+        var eventInfo = await(
             db.collection('Events').find(
                 {_id: eventID}
             )
         ).toArray();
-
-        eventInfo = response;
     
         /* const participants = await(
             db.collection('Participants').find(
