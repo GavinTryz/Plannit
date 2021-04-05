@@ -282,7 +282,7 @@ app.post('/api/viewEvent', async (req, res, next) => {
     {
         var eventInfo = await(
             db.collection('Events').find(
-                {_id: eventID}
+                {_id: ObjectId(eventID)}
             )
         ).toArray();
     
