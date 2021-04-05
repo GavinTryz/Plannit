@@ -297,7 +297,7 @@ app.post('/api/viewEvent', async (req, res, next) => {
         ).toArray();
         */
         
-        if (eventInfo.length > 0)
+        if (eventInfo.length <= 0)
         {
             var error = "Could not find event";
             res.status(200).json({error: error, jwtToken: newToken});
