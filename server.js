@@ -4,13 +4,20 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
 const url = process.env.MONGODB_URI;
+
 const client = new MongoClient(url);
-client.connect();
+try {
+    client.connect();
+}
+catch (e) {
+    console.log(e);
+}
 
 const mongoose = require('mongoose');
 const jwt = require('./createJWT');
 
 const cors = require('cors');
+const { createBrotliCompress } = require('zlib');
 const app = express();
 
 // mongoose.connect('mongodb://');
@@ -132,10 +139,11 @@ app.post('/api/createWeek', async (req, res, next) => {
     }
 
     var newToken = jwt.refresh(jwtToken);
-
+    
     try
     {
-        db.collection('Blocks').insertMany([ 
+        
+        db.collection('MyTypicalWeek').insertMany([ 
             {week: week,
              userID: userID}
         ]);
@@ -162,7 +170,7 @@ app.post('/api/getWeek', async (req, res, next) => {
     var newToken = jwt.refresh(jwtToken);
 
     const results = await(
-        db.collection('Blocks').find( 
+        db.collection('MyTypicalWeek').find( 
             {userID: userID},
             {_id:0, week:1}
         )
@@ -170,7 +178,8 @@ app.post('/api/getWeek', async (req, res, next) => {
 
     if (results.length > 0)
     {
-        res.status(200).json({results: results, error: "", jwtToken: newToken});
+
+        res.status(200).json({week: results[0].week, error: "", jwtToken: newToken});
         return;
     }
     else
@@ -179,4 +188,134 @@ app.post('/api/getWeek', async (req, res, next) => {
     }
 });
 
+app.post('/api/createEvent', async (req, res, next) => {
+    const db = client.db();
+    const{creatorID, eventName, weekly, startTime, endTime, daysOfWeek, availability, jwtToken} = req.body;
+
+    if (jwt.isExpired(jwtToken))
+    {
+        res.status(200).json({error: "JWT token is no longer valid"});
+        return;
+    }
+
+    var newToken = jwt.refresh(jwtToken);
+
+    try
+    {
+        
+        db.collection('Events').insertOne( 
+            {creatorID: creatorID,
+            eventName:eventName,
+            weekly:weekly,
+            startTime:startTime,
+            endTime:endTime,
+            daysOfWeek:daysOfWeek,
+            availability:availability
+            }
+        );
+
+        var error = "";    
+    }    
+    catch(e)
+    {
+        var error = e.message;
+    }
+
+    res.status(200).json({error: error, jwtToken: newToken});
+});
+
+app.post('/api/getEvents', async (req, res, next) => {
+    const db = client.db();
+    const{userID, jwtToken} = req.body;
+
+    if (jwt.isExpired(jwtToken))
+    {
+        res.status(200).json({error: "JWT token is no longer valid"});
+        return;
+    }
+
+    var newToken = jwt.refresh(jwtToken);
+    var creatorEvents;
+    try 
+    {
+        creatorEvents = await(
+            db.collection('Events').find(
+                {creatorID: userID},
+                {_id:1}
+            )
+        ).toArray();
+        // to be implemented once we can insert into participants table
+        
+        // const participantEvents = await(
+        //     db.collection('Participants').find(
+        //         {userID: userID},
+        //         {_id:0, eventID:1}
+        //     )
+        // ).toArray();
+
+        var error = "";
+    }
+    catch(e)
+    {
+        var error = e.message;
+    }
+
+    res.status(200).json({creatorEvents: creatorEvents, participantEvents: null, error: error, jwtToken: newToken});
+    
+});
+
+app.post('/api/viewEvent', async (req, res, next) => {
+    const db = client.db();
+    const{eventID, jwtToken} = req.body;
+
+    if (jwt.isExpired(jwtToken))
+    {
+        res.status(200).json({error: "JWT token is no longer valid"});
+        return;
+    }
+
+    var newToken = jwt.refresh(jwtToken);
+
+    try 
+    {
+        const eventInfo = await(
+            db.collection('Events').find(
+                {_id: eventID}
+            )
+        ).toArray();
+    
+        const participants = await(
+            db.collection('Participants').find(
+                {eventID: eventID},
+                {_id:0, userID:1}
+            )
+        ).toArray();
+        
+        if (eventInfo.length > 0)
+        {
+            var error = "Could not find event";
+            res.status(200).json({error: error, jwtToken: newToken});
+            return;
+        }
+
+        var error = "";
+    }
+    catch(e)
+    {
+        var error = e.message;
+    }
+
+    res.status(200).json({participants: participants, eventName: eventInfo[0].eventName, weekly: eventInfo[0].weekly, startTime: eventInfo[0].startTime, 
+        endTime: eventInfo[0].endTime, daysOfWeek: eventInfo[0].daysOfWeek, availability: eventInfo[0].availability, error: error, jwtToken: newToken});
+});
+
+/*
+events table with creator, eventid, eventname  
+participants table with eventid, userid 
+select blah from events where creator = userid 
+select eventid from participants where userid = userid
+select userid from participants where eventid = eventid
+SELECT eventid, eventname FROM events WHERE creator=userid;
+SELECT eventid, eventname FROM events WHERE participants 
+*/
 app.listen(process.env.PORT || 5000); // start Node + Express server on port 5000
