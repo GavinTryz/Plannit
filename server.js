@@ -291,6 +291,7 @@ app.post('/api/viewEvent', async (req, res, next) => {
                 {eventID: eventID},
                 {_id:0, userID:1}
             )
+            test
         ).toArray();
         */
         
