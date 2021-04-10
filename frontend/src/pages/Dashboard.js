@@ -1,20 +1,19 @@
 import React from 'react';
-import Week from '../components/Week';
+import InternalMenuBar from '../components/InternalMenuBar';
+import SideBar from '../components/SideBar';
+
+
 
 
 const Dashboard = () =>
 {
-  const background={
-    backgroundImage: 'url(/dashboard.png)',
-    backgroundPosition: 'center',
-    width: '100vw',
-    height: '100vh',
-    backgroundSize: 'cover'
-  }
 
     return(
-      <div style = {background}>
-         <Week />
+      <div>
+        <SideBar />
+        <InternalMenuBar />
+        
+       
       </div>
     );
 };
