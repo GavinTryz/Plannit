@@ -4,6 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
 const url = process.env.MONGODB_URI;
+const sgMail = require('@sendgrid/mail');
 
 const client = new MongoClient(url);
 try {
@@ -18,6 +19,7 @@ const jwt = require('./createJWT');
 
 const cors = require('cors');
 const { createBrotliCompress } = require('zlib');
+const { send } = require('process');
 const app = express();
 
 // mongoose.connect('mongodb://');
@@ -118,6 +120,35 @@ app.post('/api/register', async (req, res, next) => {
                 password: password,
                 verified: false}
             ]);
+
+            // JWT For Email Verification
+            const emailToken = jwt.sign(
+            {
+                email: email
+            }, EMAIL_SECRET,
+            {
+                expiresIn: "1d"
+            });
+
+            // Compose message for Email
+            const msg = {
+                from: 'noreply@email.com',
+                to: email,
+                subject: 'Plannit - Email Verification',
+                text: `
+                Hello!
+                Thank you for registering to Plannit! Please click the link below to verify your account:
+                http://${req.headers.host}/verifyEmail?token=${emailToken}
+                `,
+                html:`
+                <h1>Hello!</h1>
+                <p>Thank you for registering to Plannit!</p>
+                <p>Please click the link below to verify your account.</p>
+                <a href = "http://${req.headers.host}/verifyEmail?token=${emailToken}">Verify your account.</a>
+                `
+            };
+
+            await sgMail.send(msg);
         }    
         catch(e)
         {
@@ -126,6 +157,21 @@ app.post('/api/register', async (req, res, next) => {
         res.status(200).json({error: error});
     }
     
+});
+
+app.post('/api/verifyEmail', async(req, res, next) => {
+    try
+    {
+        const email = jwt.verify(req.params.token, EMAIL_SECRET);
+        const user = await User.fineOne({email: email});
+        user.verified = true;
+    }
+    catch(error)
+    {
+        res.send('error');
+    }
+
+    return res.redirect('/login')
 });
 
 app.post('/api/createWeek', async (req, res, next) => {
