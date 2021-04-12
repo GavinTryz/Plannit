@@ -142,7 +142,6 @@ app.post('/api/createWeek', async (req, res, next) => {
     
     try
     {
-        
         db.collection('MyTypicalWeek').insertMany([ 
             {week: week,
              userID: userID}
@@ -311,6 +310,37 @@ app.post('/api/viewEvent', async (req, res, next) => {
 
     res.status(200).json({participants: participants, eventName: eventInfo[0].eventName, weekly: eventInfo[0].weekly, startTime: eventInfo[0].startTime, 
         endTime: eventInfo[0].endTime, daysOfWeek: eventInfo[0].daysOfWeek, availability: eventInfo[0].availability, error: error, jwtToken: newToken});
+});
+
+app.post('api/getParticipants', async (req, res, next) => {
+    const {eventID, jwtToken} = req.body;
+
+    if (jwt.isExpired(jwtToken))
+    {
+        res.status(200).json({error: "JWT token is no longer valid"});
+        return;
+    }
+    
+    var newToken = jwt.refresh(jwtToken);
+
+    try
+    {
+
+        var participants = await(
+            db.collection('Participants').find(
+                {eventID: eventID},
+                {_id:0, }
+            )
+        ).toArray();
+        var names = await db.collection('Users').find({ '_id': { $in: participants } });
+
+    }
+    catch(e)
+    {
+        var error = e.message;
+    }
+    return res.json({error: error, participants: names, jwtToken: newToken});  
+
 });
 
 /*
