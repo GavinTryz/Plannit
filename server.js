@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
 const url = process.env.MONGODB_URI;
 const sgMail = require('@sendgrid/mail');
+const jwtLib = require('jsonwebtoken');
 
 const client = new MongoClient(url);
 try {
@@ -51,7 +52,6 @@ app.post('/api/login', async (req, res, next) => {
     console.log(password);
     const db = client.db();
     const results = await(db.collection('Users').find({email: email, password: password})).toArray();
-
     var userID = -1;
     var firstname = '';
     var lastname = '';
@@ -60,7 +60,7 @@ app.post('/api/login', async (req, res, next) => {
     var ret = "";
 
     console.log(results);
-    if (results.length > 0)
+    if (results.length > 0) 
     {
         const body = results[0];
         if(body.verified == false)
@@ -100,6 +100,8 @@ app.post('/api/register', async (req, res, next) => {
     const db = client.db();
     var error = '';
 
+    
+    
     const results = await(db.collection('Users').find( {email : email} )).toArray();
     
     if (results.length > 0)
@@ -111,8 +113,10 @@ app.post('/api/register', async (req, res, next) => {
     }
     else
     {
+        var emailToken = '';   
         try
         {
+            
             db.collection('Users').insertMany([ 
                {firstname: firstname,
                 lastname: lastname,
@@ -120,19 +124,21 @@ app.post('/api/register', async (req, res, next) => {
                 password: password,
                 verified: false}
             ]);
-
+            
+            sgMail.setApiKey(process.env.SENDGRID_API_KEY);
             // JWT For Email Verification
-            const emailToken = jwt.sign(
+            
+            emailToken = jwtLib.sign(
             {
                 email: email
-            }, EMAIL_SECRET,
+            }, process.env.SENDGRID_API_KEY,
             {
                 expiresIn: "1d"
             });
-
+            
             // Compose message for Email
             const msg = {
-                from: 'noreply@email.com',
+                from: 'plannitnotifications@gmail.com',
                 to: email,
                 subject: 'Plannit - Email Verification',
                 text: `
@@ -148,30 +154,50 @@ app.post('/api/register', async (req, res, next) => {
                 `
             };
 
-            await sgMail.send(msg);
+            console.log("Email sent!");
+            
+
+            sgMail.send(msg)
+            .catch((err) => {
+                error = err;
+            });
         }    
         catch(e)
         {
             error = e.message;
         }
-        res.status(200).json({error: error});
+        res.status(200).json({error: error, token: emailToken});
     }
     
 });
 
 app.post('/api/verifyEmail', async(req, res, next) => {
+    var error = '';
+    const db = client.db();
+    const {token} = req.body;
     try
     {
-        const email = jwt.verify(req.params.token, EMAIL_SECRET);
-        const user = await User.fineOne({email: email});
-        user.verified = true;
+        const email = jwtLib.verify(token, process.env.SENDGRID_API_KEY);
+        var user = await db.collection('Users').findOne({email: email.email}, {_id:0, verified:1});
+        if (user && user.verified)
+        {
+            error = "Email is already verified, please log in"; 
+        }
+        else if (user)
+        {
+            db.collection('Users').updateOne({email: email.email}, {$set: {verified: true}});
+        }
+        else
+        {
+            error = "User does not exist";
+        }
     }
     catch(error)
     {
-        res.send('error');
+        return res.json({error: error});
     }
 
-    return res.redirect('/login')
+    return res.json({error: error});
 });
 
 app.post('/api/createWeek', async (req, res, next) => {
