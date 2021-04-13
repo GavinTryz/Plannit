@@ -79,7 +79,7 @@ function Login()
             }
             else
             {
-                storage.storeToken(res);
+                storage.storeToken(res.jwtToken);
 
                 setMessage('');
                 window.location.href = '/dashboard';

@@ -75,7 +75,6 @@ function CreateEvent()
     const jwt = require('jsonwebtoken');
     var tok = storage.retrieveToken();
     var ud = jwt.decode(tok, {complete: true});
-
     //var creatorID = ud.payload.userID;
  
     const handleCreateEvent = async event => 
@@ -83,7 +82,7 @@ function CreateEvent()
         event.preventDefault();
 
         var obj = {
-            creatorID: ud,
+            creatorID: ud.payload.userId,
             eventName:eventName,
             weekly: weeklyEvent,
             startTime:startTime,
