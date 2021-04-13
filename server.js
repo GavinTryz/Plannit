@@ -276,22 +276,26 @@ app.post('/api/viewEvent', async (req, res, next) => {
 
     var newToken = jwt.refresh(jwtToken);
 
+    var participants = null;
+
     try 
     {
-        const eventInfo = await(
+        var eventInfo = await(
             db.collection('Events').find(
-                {_id: eventID}
+                {_id: ObjectId(eventID)}
             )
         ).toArray();
     
-        const participants = await(
+        /* const participants = await(
             db.collection('Participants').find(
                 {eventID: eventID},
                 {_id:0, userID:1}
             )
+            test
         ).toArray();
+        */
         
-        if (eventInfo.length > 0)
+        if (eventInfo.length <= 0)
         {
             var error = "Could not find event";
             res.status(200).json({error: error, jwtToken: newToken});
