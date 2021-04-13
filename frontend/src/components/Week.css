@@ -1,0 +1,76 @@
+.weekBtn{
+    position: relative;
+    display: inline-block;
+    width: 18px;
+    height: 90px;
+    cursor: pointer;
+    border: 1px solid #e5a493;
+}
+.weekBtn input{
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.weekBtnON{
+    position: absolute;
+    background-color: white;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.weekBtnON:before{
+    position: absolute;
+    text-align: center;
+
+    width: 18px;
+    height: 18px;
+    background-color: #e5a493;
+}
+#Sunday:before{
+    top: 0;
+    left: 0;
+    right: 0;
+    content: "S";
+}
+#Monday:before{
+    top: 0;
+    left: 0;
+    right: 0;
+    content: "M";
+}
+#Tuesday:before{
+    top: 0;
+    left: 0;
+    right: 0;
+    content: "T";
+}
+#Wednesday:before{
+    top: 0;
+    left: 0;
+    right: 0;
+    content: "W";
+}
+#Thursday:before{
+    top: 0;
+    left: 0;
+    right: 0;
+    content: "T";
+}
+#Friday:before{
+    top: 0;
+    left: 0;
+    right: 0;
+    content: "F";
+}
+#Saturday:before{
+    top: 0;
+    left: 0;
+    right: 0;
+    content: "S";
+}
+
+
+input:checked + .weekBtnON {
+    background-color: #e5a493;
+}
