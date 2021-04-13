@@ -1,13 +1,21 @@
 import React from 'react';
+import RetrieveEvent from './RetrieveEvent';
 import './SideBar.css'
+
 
 function SideBar()
 {
     return(
-        <p className="Sidebar">
+        <div>
+            <p className="Sidebar">
             Sidebar
+            <RetrieveEvent />
+        
+            </p>
+            
 
-        </p>
+        </div>
+     
     );
 
 
