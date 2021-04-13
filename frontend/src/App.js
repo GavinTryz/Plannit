@@ -8,6 +8,8 @@ import AboutPage from './pages/AboutPage';
 import CreateAccountPage from './pages/CreateAccountPage';
 import Dashboard from './pages/Dashboard';
 
+import TrialPage from './pages/TrialPage';
+
 function App() {
   return (
     <Router >
@@ -31,6 +33,10 @@ function App() {
 
       <Route path = '/dashboard' exact>
         <Dashboard />
+      </Route>
+
+      <Route path = '/trial' exact>
+        <TrialPage />
       </Route>
        
       </Switch>
