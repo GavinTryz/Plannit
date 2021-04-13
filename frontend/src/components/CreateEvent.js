@@ -11,8 +11,11 @@ function CreateEvent()
     const[modalIsOpen, setModalIsOpen] = useState(false);
 
     return(
+
+        
         <div>
-            <button onClick={()=>setModalIsOpen(true)}>Create Event</button>
+            <span onClick={()=>setModalIsOpen(true)}> Create Event </span>
+            {/*<button onClick={()=>setModalIsOpen(true)}>Create Event</button>*/}
             <Modal id="ModalStyle"isOpen={modalIsOpen} 
                 style={{
                     overlay:{ 
