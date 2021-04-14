@@ -201,30 +201,57 @@ app.post('/api/verifyEmail', async(req, res, next) => {
 });
 
 app.post('/api/inviteUser', async(req, res, next) => {
-    const {eventID, emails, jwtToken} = req.body;
+    const {eventID, email, jwtToken} = req.body;
+    const db = client.db();
+    var error = '';
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-    for (var i = 0; i < users.length; users++)
-    {
-        // JWT For Email Verification
-        
-        emailToken = jwtLib.sign(
-        {
-            eventID: eventID,
-            email: emails[i]
-        }, process.env.SENDGRID_API_KEY,
-        {
-            expiresIn: "1d"
-        });
 
+    if (jwt.isExpired(jwtToken))
+    {
+        return res.status(200).json({error: "JWT token is no longer valid"});
+    }
+
+    var newToken = jwt.refresh(jwtToken);
+
+    emailToken = jwtLib.sign(
+    {
+        eventID: eventID,
+        email: email
+    }, process.env.SENDGRID_API_KEY,
+    {
+        expiresIn: "1d"
+    });
+    try
+    {
+        const results = await db.collection('Invites').insertOne({email: email, eventID: eventID});
         // Compose message
         const msg = {
-            from: 'plannitnotifications@gmail.com',
-            to: emails[i],
-            subject: 'Plannit Event Invite',
-            text: '',
-            html: ''
+        from: 'plannitnotifications@gmail.com',
+        to: email,
+        subject: 'Plannit Event Invite',
+        text: `
+        Hello!
+        You have been invited to a Plannit event! Please click the link below to join the event:
+        http://${req.headers.host}/joinEvent?token=${emailToken}
+        `,
+        html:`
+        <h1>Hello!</h1>
+        <p>You have been invited to a Plannit event!</p>
+        <p>Please click the link below to join the event.</p>
+        <a href = "http://${req.headers.host}/joinEvent?token=${emailToken}">Join event.</a>
+        `
         }
+        sgMail.send(msg)
+        .catch((err) => {
+            error = err;
+        })
     }
+    catch(e)
+    {
+        console.log(e);
+        error = e;
+    }
+    return res.json({error: error, jwtToken: newToken});
 });
 
 app.post('/api/createWeek', async (req, res, next) => {
@@ -411,7 +438,7 @@ app.post('/api/viewEvent', async (req, res, next) => {
         endTime: eventInfo[0].endTime, daysOfWeek: eventInfo[0].daysOfWeek, availability: eventInfo[0].availability, error: error, jwtToken: newToken});
 });
 
-app.post('api/getParticipants', async (req, res, next) => {
+app.post('/api/getParticipants', async (req, res, next) => {
     const {eventID, jwtToken} = req.body;
 
     if (jwt.isExpired(jwtToken))
