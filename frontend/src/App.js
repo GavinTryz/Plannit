@@ -4,9 +4,11 @@ import './App.css';
 
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
-import AboutPage from './pages/AboutPage.js';
+import AboutPage from './pages/AboutPage';
 import CreateAccountPage from './pages/CreateAccountPage';
 import Dashboard from './pages/Dashboard';
+
+import TrialPage from './pages/TrialPage';
 
 function App() {
   return (
@@ -31,6 +33,10 @@ function App() {
 
       <Route path = '/dashboard' exact>
         <Dashboard />
+      </Route>
+
+      <Route path = '/trial' exact>
+        <TrialPage />
       </Route>
        
       </Switch>
