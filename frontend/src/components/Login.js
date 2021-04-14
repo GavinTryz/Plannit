@@ -94,9 +94,9 @@ function Login()
             else
             {
                 //storing in redux
-                dispatch(storeJWT(res.JWT));
+                dispatch(storeJWT(res.jwtToken));
 
-                var ud = jwt.decode(res.JWT, {complete:true});
+                var ud = jwt.decode(res.jwtToken, {complete:true});
                 dispatch(storeUser({userId: ud.payload.userId, firstName: ud.payload.firstName, lastName: ud.payload.lastName}));
                 //
 
