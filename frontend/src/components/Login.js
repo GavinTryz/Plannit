@@ -37,10 +37,6 @@ function Login()
         };
         var js = JSON.stringify(obj);
 
-        //testing code
-        //dispatch(storeJWT(js));
-        //dispatch(storeUser({userId: loginName.value, password:loginPassword.value, lastName: "lastname:)"}));
-
         try
         {    
             const response = await fetch(bp.buildPath('api/login'),
