@@ -78,7 +78,6 @@ function Color2(props){
             console.log(item, index);
           });*/
 
-        
 
     }
 
@@ -87,6 +86,8 @@ function Color2(props){
     
 
     function changeOpacity() {
+        //function will determine opacity integer based on arr length of getParticipants and  size of this particular box
+        //var numWords = (my_string.split(" ").length);
         setBoxColor(0.1)
         console.log(boxColor)
     }

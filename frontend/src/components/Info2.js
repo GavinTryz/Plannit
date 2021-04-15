@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import './calendar.css';
 
 function Info2(props){
@@ -73,19 +73,24 @@ function Info2(props){
                 }
             }
         }
-        /*avail.forEach(function (item, index) {
-            console.log(item, index);
-          });*/
-
-        
-
     }
-    
+
+    const [hovered, setHovered] = useState(false);
+    function toggleHover() { 
+        hovered == false ? setHovered(true) : setHovered(false);
+        {displayParticipants(hovered)}
+    }
+
+    function displayParticipants(state) {
+        if (state == true)
+            return ""    //will return the names in sidebar through function -->redux to store
+    }
 
     return(
         <tr>
             {/*<label className = "calendarCell"><input type="checkbox" onChange={handleChange}/>*/}
-            <label className = "calendarCell"><input type="checkbox" onChange={addName}/>
+            <label className = "calendarCell" style={{ background:'blue'}} onMouseEnter={toggleHover} onMouseLeave={toggleHover}>
+                <input type="checkbox" onChange={addName}/>
 
             <span className="calendarCellOn"/>
             </label>
