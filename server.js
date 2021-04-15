@@ -438,6 +438,31 @@ app.post('/api/viewEvent', async (req, res, next) => {
         endTime: eventInfo[0].endTime, daysOfWeek: eventInfo[0].daysOfWeek, availability: eventInfo[0].availability, error: error, jwtToken: newToken});
 });
 
+app.post('/api/leaveEvent', async (req, res, next) => {
+    const db = client.db();
+    const{userID, eventID, jwtToken} = req.body;
+
+    if (jwt.isExpired(jwtToken))
+    {
+        res.status(200).json({error: "JWT token is no longer valid"});
+        return;
+    }
+
+    var newToken = jwt.refresh(jwtToken);
+    
+    try
+    {
+        db.collection('Participants').deleteOne({_id: userID, eventID: eventID});
+        var error = "";
+    }
+    catch(e)
+    {
+        var error = e.message;
+    }
+
+    res.status(200).json({error: error, jwtToken: newToken});
+});
+
 app.post('/api/getParticipants', async (req, res, next) => {
     const {eventID, jwtToken} = req.body;
 
