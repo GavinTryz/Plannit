@@ -1,8 +1,11 @@
 import React from 'react';
-import {Link } from 'react-router-dom';
+
+function linkChange(){
+    window.location.href = '/dashboard/setWeek'
+}
 
 function SetWeekButton(){
-
-    return <Link to ='dashboard/setWeek'><button>Set Typical Week</button></Link>;
+    return <button onClick={linkChange}>Set Typical Week</button>
 }
+
 export default SetWeekButton;

@@ -1,6 +1,5 @@
 import React from 'react';
-import RetrieveEvent from './RetrieveEvent';
-import './MainSetWeek.css'
+import './Main.css'
 
 import SetCalendar from './SetCalendar';
 
@@ -9,6 +8,7 @@ function MainSetWeek()
 {
     return(
         <div class="main">
+            <span>This is the Set Typical Week Table</span>
             <SetCalendar />
         </div>
     );

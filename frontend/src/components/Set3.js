@@ -1,7 +1,7 @@
 import React from 'react';
-import Build2 from './Build2';
+import Build3 from './Build3';
 
-function Set2(){
+function Set3(){
 
     var dayOfWeekObj = {    //change w info returned by view event
         sunday: true,
@@ -18,11 +18,11 @@ function Set2(){
 
 
     return(
-        <Build2
+        <Build3
             daysAvailable = {dayOfWeekObj}
             time = {timeArr}
 
         />
         );
 }
-export default Set2;
+export default Set3;
