@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import './calendar.css';
+import participantList from './participantList';
 
 function Info2(props){
     const jwt = require('jsonwebtoken');

@@ -3,6 +3,10 @@ import {Link } from 'react-router-dom';
 import jwt_decode from "jwt-decode";
 //import axios from 'axios';
 
+//redux
+import {/*useSelector,*/ useDispatch} from 'react-redux';
+import {storeUser, storeJWT} from '../actions';
+
 function Login()
 {
     const storage = require('../tokenStorage.js');
@@ -17,6 +21,11 @@ function Login()
 
     const [message,setMessage] = useState('');
 
+    //redux
+    //const userData = useSelector(state => state.userData);
+    //const userJWT = useSelector(state => state.userJWT);
+    const dispatch = useDispatch();
+
     const doLogin = async event => 
     {
         event.preventDefault();
@@ -26,6 +35,9 @@ function Login()
             password:loginPassword.value,
         };
         var js = JSON.stringify(obj);
+
+        //testing redux
+        //dispatch(storeUser({userId: loginName.value, firstName: loginPassword.value, lastName: "lastname"}));
 
         try
         {    
@@ -79,6 +91,13 @@ function Login()
             }
             else
             {
+                //storing in redux
+                dispatch(storeJWT(res.jwtToken));
+
+                var ud = jwt.decode(res.jwtToken, {complete:true});
+                dispatch(storeUser({userId: ud.payload.userId, firstName: ud.payload.firstName, lastName: ud.payload.lastName}));
+                //
+
                 storage.storeToken(res.jwtToken);
 
                 setMessage('');
