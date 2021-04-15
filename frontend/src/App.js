@@ -4,9 +4,11 @@ import './App.css';
 
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
-import AboutPage from './pages/AboutPage.js';
+import AboutPage from './pages/AboutPage';
 import CreateAccountPage from './pages/CreateAccountPage';
 import Dashboard from './pages/Dashboard';
+import RetrieveCalendar from './components/RetrieveCalendar';
+import SetCalendar from './components/SetCalendar';
 
 function App() {
   return (
@@ -31,6 +33,10 @@ function App() {
 
       <Route path = '/dashboard' exact>
         <Dashboard />
+      </Route>
+
+      <Route path = '/calendar' exact>
+        <SetCalendar />
       </Route>
        
       </Switch>
