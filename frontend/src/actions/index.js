@@ -17,3 +17,10 @@ export const logOut = () => {
         type: 'CLEAR_DATA',
     };
 };
+
+export const storeEventTable = data => {
+    return{
+        type: 'STORE_VIEW',
+        payload: data
+    };
+};

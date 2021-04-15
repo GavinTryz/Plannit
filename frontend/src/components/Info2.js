@@ -2,9 +2,16 @@ import React, {useState} from 'react'
 import './calendar.css';
 import participantList from './participantList';
 
+import {storeEventTable} from '../actions';
+import {/*useSelector,*/ useDispatch} from 'react-redux';
+
 function Info2(props){
     const jwt = require('jsonwebtoken');
     const storage = require('../tokenStorage');
+
+    //redux
+    const dispatch = useDispatch();
+
     function stringToInt(day){
         if(day === "Sunday"){
             return 0;
@@ -70,10 +77,12 @@ function Info2(props){
 
                     newCalendar[i][j] = curNames;
                     console.log(newCalendar);
+
                     props.setCalendar(newCalendar);
                 }
             }
         }
+        dispatch(storeEventTable(newCalendar));
     }
 
     const [hovered, setHovered] = useState(false);

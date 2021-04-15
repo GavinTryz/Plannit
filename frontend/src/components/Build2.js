@@ -2,7 +2,10 @@ import React, {useState} from 'react'
 import axios from 'axios';
 import './calendar.css';
 import Info2 from './Info2';
+
 const jwt = require('jsonwebtoken');
+
+
 /**********************************************************************************************************
  *                             I AM CRAFTING A CALENDAR. STILL ON WORK
  * ********************************************************************************************************/
@@ -108,6 +111,7 @@ function Build2(props){
             console.log(error);
         });
     }
+
     return(
         <div>
             <table className = 'calendarTable'>
