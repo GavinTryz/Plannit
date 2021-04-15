@@ -1,5 +1,6 @@
 import React from 'react';
 import RetrieveEvent from './RetrieveEvent';
+import SetWeekButton from './SetWeekButton';
 import './SideBar.css'
 
 
@@ -10,10 +11,8 @@ function SideBar()
             <p className="Sidebar">
             Sidebar
             <RetrieveEvent />
-        
+            <SetWeekButton />
             </p>
-            
-
         </div>
      
     );

@@ -10,6 +10,9 @@ import Dashboard from './pages/Dashboard';
 import RetrieveCalendar from './components/RetrieveCalendar';
 import SetCalendar from './components/SetCalendar';
 
+import Set2 from './components/Set2';
+import SetWeekPage from './pages/SetWeekPage';
+
 function App() {
   return (
     <Router >
@@ -39,6 +42,14 @@ function App() {
         <SetCalendar />
       </Route>
        
+      <Route path = '/grad' exact>
+        <Set2 />
+      </Route>
+
+      <Route path = '/dashboard/setWeek' exact>
+        <SetWeekPage />
+      </Route>
+
       </Switch>
     </Router>
   );

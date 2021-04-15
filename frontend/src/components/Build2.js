@@ -1,51 +1,52 @@
 import React, {useState} from 'react'
 import axios from 'axios';
 import './calendar.css';
-import CalendarInfoOnCell from './CalendarInfoOnCell';
+import Info2 from './Info2';
 const jwt = require('jsonwebtoken');
 /**********************************************************************************************************
  *                             I AM CRAFTING A CALENDAR. STILL ON WORK
  * ********************************************************************************************************/
 
-function RetrieveCalendar(props){
+function Build2(props){
 
     const storage = require('../tokenStorage');
     const bp = require('./bp');
     const [calendar, setCalendar] = useState(createCalendar());
+
+
     // Objects received from SetCalendar.js
     var dayOfWeekObj = props.daysAvailable;
     var timeObj = props.time;
 
-    function createCalendar() {
+    //----------------------------------------
+    var names = "Bob";
+    
+    //creating empty array for ex, later fill w actual user availablity
+    var userAvail = [...Array(7)].map(e => Array(48).fill(false));
+    userAvail[0][0] = true;
+    userAvail[1][0] = true;
+    userAvail[2][0] = true;
+    userAvail[3][0] = true;
+    //console.log(userAvail);
+
+    function createCalendar() {     //keep same for select funtion? else change w props | ask db 
         const rows = 7;
         const cols = 48;
 
         const nestedArray = Array.from({ length: rows }, () => 
-        Array.from({ length: cols }, () => false)
+        Array.from({ length: cols }, () => null)
         );
         return nestedArray;
     }
 
-   var daysOfWeek = ['Time', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
-    // var dayOfWeekObj = {
-    //     sunday: true,
-    //     monday: true,
-    //     tuesday: true,
-    //     wednesday: true,
-    //     thursday: true,
-    //     friday: true,
-    //     saturday: true
-    // };
-
-    // var timeObj = [9, 10, 11, 12, 1, 2, 3, 4, 5, 6];
+   var daysOfWeek = ['Time', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];     //keep cal the same?
 
     var tableCell = (dayOfWeekObj, timeObj, nameofDay) =>{
         if (dayOfWeekObj === true)
             return(
                 <tr>
-                    <CalendarInfoOnCell time={timeObj} day={nameofDay} calendar={calendar} setCalendar={setCalendar}/>
-                    <CalendarInfoOnCell time={timeObj +  ':30'} day={nameofDay} calendar={calendar} setCalendar={setCalendar}/>
+                    <Info2 time={timeObj} day={nameofDay} calendar={calendar} setCalendar={setCalendar} name={names} userAvail={userAvail}/>
+                    <Info2 time={timeObj +  ':30'} day={nameofDay} calendar={calendar} setCalendar={setCalendar} name={names} userAvail={userAvail}/>
                 </tr>
             );
         else
@@ -119,4 +120,4 @@ function RetrieveCalendar(props){
         </div> 
        );
 }
-export default RetrieveCalendar;
+export default Build2;

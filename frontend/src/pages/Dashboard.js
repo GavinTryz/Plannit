@@ -4,8 +4,6 @@ import RetrieveCalendar from '../components/RetrieveCalendar';
 import SideBar from '../components/SideBar';
 
 
-
-
 const Dashboard = () =>
 {
 

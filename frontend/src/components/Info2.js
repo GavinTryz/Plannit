@@ -1,7 +1,7 @@
 import React from 'react'
 import './calendar.css';
 
-function CalendarInfoOnCell(props){
+function Info2(props){
     const jwt = require('jsonwebtoken');
     const storage = require('../tokenStorage');
     function stringToInt(day){
@@ -33,10 +33,15 @@ function CalendarInfoOnCell(props){
         var newCalendar = props.calendar;
         var arr = props.time.toString().split(':');
         var dayIndex = arr[0]*2;
+
+        var names = props.names;
+
         if(arr.length == 2)
         {
             dayIndex++;
         }
+
+
         /*console.log(props.day);
         console.log(dayIndex);
         console.log(event.target.checked);*/
@@ -46,14 +51,45 @@ function CalendarInfoOnCell(props){
         //alert('selected hour is ' + props.time + 'and the day is ' + props.day);
 
     }
+
+    function addName() {
+        var newCalendar = props.calendar;
+        var avail = props.userAvail;
+        var name = props.name;
+        
+        for (var i = 0 ; i < avail.length ; i++){
+            for (var j = 0 ; j < avail.length ; j++){
+                if(avail[i][j] === true) {
+                    var curNames = newCalendar[i][j];
+                    if(curNames === null)
+                        curNames = name
+                    else {
+                    curNames = curNames + " " + name
+                    }
+
+                    newCalendar[i][j] = curNames;
+                    console.log(newCalendar);
+                    props.setCalendar(newCalendar);
+                }
+            }
+        }
+        /*avail.forEach(function (item, index) {
+            console.log(item, index);
+          });*/
+
+        
+
+    }
     
 
     return(
         <tr>
-            <label className = "calendarCell"><input type="checkbox" onChange={handleChange}/>
+            {/*<label className = "calendarCell"><input type="checkbox" onChange={handleChange}/>*/}
+            <label className = "calendarCell"><input type="checkbox" onChange={addName}/>
+
             <span className="calendarCellOn"/>
             </label>
          </tr>
     );
 }
-export default CalendarInfoOnCell;
+export default Info2;

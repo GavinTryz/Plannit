@@ -1,9 +1,9 @@
 import React from 'react';
-import RetrieveCalendar from './RetrieveCalendar';
+import Build2 from './Build2';
 
 function SetCalendar(){
 
-    var dayOfWeekObj = {    //what days show on the calendar?
+    var dayOfWeekObj = {    //change w info returned by view event
         sunday: true,
         monday: true,
         tuesday: true,
@@ -13,12 +13,12 @@ function SetCalendar(){
         saturday: true
     };
 
-    var timeArr = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18];  //times that show on cal
+    var timeArr = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18];  //change w info returned by view event
 
 
 
     return(
-        <RetrieveCalendar
+        <Build2
             daysAvailable = {dayOfWeekObj}
             time = {timeArr}
 
