@@ -24,3 +24,10 @@ export const storeEventTable = data => {
         payload: data
     };
 };
+
+export const storeViewSlot = data => {
+    return{
+        type: 'STORE_VIEW_SLOT',
+        payload: data
+    };
+};
