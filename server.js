@@ -338,9 +338,9 @@ app.post('/api/getEvents', async (req, res, next) => {
     try 
     {
         creatorEvents = await(
-            db.collection('Events').distinct(
-                "_id",
-                {creatorID: userID}
+            db.collection('Events').find(
+                {creatorID: userID},
+                {eventName:1}
             )
         ).toArray();
         // to be implemented once we can insert into participants table
