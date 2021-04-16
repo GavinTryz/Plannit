@@ -171,10 +171,10 @@ app.post('/api/register', async (req, res, next) => {
     
 });
 
-app.post('/api/verifyEmail', async(req, res, next) => {
+app.get('/verifyEmail', async(req, res, next) => {
     var error = '';
     const db = client.db();
-    const {token} = req.body;
+    const {token} = req.query;
     try
     {
         const email = jwtLib.verify(token, process.env.SENDGRID_API_KEY);
