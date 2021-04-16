@@ -85,7 +85,7 @@ input:checked + .calendarCellOn{
     height: 15px;
     cursor: pointer;
     display: inline-block;
-    background: lightblue;
+    background: blue;
 
     top: 0;
     left: 0;

@@ -8,32 +8,34 @@ import {useDispatch} from 'react-redux';
 
 const jwt = require('jsonwebtoken');
 
-/**********************************************************************************************************
- *                             I AM CRAFTING A CALENDAR. STILL ON WORK
- * ********************************************************************************************************/
- 
 function Build2(props){
 
     const storage = require('../tokenStorage');
     const bp = require('./bp');
     const [calendar, setCalendar] = useState(createCalendar());
 
-
     // Objects received from SetCalendar.js
     var dayOfWeekObj = props.daysAvailable;
     var timeObj = props.time;
 
     //creating example array for testing, later fill w actual user availablity
-    var names = "Bob,robert,lulu";
+    var names = "Bob Bobby, Rob Robert, Lu Lulu";
     var userAvail = [...Array(7)].map(e => Array(48).fill(false));
-    userAvail[0][0] = true;
-    userAvail[0][10] = true;
-    userAvail[1][0] = true;
-    userAvail[2][0] = true;
-    userAvail[3][0] = true;
     userAvail[0][18] = true;
-    userAvail[1][18] = true;
+    userAvail[1][19] = true;
+    userAvail[2][20] = true;
+    userAvail[3][21] = true;
+    userAvail[4][22] = true;
+    userAvail[5][23] = true;
+    userAvail[6][24] = true;
+    userAvail[0][28] = true;
     userAvail[1][28] = true;
+    userAvail[2][28] = true;
+    userAvail[3][28] = true;
+    userAvail[4][28] = true;
+    userAvail[5][28] = true;
+    userAvail[6][28] = true;
+    
     //console.log(userAvail);
 
     function createCalendar() {     //keep same for select funtion? else change w props | ask db 

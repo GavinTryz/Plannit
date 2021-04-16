@@ -3,14 +3,11 @@ import axios from 'axios';
 import './calendar.css';
 import Color3 from './Color3';
 const jwt = require('jsonwebtoken');
-/**********************************************************************************************************
- *                             I AM CRAFTING A CALENDAR. STILL ON WORK
- * ********************************************************************************************************/
 
 function Build3(props){
 
     const storage = require('../tokenStorage');
-    const bp = require('./bp');
+    const bp = require('../components/bp');
     const [calendar, setCalendar] = useState(createCalendar());
 
 

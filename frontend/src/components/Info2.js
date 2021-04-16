@@ -1,13 +1,10 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import './calendar.css';
 
 import {storeViewSlot, slotState} from '../actions';
 import {useDispatch, useSelector} from 'react-redux';
 
 function Info2(props){
-    const jwt = require('jsonwebtoken');
-    const storage = require('../tokenStorage');
-
     //redux
     const dispatch = useDispatch();
 
@@ -50,9 +47,36 @@ function Info2(props){
         }
     }
 
+    const [slotOpacity, setSlotOpacity] = useState(1);
+    const eventTable = useSelector(state => state.eventTable);
+
+    useEffect(()=>{
+        //function changeOpacity() {        //will have to adjust to take tokens given by db
+            var arr = props.time.toString().split(':');
+            var dayIndex = arr[0]*2;
+            if(arr.length == 2)
+            {
+                dayIndex++;
+            }
+
+            if (eventTable == null)
+                return setSlotOpacity(0);
+
+            var list = eventTable[stringToInt(props.day)][dayIndex];
+            if (  list === "" || list === null)
+                setSlotOpacity(0)
+            else {
+                var numWords = (list.split(" ").length) / 2;
+                var totalPeople = 5;   //example, change after db
+                var ratio = numWords/totalPeople;
+                setSlotOpacity(ratio)
+            }
+        //}
+    }, [])
+
     return(
         <tr>
-            <label className = "calendarViewCell" onMouseEnter={toggleHover} onMouseLeave={toggleHover}>
+            <label className = "calendarViewCell" style={{ opacity: slotOpacity }}onMouseEnter={toggleHover} onMouseLeave={toggleHover}>
             <span className = "calendarCellOn"/>
             </label>
         </tr>

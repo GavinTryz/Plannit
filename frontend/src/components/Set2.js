@@ -3,7 +3,7 @@ import Build2 from './Build2';
 
 function Set2(){
 
-    var dayOfWeekObj = {    //change w info returned by view event
+    var dayOfWeekObj = {    //change w info returned by view event? pr just keep same
         sunday: true,
         monday: true,
         tuesday: true,
@@ -20,7 +20,6 @@ function Set2(){
         <Build2
             daysAvailable = {dayOfWeekObj}
             time = {timeArr}
-
         />
         );
 }
