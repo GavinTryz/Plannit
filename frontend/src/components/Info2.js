@@ -38,11 +38,11 @@ function Info2(props){
         var avail = props.userAvail;
         var name = props.name;
         
-        for (var i = 0 ; i < avail.length ; i++){
-            for (var j = 0 ; j < avail.length ; j++){
-                if(avail[i][j] === true) {
+        for (var i = 0 ; i < avail.length ; i++) {
+            for (var j = 0 ; j < avail[0].length ; j++) {
+                if (avail[i][j] === true) {
                     var curNames = newCalendar[i][j];
-                    if(curNames === null)
+                    if (curNames === null)
                         curNames = name
                     else {
                     curNames = curNames + " " + name
@@ -62,12 +62,11 @@ function Info2(props){
     function toggleHover() { 
         hovered == false ? setHovered(true) : setHovered(false);
 
-        if(hovered === false){
+        if (hovered === false) {
             var arr = props.time.toString().split(':');
             var dayIndex = arr[0]*2;
 
-            if(arr.length == 2)
-            {
+            if (arr.length == 2) {
                 dayIndex++;
             }
 
@@ -78,8 +77,9 @@ function Info2(props){
 
     return(
         <tr>
-            <label className = "calendarCell" style={{ background:'blue'}} onMouseEnter={toggleHover} onMouseLeave={toggleHover}>
-                <input type="checkbox" onChange={addName}/>
+            <label className = "calendarViewCell" style={{ background:'blue'}} onMouseEnter={toggleHover} onMouseLeave={toggleHover}>
+                {/*<input type="checkbox" onChange={addName}/>*/}
+                {/*{addName()}*/}
 
             <span className="calendarCellOn"/>
             </label>
