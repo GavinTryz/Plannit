@@ -12,13 +12,13 @@ function SideBar()
     return(
         <div>
             <p className="Sidebar">
-            Sidebar
+            Sidebar\n HEYOOO
             <RetrieveEvent />
             <SetWeekButton />
             <ViewEventButton />
             <EMPTY_BUTTON />
+            Sidebar<br /> HEYOOO
             <ParticipantList />
-            
             </p>
         </div>
      

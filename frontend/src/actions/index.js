@@ -31,3 +31,9 @@ export const storeViewSlot = data => {
         payload: data
     };
 };
+
+export const slotState = () => {
+    return{
+        type: 'HOVER_SLOT_STATE',
+    };
+};

@@ -24,7 +24,7 @@ function Build2(props){
     var timeObj = props.time;
 
     //creating example array for testing, later fill w actual user availablity
-    var names = "Bob";
+    var names = "Bob,robert,lulu";
     var userAvail = [...Array(7)].map(e => Array(48).fill(false));
     userAvail[0][0] = true;
     userAvail[0][10] = true;
@@ -116,44 +116,22 @@ function Build2(props){
         });
     }
 
-//code below is used to populate participant names in table
+//Populate participant names in table
     const dispatch = useDispatch();
-
-    function stringToInt(day){
-        if(day === "Sunday"){
-            return 0;
-        }
-        if(day === "Monday"){
-            return 1;
-        }
-        if(day === "Tuesday"){
-            return 2;
-        }
-        if(day === "Wednesday"){
-            return 3;
-        }
-        if(day === "Thursday"){
-            return 4;
-        }
-        if(day === "Friday"){
-            return 5;
-        }
-        return 6
-    }
 
     useEffect(()=>{
         var newCalendar = calendar;
         var avail = userAvail;
         var name = names;
         
-        for (var i = 0 ; i < avail.length ; i++) {
+        for (var i = 0 ; i < avail.length ; i++) {          //will have to adjust to take tokens given by db
             for (var j = 0 ; j < avail[0].length ; j++) {
                 if (avail[i][j] === true) {
                     var curNames = newCalendar[i][j];
                     if (curNames === null)
                         curNames = name
                     else {
-                    curNames = curNames + " " + name
+                        curNames = curNames + " " + name
                     }
 
                     newCalendar[i][j] = curNames;
@@ -165,7 +143,6 @@ function Build2(props){
         }
         dispatch(storeEventTable(newCalendar));
     }, [])
-//----------------
 
     return(
         <div>

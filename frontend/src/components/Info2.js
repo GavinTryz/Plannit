@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
 import './calendar.css';
 
-import {storeEventTable, storeViewSlot} from '../actions';
-import {useDispatch} from 'react-redux';
+import {storeViewSlot, slotState} from '../actions';
+import {useDispatch, useSelector} from 'react-redux';
 
 function Info2(props){
     const jwt = require('jsonwebtoken');
@@ -33,36 +33,11 @@ function Info2(props){
         return 6
     }
 
-    function addName() {
-        var newCalendar = props.calendar;
-        var avail = props.userAvail;
-        var name = props.name;
-        
-        for (var i = 0 ; i < avail.length ; i++) {
-            for (var j = 0 ; j < avail[0].length ; j++) {
-                if (avail[i][j] === true) {
-                    var curNames = newCalendar[i][j];
-                    if (curNames === null)
-                        curNames = name
-                    else {
-                    curNames = curNames + " " + name
-                    }
-
-                    newCalendar[i][j] = curNames;
-                    console.log(newCalendar);
-
-                    props.setCalendar(newCalendar);
-                }
-            }
-        }
-        dispatch(storeEventTable(newCalendar));
-    }
-
-    const [hovered, setHovered] = useState(false);
+    const hover = useSelector(state => state.slotState); 
     function toggleHover() { 
-        hovered == false ? setHovered(true) : setHovered(false);
+        dispatch(slotState());
 
-        if (hovered === false) {
+        if (!hover) {
             var arr = props.time.toString().split(':');
             var dayIndex = arr[0]*2;
 
@@ -77,13 +52,10 @@ function Info2(props){
 
     return(
         <tr>
-            <label className = "calendarViewCell" style={{ background:'blue'}} onMouseEnter={toggleHover} onMouseLeave={toggleHover}>
-                {/*<input type="checkbox" onChange={addName}/>*/}
-                {/*{addName()}*/}
-
-            <span className="calendarCellOn"/>
+            <label className = "calendarViewCell" onMouseEnter={toggleHover} onMouseLeave={toggleHover}>
+            <span className = "calendarCellOn"/>
             </label>
-         </tr>
+        </tr>
     );
 }
 export default Info2;

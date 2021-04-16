@@ -85,6 +85,7 @@ input:checked + .calendarCellOn{
     height: 15px;
     cursor: pointer;
     display: inline-block;
+    background: lightblue;
 
     top: 0;
     left: 0;
@@ -101,4 +102,8 @@ input:checked + .calendarCellOn{
     opacity: 0;
     width: 0;
     height: 0;
+}
+
+.participantList {
+    padding: 0 10px 0 10px;
 }
