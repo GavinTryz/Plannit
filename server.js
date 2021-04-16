@@ -339,7 +339,8 @@ app.post('/api/getEvents', async (req, res, next) => {
     {
         creatorEvents = await(
             db.collection('Events').find(
-                {creatorID: userID},
+                {creatorID: userID}
+            ).project(
                 {eventName:1}
             )
         ).toArray();
@@ -365,6 +366,7 @@ app.post('/api/getEvents', async (req, res, next) => {
 
 app.post('/api/viewEvent', async (req, res, next) => {
     const db = client.db();
+    const ObjectID = client.ObjectID();
     const{eventID, jwtToken} = req.body;
 
     if (jwt.isExpired(jwtToken))
@@ -381,7 +383,7 @@ app.post('/api/viewEvent', async (req, res, next) => {
     {
         var eventInfo = await(
             db.collection('Events').find(
-                {"_id": ObjectId(eventID)}
+                {_id: ObjectID(eventID)}
             )
         ).toArray();
     
