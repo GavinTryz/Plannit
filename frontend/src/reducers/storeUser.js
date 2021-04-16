@@ -1,18 +1,18 @@
 const INITIAL_USER = {
-    userId: '', 
-    firstName: '', 
-    lastName: ''
+    userId: "", 
+    firstName: "", 
+    lastName: ""
 }
 
 const setUser = (state = INITIAL_USER, action) => {
     switch(action.type){
-        case "STORE":   
+        case "STORE_DATA":   
              return action.payload;
 
-        //ADD LOGOUT CASE
+        //ADD LOGOUT CASE TO CLEAR PAYLOAD
 
         default:
-            return INITIAL_USER;
+            return state;
     }
 }
 
