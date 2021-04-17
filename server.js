@@ -366,7 +366,7 @@ app.post('/api/getEvents', async (req, res, next) => {
 
 app.post('/api/viewEvent', async (req, res, next) => {
     const db = client.db();
-    const ObjectID = client.ObjectID();
+    const mongo = require('mongodb');
     const{eventID, jwtToken} = req.body;
 
     if (jwt.isExpired(jwtToken))
@@ -381,9 +381,10 @@ app.post('/api/viewEvent', async (req, res, next) => {
 
     try 
     {
+        var id = new mongo.ObjectID(eventID)
         var eventInfo = await(
             db.collection('Events').find(
-                {_id: ObjectID(eventID)}
+                {_id: id}
             )
         ).toArray();
     
