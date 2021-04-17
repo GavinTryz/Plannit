@@ -27,6 +27,7 @@
     right: 0;
     bottom: 0;
 }
+
 .calendarCellOn:before{
     position: absolute;
     content: "";
@@ -36,7 +37,8 @@
    
 
 }
-input:checked + .calendarCellOn{
+
+.calendarCell input:checked + .calendarCellOn{
     background-color: rgb(107, 107, 218);
 }
 
@@ -107,3 +109,8 @@ input:checked + .calendarCellOn{
 .participantList {
     padding: 0 10px 0 10px;
 }
+
+.calendarViewCell input:checked + .calendarCellOn{
+    background-color: rgb(218, 107, 107);
+}
+

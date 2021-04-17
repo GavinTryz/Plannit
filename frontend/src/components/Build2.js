@@ -13,6 +13,7 @@ function Build2(props){
     const storage = require('../tokenStorage');
     const bp = require('./bp');
     const [calendar, setCalendar] = useState(createCalendar());
+    const [particpantArr, setparticpantArr] = useState(createParticipantCalendar());
 
     // Objects received from SetCalendar.js
     var dayOfWeekObj = props.daysAvailable;
@@ -39,6 +40,16 @@ function Build2(props){
     //console.log(userAvail);
 
     function createCalendar() {     //keep same for select funtion? else change w props | ask db 
+        const rows = 7;
+        const cols = 48;
+
+        const nestedArray = Array.from({ length: rows }, () => 
+        Array.from({ length: cols }, () => false)
+        );
+        return nestedArray;
+    }
+
+    function createParticipantCalendar() {     //keep same for select funtion? else change w props | ask db 
         const rows = 7;
         const cols = 48;
 
@@ -122,7 +133,7 @@ function Build2(props){
     const dispatch = useDispatch();
 
     useEffect(()=>{
-        var newCalendar = calendar;
+        var newCalendar = particpantArr;
         var avail = userAvail;
         var name = names;
         
@@ -139,7 +150,7 @@ function Build2(props){
                     newCalendar[i][j] = curNames;
                     //console.log(newCalendar);
 
-                    setCalendar(newCalendar);
+                    setparticpantArr(newCalendar);
                 }
             }
         }
@@ -154,7 +165,7 @@ function Build2(props){
             </table>
             
             <button onClick={handleSubmit}>
-                Submit
+                Set Event Time
             </button>
         </div> 
        );

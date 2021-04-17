@@ -15,13 +15,10 @@ function SetCalendar(){
 
     var timeArr = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18];  //times that show on cal
 
-
-
     return(
         <RetrieveCalendar
             daysAvailable = {dayOfWeekObj}
             time = {timeArr}
-
         />
         );
 }

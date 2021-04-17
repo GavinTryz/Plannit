@@ -30,6 +30,27 @@ function Info2(props){
         return 6
     }
 
+    function handleChange(event)
+    {
+        var newCalendar = props.calendar;
+        var arr = props.time.toString().split(':');
+        var dayIndex = arr[0]*2;
+        if(arr.length == 2)
+        {
+            dayIndex++;
+        }
+        newCalendar[stringToInt(props.day)][dayIndex] = event.target.checked;
+
+        props.setCalendar(newCalendar);   
+
+        console.log(newCalendar);
+
+        if (slotOpacity != 1)
+            setSlotOpacity(1);
+        else 
+            return changeOpacity();     ///edit
+    }
+
     const hover = useSelector(state => state.slotState); 
     function toggleHover() { 
         dispatch(slotState());
@@ -47,36 +68,41 @@ function Info2(props){
         }
     }
 
-    const [slotOpacity, setSlotOpacity] = useState(1);
+    const [slotOpacity, setSlotOpacity] = useState(0);
     const eventTable = useSelector(state => state.eventTable);
+    var ratio = 0;
 
-    useEffect(()=>{
-        //function changeOpacity() {        //will have to adjust to take tokens given by db
-            var arr = props.time.toString().split(':');
-            var dayIndex = arr[0]*2;
-            if(arr.length == 2)
-            {
-                dayIndex++;
-            }
+    function changeOpacity() {        //will have to adjust to take tokens given by db
+        var arr = props.time.toString().split(':');
+        var dayIndex = arr[0]*2;
+        if(arr.length == 2)
+        {
+            dayIndex++;
+        }
 
-            if (eventTable == null)
-                return setSlotOpacity(0);
+        if (eventTable == null)
+            return setSlotOpacity(0);
 
-            var list = eventTable[stringToInt(props.day)][dayIndex];
-            if (  list === "" || list === null)
-                setSlotOpacity(0)
-            else {
-                var numWords = (list.split(" ").length) / 2;
-                var totalPeople = 5;   //example, change after db
-                var ratio = numWords/totalPeople;
-                setSlotOpacity(ratio)
-            }
-        //}
+        var list = eventTable[stringToInt(props.day)][dayIndex];
+        if (  list === "" || list === null)
+            setSlotOpacity(0)
+        else {
+            //calcOpacity(list);
+            var numWords = (list.split(" ").length) / 2;
+            var totalPeople = 5;   //example, change after db
+            ratio = numWords/totalPeople;
+            setSlotOpacity(ratio)
+        }
+    }
+
+    useEffect( () => {
+        changeOpacity();
     }, [])
 
     return(
         <tr>
-            <label className = "calendarViewCell" style={{ opacity: slotOpacity }}onMouseEnter={toggleHover} onMouseLeave={toggleHover}>
+            <label className = "calendarViewCell" style={{ opacity: slotOpacity }} onMouseEnter={toggleHover} onMouseLeave={toggleHover}>
+            <input type="checkbox" onChange={handleChange}/>
             <span className = "calendarCellOn"/>
             </label>
         </tr>

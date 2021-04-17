@@ -11,7 +11,6 @@ function ParticipantList(){
         if (hover){
             if (eventSlot != null && eventTable != null){
                 var list = eventTable[eventSlot.row][eventSlot.col];
-                //console.log(list);
                 if (list != undefined)
                     var newList = newLineText(list);
                 return newList
