@@ -254,6 +254,69 @@ app.post('/api/inviteUser', async(req, res, next) => {
     return res.json({error: error, jwtToken: newToken});
 });
 
+app.post('/api/joinEvent', async (req, res, next) => {
+    const db = client.db();
+    const {token, table, weekly, jwtToken, eventID} = req.body;
+    var error = "";
+
+    if (jwtToken && jwt.isExpired(jwtToken))
+    {
+        return res.status(200).json({error: "JWT token is no longer valid"});
+    }   
+    else if(jwtToken)
+    {
+        var newToken = jwt.refresh(jwtToken);
+        var event = eventID;
+    }
+    else
+    {
+        const emailToken = jwtLib.verify(token, process.env.SENDGRID_API_KEY);
+        var event = emailToken.eventID;
+        var email = emailToken.email;
+    }
+
+
+    try
+    {
+        if (newToken)
+        {
+            userID = jwtLib.decode(newToken).payload.userId;
+            var email = await db.collection('User').findOne({userID: userID}).project({_id:0, email:1});
+        }
+
+        var participant = await db.collection('Users').findOne({email: email}).project({firstname:1, lastname:1});
+
+        if (weekly === true)
+        {
+            var availability = await db.collection('MyTypicalWeek').findOne({userID: participant._id}).project({_id:0, availability:1});
+
+            if (!availability)
+            {
+                return res.json({error: "No Typical Week found", jwtToken: newToken});
+            }
+        }
+        else
+        {
+            var availability = table;
+        }
+        await db.collection('Participants').insertOne({
+            eventID: event, 
+            userID: participant._id, 
+            firstname: participant.firstname, 
+            lastname: participant.lastname,
+            availability: availability
+        });
+        
+        await db.collection('Invites').deleteOne({email: email, eventID: eventID});
+    }
+    catch(e)
+    {
+        error = e.message;
+    }
+
+    return res.json({error: error, jwtToken: newToken});
+});
+
 app.post('/api/createWeek', async (req, res, next) => {
     const db = client.db();
     const {week, userID, jwtToken} = req.body;
