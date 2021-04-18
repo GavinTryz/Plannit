@@ -194,14 +194,49 @@ app.get('/verifyEmail', async(req, res, next) => {
     }
     catch(error)
     {
-        return res.json({error: error});
+        return res.status(200).json({error: error});
     }
 
-    return res.json({error: error});
+    return res.status(200).json({error: error});
+});
+
+app.post('/api/getInvites', async(req, res, next) => {
+    const {jwtToken} = req.body;
+    const userID = jwtLib.decode(jwtToken).payload.userId;
+    var error = "";
+
+    if (jwt.isExpired(jwtToken))
+    {
+        return res.status(200).json({error: "JWT token is no longer valid"});
+    }
+
+    var newToken = jwt.refresh(jwtToken);
+
+    try
+    {
+        const ObjectID = require('mongodb').ObjectID;
+        var id = new ObjectID(userID);
+        var email = await db.collection('Users').findOne(
+            {_id: id}
+        ).project(
+            {_id:0, email:1}
+        )
+        var invites = await db.collection('Invites').find(
+            {email: email}
+        ).project(
+            {_id:0, email:0}
+        ).toArray();
+    }
+    catch(e)
+    {
+        var error = e.message
+    }
+
+    return res.status(200).json({error: error, invites: invites, jwtToken: newToken});
 });
 
 app.post('/api/inviteUser', async(req, res, next) => {
-    const {eventID, email, jwtToken} = req.body;
+    const {eventID, email, jwtToken, eventName} = req.body;
     const db = client.db();
     var error = '';
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -216,6 +251,7 @@ app.post('/api/inviteUser', async(req, res, next) => {
     emailToken = jwtLib.sign(
     {
         eventID: eventID,
+        eventName: eventName,
         email: email
     }, process.env.SENDGRID_API_KEY,
     {
@@ -223,7 +259,7 @@ app.post('/api/inviteUser', async(req, res, next) => {
     });
     try
     {
-        const results = await db.collection('Invites').insertOne({email: email, eventID: eventID});
+        const results = await db.collection('Invites').insertOne({email: email, eventID: eventID, eventName: eventName});
         // Compose message
         const msg = {
         from: 'plannitnotifications@gmail.com',
@@ -251,12 +287,12 @@ app.post('/api/inviteUser', async(req, res, next) => {
         console.log(e);
         error = e;
     }
-    return res.json({error: error, jwtToken: newToken});
+    return res.status(200).json({error: error, jwtToken: newToken});
 });
 
 app.post('/api/joinEvent', async (req, res, next) => {
     const db = client.db();
-    const {token, table, weekly, jwtToken, eventID} = req.body;
+    const {token, table, weekly, jwtToken, eventID, eventName} = req.body;
     var error = "";
 
     if (jwtToken && jwt.isExpired(jwtToken))
@@ -267,12 +303,14 @@ app.post('/api/joinEvent', async (req, res, next) => {
     {
         var newToken = jwt.refresh(jwtToken);
         var event = eventID;
+        var title = eventName;
     }
     else
     {
         const emailToken = jwtLib.verify(token, process.env.SENDGRID_API_KEY);
         var event = emailToken.eventID;
         var email = emailToken.email;
+        var title = emailToken.eventName;
     }
 
 
@@ -292,7 +330,7 @@ app.post('/api/joinEvent', async (req, res, next) => {
 
             if (!availability)
             {
-                return res.json({error: "No Typical Week found", jwtToken: newToken});
+                return res.status(200).json({error: "No Typical Week found", jwtToken: newToken});
             }
         }
         else
@@ -301,6 +339,7 @@ app.post('/api/joinEvent', async (req, res, next) => {
         }
         await db.collection('Participants').insertOne({
             eventID: event, 
+            eventName: title,
             userID: participant._id, 
             firstname: participant.firstname, 
             lastname: participant.lastname,
@@ -314,7 +353,7 @@ app.post('/api/joinEvent', async (req, res, next) => {
         error = e.message;
     }
 
-    return res.json({error: error, jwtToken: newToken});
+    return res.status(200).json({error: error, jwtToken: newToken});
 });
 
 app.post('/api/createWeek', async (req, res, next) => {
@@ -435,12 +474,13 @@ app.post('/api/getEvents', async (req, res, next) => {
         ).toArray();
         // to be implemented once we can insert into participants table
         
-        // const participantEvents = await(
-        //     db.collection('Participants').find(
-        //         {userID: userID},
-        //         {_id:0, eventID:1}
-        //     )
-        // ).toArray();
+        var participantEvents = await(
+             db.collection('Participants').find(
+                 {userID: userID}.project(
+                    {_id:0, eventID:1, eventName:1}
+                 )
+             )
+         ).toArray();
 
         var error = "";
     }
@@ -449,7 +489,7 @@ app.post('/api/getEvents', async (req, res, next) => {
         var error = e.message;
     }
 
-    res.status(200).json({creatorEvents: creatorEvents, participantEvents: null, error: error, jwtToken: newToken});
+    res.status(200).json({creatorEvents: creatorEvents, participantEvents: participantEvents, error: error, jwtToken: newToken});
     
 });
 
@@ -466,8 +506,6 @@ app.post('/api/viewEvent', async (req, res, next) => {
 
     var newToken = jwt.refresh(jwtToken);
 
-    var participants = null;
-
     try 
     {
         var id = new mongo.ObjectID(eventID)
@@ -477,14 +515,13 @@ app.post('/api/viewEvent', async (req, res, next) => {
             )
         ).toArray();
     
-        /* const participants = await(
+         var participants = await(
             db.collection('Participants').find(
-                {eventID: eventID},
-                {_id:0, userID:1}
-            )
-            test
+                {eventID: eventID}).project(
+                    {_id:0, userID:1, firstName:1, lastName:1}
+                )
         ).toArray();
-        */
+        
         
         if (eventInfo.length <= 0)
         {
@@ -518,7 +555,7 @@ app.post('/api/leaveEvent', async (req, res, next) => {
     
     try
     {
-        db.collection('Participants').deleteOne({_id: userID, eventID: eventID});
+        db.collection('Participants').deleteOne({userID: userID, eventID: eventID});
         var error = "";
     }
     catch(e)
@@ -556,7 +593,7 @@ app.post('/api/getParticipants', async (req, res, next) => {
     {
         var error = e.message;
     }
-    return res.json({error: error, participants: names, jwtToken: newToken});  
+    return res.status(200).json({error: error, participants: names, jwtToken: newToken});  
 
 });
 
