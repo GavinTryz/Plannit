@@ -7,7 +7,6 @@ import jwt_decode from "jwt-decode";
 import {/*useSelector,*/ useDispatch} from 'react-redux';
 import {storeUser, storeJWT} from '../actions';
 
-
 function Login()
 {
     const storage = require('../tokenStorage.js');
@@ -24,7 +23,8 @@ function Login()
 
     //redux
     //const userData = useSelector(state => state.userData);
-    //const userJWT = useSelector(state => state.userJWT);
+    //const userJWT = useSelector(state => state.userJWT); 
+
     const dispatch = useDispatch();
 
     const doLogin = async event => 
@@ -36,6 +36,9 @@ function Login()
             password:loginPassword.value,
         };
         var js = JSON.stringify(obj);
+
+        //testing redux
+        //dispatch(storeUser({userId: loginName.value, firstName: loginPassword.value, lastName: "lastname"}));
 
         try
         {    
@@ -96,7 +99,7 @@ function Login()
                 dispatch(storeUser({userId: ud.payload.userId, firstName: ud.payload.firstName, lastName: ud.payload.lastName}));
                 //
 
-                storage.storeToken(res);
+                storage.storeToken(res.jwtToken);
 
                 setMessage('');
                 window.location.href = '/dashboard';
@@ -127,4 +130,5 @@ function Login()
         </div>
     );
 }
+
 export default Login;

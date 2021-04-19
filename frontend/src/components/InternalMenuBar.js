@@ -16,4 +16,5 @@ function InternalMenuBar(){
         </div>
     );
 }
+
 export default InternalMenuBar;

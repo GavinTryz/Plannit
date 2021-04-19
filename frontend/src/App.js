@@ -7,6 +7,11 @@ import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import CreateAccountPage from './pages/CreateAccountPage';
 import Dashboard from './pages/Dashboard';
+import SetCalendar from './components/SetCalendar';
+
+import Set2 from './components/Set2';
+import SetWeekPage from './pages/SetWeekPage';
+import ViewEventPage from './pages/ViewEventPage';
 
 import TrialPage from './pages/TrialPage';
 
@@ -35,10 +40,22 @@ function App() {
         <Dashboard />
       </Route>
 
-      <Route path = '/trial' exact>
-        <TrialPage />
+      <Route path = '/calendar' exact>
+        <SetCalendar />
       </Route>
        
+      <Route path = '/grad' exact>
+        <Set2 />
+      </Route>
+
+      <Route path = '/dashboard/setWeek' exact>
+        <SetWeekPage />
+      </Route>
+
+      <Route path = '/dashboard/viewEvent' exact>
+        <ViewEventPage />
+      </Route>
+
       </Switch>
     </Router>
   );

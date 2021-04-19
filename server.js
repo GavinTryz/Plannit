@@ -175,6 +175,7 @@ app.get('/verifyEmail', async(req, res, next) => {
     var error = '';
     const db = client.db();
     const {token} = req.query;
+
     try
     {
         const email = jwtLib.verify(token, process.env.SENDGRID_API_KEY);
@@ -199,6 +200,7 @@ app.get('/verifyEmail', async(req, res, next) => {
 
     return res.json({error: error});
 });
+
 
 app.post('/api/inviteUser', async(req, res, next) => {
     const {eventID, emails, jwtToken} = req.body;
@@ -226,6 +228,7 @@ app.post('/api/inviteUser', async(req, res, next) => {
         }
     }
 });
+
 
 app.post('/api/createWeek', async (req, res, next) => {
     const db = client.db();
