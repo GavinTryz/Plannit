@@ -11,7 +11,7 @@ const Dashboard = () =>
 
         <SideBar />
         <InternalMenuBar />
-        
+
       </div>
     );
 };

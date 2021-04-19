@@ -5,6 +5,7 @@ export const storeUser = data => {
     };
 };
 
+
 export const storeJWT = data => {
     return{
         type: 'STORE_JWT',

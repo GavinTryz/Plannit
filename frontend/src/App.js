@@ -13,6 +13,8 @@ import Set2 from './components/Set2';
 import SetWeekPage from './pages/SetWeekPage';
 import ViewEventPage from './pages/ViewEventPage';
 
+import TrialPage from './pages/TrialPage';
+
 function App() {
   return (
     <Router >

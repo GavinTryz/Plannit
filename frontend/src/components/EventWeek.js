@@ -1,26 +1,7 @@
 import React, { useState } from 'react';
 import "./Week.css"
 
-// Select the days of the week for the event
-
-function EventWeek(props)
-{
-    return(
-        <span>
-            <label className = "weekBtn">
-            <input type="checkbox" value='' onChange={props.onChange}/>
-            <span id= {props.day} className="weekBtnON"/>
-            </label>
-        </span>
- );
-}
-
-export default EventWeek;
-
-
-{/* ============================== OLD CODE. STILL TESTING NEW CODE ========================================
-
-function EventWeek(props)
+function EventWeek()
 {
     return(
         <span>
@@ -63,4 +44,3 @@ function EventWeek(props)
 }
 
 export default EventWeek;
-*/}

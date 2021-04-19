@@ -4,7 +4,6 @@ import setViewEvent from './storeViewEvent';
 import storeViewSlot from './storeViewSlot';
 import setSlotState from './setSlotState';
 
-
 import {combineReducers} from 'redux';
 
 

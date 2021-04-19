@@ -6,9 +6,9 @@ import EventName from './EventName';
 import './modalContent.css';
 import EventWeekly from './EventWeekly';
 
+
 function CreateEvent()
 {
-
     // Set modal show / hide
     const[modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -193,7 +193,6 @@ function CreateEvent()
                             <button className='modalBtn' onClick={handleCreateEvent}>Create</button>
                         </div>
                 </form>
-
             </Modal>
         </div>
     );
