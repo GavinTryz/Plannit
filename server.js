@@ -229,7 +229,7 @@ app.post('/api/inviteUser', async(req, res, next) => {
 
 app.post('/api/createWeek', async (req, res, next) => {
     const db = client.db();
-    const {week, userID, jwtToken} = req.body;
+    const {week, names, userID, jwtToken} = req.body;
 
     if (jwt.isExpired(jwtToken))
     {
@@ -244,6 +244,7 @@ app.post('/api/createWeek', async (req, res, next) => {
         
         db.collection('MyTypicalWeek').insertMany([ 
             {week: week,
+             names: names,
              userID: userID}
         ]);
 
@@ -270,15 +271,16 @@ app.post('/api/getWeek', async (req, res, next) => {
 
     const results = await(
         db.collection('MyTypicalWeek').find( 
-            {userID: userID},
-            {_id:0, week:1}
+            {userID: userID}
+        ).project(
+            {_id:0, week:1, names:1}
         )
     ).toArray();
 
     if (results.length > 0)
     {
 
-        res.status(200).json({week: results[0].week, error: "", jwtToken: newToken});
+        res.status(200).json({week: results[0].week, names: results[0].names, error: "", jwtToken: newToken});
         return;
     }
     else
