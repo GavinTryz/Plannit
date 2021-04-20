@@ -4,7 +4,6 @@ import SideBar from '../components/SideBar';
 
 import MainViewEvent from '../components/MainViewEvent';
 
-
 const ViewEventPage = () =>
 {
     return(

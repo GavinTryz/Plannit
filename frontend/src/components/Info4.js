@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import './calendar.css';
 
-import {storeViewSlot, slotState} from '../actions';
+//import {storeViewSlot, slotState} from '../actions';
 import {useDispatch, useSelector} from 'react-redux';
 
 function Info4(props){
@@ -41,7 +41,7 @@ function Info4(props){
     }
 
     const hover = useSelector(state => state.slotState); 
-    function toggleHover() { 
+    /*function toggleHover() { 
         dispatch(slotState());
 
         if (!hover) {
@@ -55,7 +55,7 @@ function Info4(props){
             //store index
             dispatch(storeViewSlot({row: stringToInt(props.day), col: dayIndex}) );
         }
-    }
+    }*/
 
 
     useEffect( () => {

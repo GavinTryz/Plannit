@@ -1,11 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import './calendar.css';
 
-import {storeViewSlot, slotState} from '../actions';
+import {storeViewSlot, slotState, storeList} from '../actions';
 import {useDispatch, useSelector} from 'react-redux';
 
 function Info2(props){
-    //redux
     const dispatch = useDispatch();
 
     function stringToInt(day){
@@ -51,11 +50,10 @@ function Info2(props){
             return changeOpacity();
     }
 
-    const hover = useSelector(state => state.slotState); 
-    function toggleHover() { 
-        dispatch(slotState());
-
-        if (!hover) {
+    function setList() {
+        if (eventTable === null || eventTable === undefined)
+            return ;
+        else{
             var arr = props.time.toString().split(':');
             var dayIndex = arr[0]*2;
 
@@ -63,10 +61,16 @@ function Info2(props){
                 dayIndex++;
             }
 
-            //store index
-            
-            dispatch(storeViewSlot({row: stringToInt(props.day), col: dayIndex}) );
+            var list = eventTable[stringToInt(props.day)][dayIndex];
+
+            if (list != undefined)
+                dispatch(storeList(list));
         }
+    }
+
+    function clearList() {
+        if (eventTable != null)
+            dispatch(storeList(null));
     }
 
     const [slotOpacity, setSlotOpacity] = useState(0);
@@ -102,7 +106,7 @@ function Info2(props){
 
     return(
         <tr>
-            <label className = "calendarViewCell" style={{ opacity: slotOpacity }} onMouseEnter={toggleHover} onMouseLeave={toggleHover}>
+            <label className = "calendarViewCell" style={{ opacity: slotOpacity }} onMouseEnter={setList} onMouseLeave={clearList}>
             <input type="checkbox" onChange={handleChange}/>
             <span className = "calendarCellOn"/>
             </label>

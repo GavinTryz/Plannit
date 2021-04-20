@@ -3,20 +3,14 @@ import {useSelector} from 'react-redux';
 import './calendar.css';
 
 function ParticipantList(){
-    const eventSlot = useSelector(state => state.eventSlot);
-    const eventTable = useSelector(state => state.eventTable);
-    const hover = useSelector(state => state.slotState);
 
+    const participantList = useSelector(state => state.participantList);
     function getNames(){
-        if (hover){
-            if (eventSlot != null && eventTable != null){
-                var list = eventTable[eventSlot.row][eventSlot.col];
-                if (list != undefined)
-                    var newList = newLineText(list);
-                return newList
-            } else
-                return ""
-        }
+        if (participantList != undefined || participantList !=null) {
+            var newList = newLineText(participantList);
+            return newList
+        } else
+            return ""
     }
 
     function newLineText(list) {

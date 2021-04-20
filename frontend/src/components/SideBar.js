@@ -14,10 +14,10 @@ function SideBar()
         <div>
             <p className="Sidebar">
             Sidebar
-            <button>Dummy button</button>
-            <button>Dummy button</button>
-            <button>Dummy button</button>
-            <button>Dummy button</button>
+            <button style={{background: "grey"}}>Dummy button</button>
+            <button style={{background: "grey"}}>Dummy button</button>
+            <button style={{background: "grey"}}>Dummy button</button>
+            <button style={{background: "grey"}}>Dummy button</button>
             <RetrieveEvent />
             <SetWeekButton />
             <ViewEventButton />
