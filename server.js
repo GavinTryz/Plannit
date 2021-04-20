@@ -376,7 +376,7 @@ app.post('/api/getAllEvents', async (req, res, next) =>
 
     try
     {
-        events = await(db.collection('Events').find({creatorID: _0}).project({eventName:1})).toArray();
+        events = await(db.collection('Events').find({}).project({eventName:1})).toArray();
 
         var error = "";
     }
