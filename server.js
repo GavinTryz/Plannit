@@ -369,6 +369,25 @@ app.post('/api/getEvents', async (req, res, next) => {
     
 });
 
+app.post('/api/getAllEvents', async (req, res, next) =>
+{
+    const db = client.db()
+    var events;
+
+    try
+    {
+        events = await(db.collection('Events').find({creatorID: _0}).project({eventName:1})).toArray();
+
+        var error = "";
+    }
+    catch(e)
+    {
+        var error = e.message;
+    }
+
+    res.status(200).json({events: events});
+});
+
 app.post('/api/viewEvent', async (req, res, next) => {
     const db = client.db();
     const mongo = require('mongodb');
