@@ -5,6 +5,6 @@ function linkChange(){
 }
 
 function ViewEventButton(){
-    return <button onClick={linkChange}>View Event</button>
+    return <button onClick={linkChange}>View Event Example</button>
 }
 export default ViewEventButton;

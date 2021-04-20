@@ -12,6 +12,7 @@ import SetCalendar from './components/SetCalendar';
 import Set2 from './components/Set2';
 import SetWeekPage from './pages/SetWeekPage';
 import ViewEventPage from './pages/ViewEventPage';
+import TypicalWeekPage from './pages/TypicalWeekPage';
 
 import TrialPage from './pages/TrialPage';
 
@@ -54,6 +55,10 @@ function App() {
 
       <Route path = '/dashboard/viewEvent' exact>
         <ViewEventPage />
+      </Route>
+
+      <Route path = '/dashboard/viewWeek' exact>
+        <TypicalWeekPage />
       </Route>
 
       </Switch>

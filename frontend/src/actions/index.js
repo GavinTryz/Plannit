@@ -26,15 +26,9 @@ export const storeEventTable = data => {
     };
 };
 
-export const storeViewSlot = data => {
+export const storeList = data => {
     return{
-        type: 'STORE_VIEW_SLOT',
+        type: 'STORE_LIST',
         payload: data
-    };
-};
-
-export const slotState = () => {
-    return{
-        type: 'HOVER_SLOT_STATE',
     };
 };

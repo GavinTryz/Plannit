@@ -111,6 +111,6 @@
 }
 
 .calendarViewCell input:checked + .calendarCellOn{
-    background-color: rgb(218, 107, 107);
+    background-color: rgb(255, 68, 68);
 }
 
