@@ -39,16 +39,16 @@ function Info2(props){
         {
             dayIndex++;
         }
-        newCalendar[stringToInt(props.day)][dayIndex] = event.target.checked;
 
+        newCalendar[stringToInt(props.day)][dayIndex] = event.target.checked;
         props.setCalendar(newCalendar);   
 
-        console.log(newCalendar);
+        //console.log(newCalendar);
 
         if (slotOpacity != 1)
             setSlotOpacity(1);
         else 
-            return changeOpacity();     ///edit
+            return changeOpacity();
     }
 
     const hover = useSelector(state => state.slotState); 
@@ -64,6 +64,7 @@ function Info2(props){
             }
 
             //store index
+            
             dispatch(storeViewSlot({row: stringToInt(props.day), col: dayIndex}) );
         }
     }

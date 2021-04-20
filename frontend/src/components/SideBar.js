@@ -2,6 +2,7 @@ import React from 'react';
 import RetrieveEvent from './RetrieveEvent';
 import SetWeekButton from './SetWeekButton';
 import ViewEventButton from './ViewEventButton';
+import TypicalWeekButton from './TypicalWeekButton';
 import './SideBar.css'
 
 import ParticipantList from './ParticipantList';
@@ -20,6 +21,7 @@ function SideBar()
             <RetrieveEvent />
             <SetWeekButton />
             <ViewEventButton />
+            <TypicalWeekButton />
             <EMPTY_BUTTON />
             <ParticipantList />
             </p>
