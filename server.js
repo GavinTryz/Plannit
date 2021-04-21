@@ -290,6 +290,83 @@ app.post('/api/inviteUser', async(req, res, next) => {
     return res.status(200).json({error: error, jwtToken: newToken});
 });
 
+app.post('/api/sendReset', async(req, res, next) => {
+    const {email, jwtToken} = req.body;
+    const db = client.db();
+    var error = '';
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+    if (jwt.isExpired(jwtToken))
+    {
+        return res.status(200).json({error: "JWT token is no longer valid"});
+    }
+
+    var newToken = jwt.refresh(jwtToken);
+
+    emailToken = jwtLib.sign(
+    {
+        email: email
+    }, process.env.SENDGRID_API_KEY,
+    {
+        expiresIn: "1d"
+    });
+    try
+    {
+        // Compose message
+        const msg = {
+        from: 'plannitnotifications@gmail.com',
+        to: email,
+        subject: 'Plannit Password Reset',
+        text: `
+        Verification Code:`
+        + emailToken +
+        `
+        http://${req.headers.host}/resetPassword
+        `,
+        html:`
+        <p>Verification Code: </p>
+        ` + emailToken +
+        `
+        <a href = "http://${req.headers.host}/resetPassword">Reset password.</a>
+        `
+        }
+        sgMail.send(msg)
+        .catch((err) => {
+            error = err;
+        });
+    }
+    catch(e)
+    {
+        console.log(e);
+        error = e;
+    }
+    return res.status(200).json({error: error, jwtToken: newToken});
+});
+
+app.post('/api/resetPassword', async(req, res, next) => {
+    var error = '';
+    const db = client.db();
+    const {password, token} = req.body;
+    try
+    {
+        const email = jwtLib.verify(token, process.env.SENDGRID_API_KEY);
+        if (!email)
+        {
+            error = "Incorrect verification code";
+        }
+        else
+        {
+            db.collection('Users').updateOne({email: email.email}, {$set: {password: password}});
+        }
+    }
+    catch(error)
+    {
+        return res.status(200).json({error: error});
+    }
+
+    return res.status(200).json({error: error});
+});
+
 app.post('/api/joinEvent', async (req, res, next) => {
     const db = client.db();
     const {token, table, weekly, jwtToken, eventID, eventName} = req.body;
