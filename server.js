@@ -244,12 +244,15 @@ app.post('/api/createWeek', async (req, res, next) => {
     
     try
     {
+        await db.collection('MyTypicalWeek').deleteMany(
+            {userID: userID}
+        )
         
-        db.collection('MyTypicalWeek').insertMany([ 
+        await db.collection('MyTypicalWeek').insertOne( 
             {week: week,
              names: names,
              userID: userID}
-        ]);
+        );
 
         var error = "";    
     }    
