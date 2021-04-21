@@ -122,10 +122,6 @@ function CreateEvent()
         }
     }
     
-
-
-    }
-
     return(
         <div>
             <button onClick={()=>setModalIsOpen(true)}>Create Event</button>
@@ -192,5 +188,7 @@ function CreateEvent()
             </Modal>
         </div>
     );
+
 }
+    
 export default CreateEvent;
