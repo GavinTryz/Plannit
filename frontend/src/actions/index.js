@@ -26,6 +26,14 @@ export const storeEventTable = data => {
     };
 };
 
+export const storeList = data => {
+    return{
+        type: 'STORE_LIST',
+        payload: data
+    };
+};
+      
+      
 export const storeViewSlot = data => {
     return{
         type: 'STORE_VIEW_SLOT',
@@ -33,8 +41,16 @@ export const storeViewSlot = data => {
     };
 };
 
+export const storeMyWeek = data => {
+    return{
+        type: 'STORE_MY_WEEK',
+        payload: data
+    };
+};
+      
+      
 export const slotState = () => {
     return{
-        type: 'HOVER_SLOT_STATE',
+        type: 'HOVER_SLOT_STATE'
     };
 };

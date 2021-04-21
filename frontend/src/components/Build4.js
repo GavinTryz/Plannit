@@ -1,14 +1,14 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios';
 import './calendar.css';
-import Info2 from './Info2';
+import Info4 from './Info4';
 
 import {storeEventTable} from '../actions';
 import {useDispatch} from 'react-redux';
 
 const jwt = require('jsonwebtoken');
 
-function Build2(props){
+function Build4(props){
 
     const storage = require('../tokenStorage');
     const bp = require('./bp');
@@ -65,8 +65,8 @@ function Build2(props){
         if (dayOfWeekObj === true)
             return(
                 <tr>
-                    <Info2 time={timeObj} day={nameofDay} calendar={calendar} setCalendar={setCalendar} name={names} userAvail={userAvail}/>
-                    <Info2 time={timeObj +  ':30'} day={nameofDay} calendar={calendar} setCalendar={setCalendar} name={names} userAvail={userAvail}/>
+                    <Info4 time={timeObj} day={nameofDay} calendar={calendar} setCalendar={setCalendar} name={names} userAvail={userAvail}/>
+                    <Info4 time={timeObj +  ':30'} day={nameofDay} calendar={calendar} setCalendar={setCalendar} name={names} userAvail={userAvail}/>
                 </tr>
             );
         else
@@ -133,28 +133,6 @@ function Build2(props){
     const dispatch = useDispatch();
 
     useEffect(()=>{
-        var newCalendar = particpantArr;
-        var avail = userAvail;
-        var name = names;
-        
-        for (var i = 0 ; i < avail.length ; i++) {          //will have to adjust to take tokens given by db
-            for (var j = 0 ; j < avail[0].length ; j++) {
-                if (avail[i][j] === true) {
-                    var curNames = newCalendar[i][j];
-                    if (curNames === null)
-                        curNames = name
-                    else {
-                        curNames = curNames + " " + name
-                    }
-
-                    newCalendar[i][j] = curNames;
-                    //console.log(newCalendar);
-
-                    setparticpantArr(newCalendar);
-                }
-            }
-        }
-        dispatch(storeEventTable(newCalendar));
     }, [])
 
     return(
@@ -163,11 +141,7 @@ function Build2(props){
                 {daysOfWeek.map(tableHeader)}
                 {timeObj.map(makecolumns)}   
             </table>
-            
-            <button /*onClick={handleSubmit}*/>
-                Set Event Time (api not connected yet; empty button)
-            </button>
         </div> 
        );
 }
-export default Build2;
+export default Build4;

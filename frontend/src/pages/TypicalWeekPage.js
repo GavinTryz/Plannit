@@ -2,19 +2,20 @@ import React from 'react';
 import InternalMenuBar from '../components/InternalMenuBar';
 import SideBar from '../components/SideBar';
 
-import MainViewEvent from '../components/MainViewEvent';
+import MainTypicalWeek from '../components/MainTypicalWeek';
 
-const ViewEventPage = () =>
+
+const TypicalWeekPage = () =>
 {
     return(
         <div>
   
           <SideBar />
           <InternalMenuBar />
-          <MainViewEvent />
+          <MainTypicalWeek />
           
         </div>
       );
 };
 
-export default ViewEventPage;
+export default TypicalWeekPage;

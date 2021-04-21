@@ -8,7 +8,6 @@ import EventWeekly from './EventWeekly';
 
 function CreateEvent()
 {
-
     // Set modal show / hide
     const[modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -29,7 +28,6 @@ function CreateEvent()
     const[friday, setFriday] = useState('')
     const[saturday, setSaturday] = useState('')
    
-    
 
     function handlechange(e){
         setEventName(e.target.value);
@@ -93,12 +91,11 @@ function CreateEvent()
             weekly: weeklyEvent,
             startTime:startTime,
             endTime: endTime,
-            daysOfWeek: [sunday, monday, tuesday, wednesday, thursday, friday, saturday]
+            daysOfWeek: [sunday, monday, tuesday, wednesday, thursday, friday, saturday],
+            jwtToken: tok
         };
         var js = JSON.stringify(obj);
-
-        alert(js);
-
+      
         try
         {    
             const response = await fetch(bp.buildPath('api/createEvent'),
@@ -106,17 +103,14 @@ function CreateEvent()
                 
             var res = JSON.parse(await response.text());
 
-            alert('test0');
-
             if( res.error)
             {
                 var jsTest = JSON.stringify(res.error);
-                alert(jsTest);
+
                 setMessage('Error creating the event');
             }
             else
             {
-                alert('test2');
                 setMessage('');
                 setModalIsOpen(false);
             }
@@ -126,6 +120,7 @@ function CreateEvent()
             alert(e.toString());
             return;
         }
+    }
     
 
 
