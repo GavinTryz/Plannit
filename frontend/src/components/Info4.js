@@ -60,6 +60,8 @@ function Info4(props){
     */
 
     const eventTable = useSelector(state => state.eventTable);  //CHANGE TO ACTUAL API RESPONSE
+    const myWeek = useSelector(state => state.myWeek);
+    
     const [slotOpacity, setSlotOpacity] = useState(0);
     function fillTable () {
         var arr = props.time.toString().split(':');
@@ -69,11 +71,12 @@ function Info4(props){
             dayIndex++;
         }
 
-        if (eventTable[stringToInt(props.day)][dayIndex] != null)   //CHANGE TO != false
+        if (myWeek[stringToInt(props.day)][dayIndex] != false)   //CHANGE TO != false
             setSlotOpacity(1)
     }
 
     useEffect( () => {
+        if (myWeek != null)
         fillTable();
     }, [])
 

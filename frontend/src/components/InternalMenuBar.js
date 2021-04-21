@@ -5,7 +5,6 @@ import Logout from './Logout';
 import RetrieveEvent from "./RetrieveEvent";
 
 function InternalMenuBar(){
-
     return(
         <div>
         <table className = 'internalMenu'>
