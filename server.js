@@ -246,7 +246,7 @@ app.post('/api/createWeek', async (req, res, next) => {
     {
         await db.collection('MyTypicalWeek').deleteMany(
             {userID: userID}
-        )
+        );
         
         await db.collection('MyTypicalWeek').insertOne( 
             {week: week,
