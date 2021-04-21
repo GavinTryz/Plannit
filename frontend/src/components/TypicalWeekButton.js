@@ -35,7 +35,7 @@ function TypicalWeekButton()
 
             dispatch(storeMyWeek(res.week));
             console.log(res.week);
-            //linkChange();
+            linkChange();
         }
 
         catch(e)
