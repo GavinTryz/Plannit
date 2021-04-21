@@ -34,7 +34,8 @@ function TypicalWeekButton()
             var res = JSON.parse(await response.text());
 
             dispatch(storeMyWeek(res.week));
-            linkChange();
+            console.log(res.week);
+            //linkChange();
         }
 
         catch(e)
