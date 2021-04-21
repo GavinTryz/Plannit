@@ -1,15 +1,11 @@
 import React from 'react';
 
-function EventName(props){
+function EventName(){
 
     return(
         <span>
-            <label>{props.label}</label><br/>
-            <input 
-                type="text" 
-                value={props.value}
-                onChange={props.onChange}
-            />
+            <label>Name of the event:</label><br/>
+            <input type="text" />
         </span>
     );
   

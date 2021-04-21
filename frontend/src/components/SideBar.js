@@ -1,7 +1,7 @@
 import React from 'react';
 import RetrieveEvent from './RetrieveEvent';
 import SetWeekButton from './SetWeekButton';
-import ViewEventButton from './ViewEventButton';
+import ViewEventButton from './ViewEventButton
 import TypicalWeekButton from './TypicalWeekButton';
 import './SideBar.css'
 

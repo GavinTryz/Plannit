@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from 'react'
 import './calendar.css';
 
-import {storeList} from '../actions';
+
+import {storeViewSlot, slotState, storeList} from '../actions';
 import {useDispatch, useSelector} from 'react-redux';
 
 function Info2(props){
+    //redux
     const dispatch = useDispatch();
 
     function stringToInt(day){
@@ -60,7 +62,6 @@ function Info2(props){
             if (arr.length == 2) {
                 dayIndex++;
             }
-
             var list = eventTable[stringToInt(props.day)][dayIndex];
 
             if (list != undefined)
@@ -107,6 +108,7 @@ function Info2(props){
     return(
         <tr>
             <label className = "calendarViewCell" style={{ opacity: slotOpacity }} onMouseEnter={setList} onMouseLeave={clearList}>
+
             <input type="checkbox" onChange={handleChange}/>
             <span className = "calendarCellOn"/>
             </label>

@@ -28,6 +28,7 @@ function CreateEvent()
     const[friday, setFriday] = useState('')
     const[saturday, setSaturday] = useState('')
    
+
     function handlechange(e){
         setEventName(e.target.value);
     };
@@ -72,18 +73,20 @@ function CreateEvent()
         saturday == ''? setSaturday('Saturday') : setSaturday('');
     }
 
-    const storage = require('../tokenStorage');
-    const bp = require('./bp');
+    const bp = require('./bp.js');
+
+    const storage = require('../tokenStorage.js');
     const jwt = require('jsonwebtoken');
     var tok = storage.retrieveToken();
-    //var ud = jwt.decode(tok, {complete: true});
-  
+    var ud = jwt.decode(tok, {complete: true});
+    //var creatorID = ud.payload.userID;
+ 
     const handleCreateEvent = async event => 
     {
         event.preventDefault();
 
         var obj = {
-            creatorID: jwt.decode(tok).userId,
+            creatorID: ud.payload.userId,
             eventName:eventName,
             weekly: weeklyEvent,
             startTime:startTime,
@@ -92,7 +95,7 @@ function CreateEvent()
             jwtToken: tok
         };
         var js = JSON.stringify(obj);
-
+      
         try
         {    
             const response = await fetch(bp.buildPath('api/createEvent'),
@@ -103,6 +106,7 @@ function CreateEvent()
             if( res.error)
             {
                 var jsTest = JSON.stringify(res.error);
+
                 setMessage('Error creating the event');
             }
             else
@@ -110,7 +114,7 @@ function CreateEvent()
                 setMessage('');
                 setModalIsOpen(false);
             }
-       }
+        }
         catch(e)
         {
             alert(e.toString());
@@ -118,6 +122,10 @@ function CreateEvent()
         }
     }
     
+
+
+    }
+
     return(
         <div>
             <button onClick={()=>setModalIsOpen(true)}>Create Event</button>

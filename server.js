@@ -171,10 +171,11 @@ app.post('/api/register', async (req, res, next) => {
     
 });
 
-app.post('/api/verifyEmail', async(req, res, next) => {
+app.get('/verifyEmail', async(req, res, next) => {
     var error = '';
     const db = client.db();
-    const {token} = req.body;
+    const {token} = req.query;
+
     try
     {
         const email = jwtLib.verify(token, process.env.SENDGRID_API_KEY);
@@ -200,9 +201,38 @@ app.post('/api/verifyEmail', async(req, res, next) => {
     return res.json({error: error});
 });
 
+
+app.post('/api/inviteUser', async(req, res, next) => {
+    const {eventID, emails, jwtToken} = req.body;
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    for (var i = 0; i < users.length; users++)
+    {
+        // JWT For Email Verification
+        
+        emailToken = jwtLib.sign(
+        {
+            eventID: eventID,
+            email: emails[i]
+        }, process.env.SENDGRID_API_KEY,
+        {
+            expiresIn: "1d"
+        });
+
+        // Compose message
+        const msg = {
+            from: 'plannitnotifications@gmail.com',
+            to: emails[i],
+            subject: 'Plannit Event Invite',
+            text: '',
+            html: ''
+        }
+    }
+});
+
+
 app.post('/api/createWeek', async (req, res, next) => {
     const db = client.db();
-    const {week, userID, jwtToken} = req.body;
+    const {week, names, userID, jwtToken} = req.body;
 
     if (jwt.isExpired(jwtToken))
     {
@@ -214,11 +244,15 @@ app.post('/api/createWeek', async (req, res, next) => {
     
     try
     {
+        await db.collection('MyTypicalWeek').deleteMany(
+            {userID: userID}
+        );
         
-        db.collection('MyTypicalWeek').insertMany([ 
+        await db.collection('MyTypicalWeek').insertOne( 
             {week: week,
+             names: names,
              userID: userID}
-        ]);
+        );
 
         var error = "";    
     }    
@@ -243,15 +277,16 @@ app.post('/api/getWeek', async (req, res, next) => {
 
     const results = await(
         db.collection('MyTypicalWeek').find( 
-            {userID: userID},
-            {_id:0, week:1}
+            {userID: userID}
+        ).project(
+            {_id:0, week:1, names:1}
         )
     ).toArray();
 
     if (results.length > 0)
     {
 
-        res.status(200).json({week: results[0].week, error: "", jwtToken: newToken});
+        res.status(200).json({week: results[0].week, names: results[0].names, error: "", jwtToken: newToken});
         return;
     }
     else
@@ -312,8 +347,9 @@ app.post('/api/getEvents', async (req, res, next) => {
     {
         creatorEvents = await(
             db.collection('Events').find(
-                {creatorID: userID},
-                {_id:1}
+                {creatorID: userID}
+            ).project(
+                {eventName:1}
             )
         ).toArray();
         // to be implemented once we can insert into participants table
@@ -336,8 +372,28 @@ app.post('/api/getEvents', async (req, res, next) => {
     
 });
 
+app.post('/api/getAllEvents', async (req, res, next) =>
+{
+    const db = client.db()
+    var events;
+
+    try
+    {
+        events = await(db.collection('Events').find({}).project({eventName:1})).toArray();
+
+        var error = "";
+    }
+    catch(e)
+    {
+        var error = e.message;
+    }
+
+    res.status(200).json({events: events});
+});
+
 app.post('/api/viewEvent', async (req, res, next) => {
     const db = client.db();
+    const mongo = require('mongodb');
     const{eventID, jwtToken} = req.body;
 
     if (jwt.isExpired(jwtToken))
@@ -352,9 +408,10 @@ app.post('/api/viewEvent', async (req, res, next) => {
 
     try 
     {
+        var id = new mongo.ObjectID(eventID)
         var eventInfo = await(
             db.collection('Events').find(
-                {_id: ObjectId(eventID)}
+                {_id: id}
             )
         ).toArray();
     

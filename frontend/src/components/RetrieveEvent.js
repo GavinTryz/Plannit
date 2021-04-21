@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+
 import RetrieveCalendar from './RetrieveCalendar';
 
 function RetrieveEvent(){
@@ -45,6 +46,7 @@ function RetrieveEvent(){
             <table class = 'events'>
                 <tr key={i}>
                     <td className = 'eventButton'><button>{getCreatorEvents.eventName}</button></td>
+
                 </tr>
             </table>
         );

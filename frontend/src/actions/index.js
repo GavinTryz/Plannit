@@ -32,10 +32,25 @@ export const storeList = data => {
         payload: data
     };
 };
+      
+      
+export const storeViewSlot = data => {
+    return{
+        type: 'STORE_VIEW_SLOT',
+        payload: data
+    };
+};
 
 export const storeMyWeek = data => {
     return{
         type: 'STORE_MY_WEEK',
         payload: data
+    };
+};
+      
+      
+export const slotState = () => {
+    return{
+        type: 'HOVER_SLOT_STATE'
     };
 };

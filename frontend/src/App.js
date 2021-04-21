@@ -60,7 +60,6 @@ function App() {
       <Route path = '/dashboard/viewWeek' exact>
         <TypicalWeekPage />
       </Route>
-
       </Switch>
     </Router>
   );
