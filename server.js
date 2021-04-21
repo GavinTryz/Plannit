@@ -175,7 +175,6 @@ app.get('/verifyEmail', async(req, res, next) => {
     var error = '';
     const db = client.db();
     const {token} = req.query;
-
     try
     {
         const email = jwtLib.verify(token, process.env.SENDGRID_API_KEY);
@@ -195,40 +194,245 @@ app.get('/verifyEmail', async(req, res, next) => {
     }
     catch(error)
     {
-        return res.json({error: error});
+        return res.status(200).json({error: error});
     }
 
-    return res.json({error: error});
+    return res.status(200).json({error: error});
 });
 
+app.post('/api/getInvites', async(req, res, next) => {
+    const {jwtToken} = req.body;
+    const userID = jwtLib.decode(jwtToken).payload.userId;
+    var error = "";
+
+    if (jwt.isExpired(jwtToken))
+    {
+        return res.status(200).json({error: "JWT token is no longer valid"});
+    }
+
+    var newToken = jwt.refresh(jwtToken);
+
+    try
+    {
+        
+        const ObjectID = require('mongodb').ObjectID;
+        var id = new ObjectID(userID);
+        var email = await db.collection('Users').findOne(
+            {_id: id}
+        ).project(
+            {_id:0, email:1}
+        )
+        var invites = await db.collection('Invites').find(
+            {email: email}
+        ).project(
+            {_id:0, email:0}
+        ).toArray();
+    }
+    catch(e)
+    {
+        var error = e.message
+    }
+
+    return res.status(200).json({error: error, invites: invites, jwtToken: newToken});
+});
 
 app.post('/api/inviteUser', async(req, res, next) => {
-    const {eventID, emails, jwtToken} = req.body;
+    const {eventID, email, jwtToken, eventName} = req.body;
+    const db = client.db();
+    var error = '';
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-    for (var i = 0; i < users.length; users++)
-    {
-        // JWT For Email Verification
-        
-        emailToken = jwtLib.sign(
-        {
-            eventID: eventID,
-            email: emails[i]
-        }, process.env.SENDGRID_API_KEY,
-        {
-            expiresIn: "1d"
-        });
 
+    if (jwt.isExpired(jwtToken))
+    {
+        return res.status(200).json({error: "JWT token is no longer valid"});
+    }
+
+    var newToken = jwt.refresh(jwtToken);
+
+    emailToken = jwtLib.sign(
+    {
+        eventID: eventID,
+        eventName: eventName,
+        email: email
+    }, process.env.SENDGRID_API_KEY,
+    {
+        expiresIn: "1d"
+    });
+    try
+    {
+        const results = await db.collection('Invites').insertOne({email: email, eventID: eventID, eventName: eventName});
         // Compose message
         const msg = {
-            from: 'plannitnotifications@gmail.com',
-            to: emails[i],
-            subject: 'Plannit Event Invite',
-            text: '',
-            html: ''
+        from: 'plannitnotifications@gmail.com',
+        to: email,
+        subject: 'Plannit Event Invite',
+        text: `
+        Hello!
+        You have been invited to a Plannit event! Please click the link below to join the event:
+        http://${req.headers.host}/joinEvent?token=${emailToken}
+        `,
+        html:`
+        <h1>Hello!</h1>
+        <p>You have been invited to a Plannit event!</p>
+        <p>Please click the link below to join the event.</p>
+        <a href = "http://${req.headers.host}/joinEvent?token=${emailToken}">Join event.</a>
+        `
         }
+        sgMail.send(msg)
+        .catch((err) => {
+            error = err;
+        })
     }
+    catch(e)
+    {
+        console.log(e);
+        error = e;
+    }
+    return res.status(200).json({error: error, jwtToken: newToken});
 });
 
+app.post('/api/sendReset', async(req, res, next) => {
+    const {email, jwtToken} = req.body;
+    const db = client.db();
+    var error = '';
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+    if (jwt.isExpired(jwtToken))
+    {
+        return res.status(200).json({error: "JWT token is no longer valid"});
+    }
+
+    var newToken = jwt.refresh(jwtToken);
+
+    emailToken = jwtLib.sign(
+    {
+        email: email
+    }, process.env.SENDGRID_API_KEY,
+    {
+        expiresIn: "1d"
+    });
+    try
+    {
+        // Compose message
+        const msg = {
+        from: 'plannitnotifications@gmail.com',
+        to: email,
+        subject: 'Plannit Password Reset',
+        text: `
+        Verification Code:`
+        + emailToken +
+        `
+        http://${req.headers.host}/resetPassword
+        `,
+        html:`
+        <p>Verification Code: </p>
+        ` + emailToken +
+        `
+        <a href = "http://${req.headers.host}/resetPassword">Reset password.</a>
+        `
+        }
+        sgMail.send(msg)
+        .catch((err) => {
+            error = err;
+        });
+    }
+    catch(e)
+    {
+        console.log(e);
+        error = e;
+    }
+    return res.status(200).json({error: error, jwtToken: newToken});
+});
+
+app.post('/api/resetPassword', async(req, res, next) => {
+    var error = '';
+    const db = client.db();
+    const {password, token} = req.body;
+    try
+    {
+        const email = jwtLib.verify(token, process.env.SENDGRID_API_KEY);
+        if (!email)
+        {
+            error = "Incorrect verification code";
+        }
+        else
+        {
+            db.collection('Users').updateOne({email: email.email}, {$set: {password: password}});
+        }
+    }
+    catch(error)
+    {
+        return res.status(200).json({error: error});
+    }
+
+    return res.status(200).json({error: error});
+});
+
+app.post('/api/joinEvent', async (req, res, next) => {
+    const db = client.db();
+    const {token, table, weekly, jwtToken, eventID, eventName} = req.body;
+    var error = "";
+
+    if (jwtToken && jwt.isExpired(jwtToken))
+    {
+        return res.status(200).json({error: "JWT token is no longer valid"});
+    }   
+    else if(jwtToken)
+    {
+        var newToken = jwt.refresh(jwtToken);
+        var event = eventID;
+        var title = eventName;
+    }
+    else
+    {
+        const emailToken = jwtLib.verify(token, process.env.SENDGRID_API_KEY);
+        var event = emailToken.eventID;
+        var email = emailToken.email;
+        var title = emailToken.eventName;
+    }
+
+
+    try
+    {
+        if (newToken)
+        {
+            userID = jwtLib.decode(newToken).payload.userId;
+            var email = await db.collection('User').findOne({userID: userID}).project({_id:0, email:1});
+        }
+
+        var participant = await db.collection('Users').findOne({email: email}).project({firstname:1, lastname:1});
+
+        if (weekly === true)
+        {
+            var availability = await db.collection('MyTypicalWeek').findOne({userID: participant._id}).project({_id:0, availability:1});
+
+            if (!availability)
+            {
+                return res.status(200).json({error: "No Typical Week found", jwtToken: newToken});
+            }
+        }
+        else
+        {
+            var availability = table;
+        }
+        await db.collection('Participants').insertOne({
+            eventID: event, 
+            eventName: title,
+            userID: participant._id, 
+            firstname: participant.firstname, 
+            lastname: participant.lastname,
+            availability: availability
+        });
+        
+        await db.collection('Invites').deleteOne({email: email, eventID: eventID});
+    }
+    catch(e)
+    {
+        error = e.message;
+    }
+
+    return res.status(200).json({error: error, jwtToken: newToken});
+});
 
 app.post('/api/createWeek', async (req, res, next) => {
     const db = client.db();
@@ -286,7 +490,7 @@ app.post('/api/getWeek', async (req, res, next) => {
     if (results.length > 0)
     {
 
-        res.status(200).json({week: results[0].week, names: results[0].names, error: "", jwtToken: newToken});
+        res.status(200).json({week: results[0].week, error: "", jwtToken: newToken});
         return;
     }
     else
@@ -331,6 +535,35 @@ app.post('/api/createEvent', async (req, res, next) => {
     res.status(200).json({error: error, jwtToken: newToken});
 });
 
+app.post('/api/deleteEvent', async (req, res, next) => {
+    const db = client.db();
+    const {eventID, jwtToken} = req.body;
+    var error = '';
+
+    if (jwt.isExpired(jwtToken))
+    {
+        res.status(200).json({error: "JWT token is no longer valid"});
+        return;
+    }
+
+    var newToken = jwt.refresh(jwtToken);
+
+    try
+    {
+        const mongo = require('mongodb');
+        var id = new mongo.ObjectID(eventID)
+        await db.collection('Events').deleteOne({_id: id});
+    }
+    catch(e)
+    {
+        error = e.message;
+    }
+
+    res.status(200).json({error: error, jwtToken: newToken});
+
+
+});
+
 app.post('/api/getEvents', async (req, res, next) => {
     const db = client.db();
     const{userID, jwtToken} = req.body;
@@ -354,12 +587,13 @@ app.post('/api/getEvents', async (req, res, next) => {
         ).toArray();
         // to be implemented once we can insert into participants table
         
-        // const participantEvents = await(
-        //     db.collection('Participants').find(
-        //         {userID: userID},
-        //         {_id:0, eventID:1}
-        //     )
-        // ).toArray();
+        var participantEvents = await(
+             db.collection('Participants').find(
+                 {userID: userID}.project(
+                    {_id:0, eventID:1, eventName:1}
+                 )
+             )
+         ).toArray();
 
         var error = "";
     }
@@ -368,14 +602,23 @@ app.post('/api/getEvents', async (req, res, next) => {
         var error = e.message;
     }
 
-    res.status(200).json({creatorEvents: creatorEvents, participantEvents: null, error: error, jwtToken: newToken});
+    res.status(200).json({creatorEvents: creatorEvents, participantEvents: participantEvents, error: error, jwtToken: newToken});
     
 });
 
 app.post('/api/getAllEvents', async (req, res, next) =>
 {
-    const db = client.db()
+    const db = client.db();
+    const {jwtToken} = req.body;
     var events;
+  
+    if (jwt.isExpired(jwtToken))
+    {
+        res.status(200).json({error: "JWT token is no longer valid"});
+        return;
+    }
+
+    var newToken = jwt.refresh(jwtToken);
 
     try
     {
@@ -388,7 +631,7 @@ app.post('/api/getAllEvents', async (req, res, next) =>
         var error = e.message;
     }
 
-    res.status(200).json({events: events});
+    res.status(200).json({events: events, error: error, jwtToken: newToken});
 });
 
 app.post('/api/viewEvent', async (req, res, next) => {
@@ -404,8 +647,6 @@ app.post('/api/viewEvent', async (req, res, next) => {
 
     var newToken = jwt.refresh(jwtToken);
 
-    var participants = null;
-
     try 
     {
         var id = new mongo.ObjectID(eventID)
@@ -415,14 +656,13 @@ app.post('/api/viewEvent', async (req, res, next) => {
             )
         ).toArray();
     
-        /* const participants = await(
+         var participants = await(
             db.collection('Participants').find(
-                {eventID: eventID},
-                {_id:0, userID:1}
-            )
-            test
+                {eventID: eventID}).project(
+                    {_id:0, userID:1, firstName:1, lastName:1}
+                )
         ).toArray();
-        */
+        
         
         if (eventInfo.length <= 0)
         {
@@ -442,6 +682,62 @@ app.post('/api/viewEvent', async (req, res, next) => {
         endTime: eventInfo[0].endTime, daysOfWeek: eventInfo[0].daysOfWeek, availability: eventInfo[0].availability, error: error, jwtToken: newToken});
 });
 
+app.post('/api/leaveEvent', async (req, res, next) => {
+    const db = client.db();
+    const{userID, eventID, jwtToken} = req.body;
+
+    if (jwt.isExpired(jwtToken))
+    {
+        res.status(200).json({error: "JWT token is no longer valid"});
+        return;
+    }
+
+    var newToken = jwt.refresh(jwtToken);
+    
+    try
+    {
+        db.collection('Participants').deleteOne({userID: userID, eventID: eventID});
+        var error = "";
+    }
+    catch(e)
+    {
+        var error = e.message;
+    }
+
+    res.status(200).json({error: error, jwtToken: newToken});
+});
+
+app.post('/api/getParticipants', async (req, res, next) => {
+    const {eventID, jwtToken} = req.body;
+
+    if (jwt.isExpired(jwtToken))
+    {
+        res.status(200).json({error: "JWT token is no longer valid"});
+        return;
+    }
+    
+    var newToken = jwt.refresh(jwtToken);
+
+    try
+    {
+
+        var participants = await(
+            db.collection('Participants').find(
+                {eventID: eventID},
+                {_id:0, }
+            )
+        ).toArray();
+        var names = await db.collection('Users').find({ '_id': { $in: participants } });
+
+    }
+    catch(e)
+    {
+        var error = e.message;
+    }
+    return res.status(200).json({error: error, participants: names, jwtToken: newToken});  
+
+});
+
 /*
 events table with creator, eventid, eventname  
 participants table with eventid, userid 
@@ -451,4 +747,5 @@ select userid from participants where eventid = eventid
 SELECT eventid, eventname FROM events WHERE creator=userid;
 SELECT eventid, eventname FROM events WHERE participants 
 */
+
 app.listen(process.env.PORT || 5000); // start Node + Express server on port 5000
