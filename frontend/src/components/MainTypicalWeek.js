@@ -9,6 +9,7 @@ function MainTypicalWeek()
         <div class="main">
             <span>My Typical Week table</span>
             <Set4 />
+
         </div>
     );
 }

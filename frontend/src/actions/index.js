@@ -32,3 +32,10 @@ export const storeList = data => {
         payload: data
     };
 };
+
+export const storeMyWeek = data => {
+    return{
+        type: 'STORE_MY_WEEK',
+        payload: data
+    };
+};
