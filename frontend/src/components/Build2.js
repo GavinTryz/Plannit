@@ -164,8 +164,8 @@ function Build2(props){
                 {timeObj.map(makecolumns)}   
             </table>
             
-            <button onClick={handleSubmit}>
-                Set Event Time
+            <button /*onClick={handleSubmit}*/>
+                Set Event Time (api not connected yet; empty button)
             </button>
         </div> 
        );

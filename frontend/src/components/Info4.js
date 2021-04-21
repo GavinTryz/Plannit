@@ -5,15 +5,6 @@ import './calendar.css';
 import {useDispatch, useSelector} from 'react-redux';
 
 function Info4(props){
-    //IDEA FOR FILLING TABLE FOR AVAILABILITY
-    /* if dbAvailabilityTable[][] == true
-        opacity = 1
-    else
-        opacity = 0
-    
-    if eventNamesTable[][] != null      (from contenteditable CSS)
-        fill <span> or use inner.html located within the specific cell with eventNamesTable[][]
-    */
 
     //redux
     const dispatch = useDispatch();
@@ -40,7 +31,7 @@ function Info4(props){
         return 6
     }
 
-    const hover = useSelector(state => state.slotState); 
+
     /*function toggleHover() { 
         dispatch(slotState());
 
@@ -58,13 +49,37 @@ function Info4(props){
     }*/
 
 
+    //IDEA FOR FILLING TABLE FOR AVAILABILITY
+    /* if dbAvailabilityTable[][] == true
+        opacity = 1
+    else
+        opacity = 0
+    
+    if eventNamesTable[][] != null      (from contenteditable CSS)
+        fill <span> or use inner.html located within the specific cell with eventNamesTable[][]
+    */
+
+    const eventTable = useSelector(state => state.eventTable);  //CHANGE TO ACTUAL API RESPONSE
+    const [slotOpacity, setSlotOpacity] = useState(0);
+    function fillTable () {
+        var arr = props.time.toString().split(':');
+        var dayIndex = arr[0]*2;
+        if(arr.length == 2)
+        {
+            dayIndex++;
+        }
+
+        if (eventTable[stringToInt(props.day)][dayIndex] != null)   //CHANGE TO != false
+            setSlotOpacity(1)
+    }
+
     useEffect( () => {
-        
+        fillTable();
     }, [])
 
     return(
         <tr>
-            <label className = "calendarViewCell" /*onMouseEnter={toggleHover} onMouseLeave={toggleHover}*/>
+            <label className = "calendarViewCell" style={{opacity: slotOpacity}}>
             <span className = "calendarCellOn"/>
             </label>
         </tr>
