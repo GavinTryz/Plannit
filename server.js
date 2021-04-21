@@ -214,6 +214,7 @@ app.post('/api/getInvites', async(req, res, next) => {
 
     try
     {
+        
         const ObjectID = require('mongodb').ObjectID;
         var id = new ObjectID(userID);
         var email = await db.collection('Users').findOne(
@@ -526,6 +527,35 @@ app.post('/api/createEvent', async (req, res, next) => {
     }
 
     res.status(200).json({error: error, jwtToken: newToken});
+});
+
+app.post('/api/deleteEvent', async (req, res, next) => {
+    const db = client.db();
+    const {eventID, jwtToken} = req.body;
+    var error = '';
+
+    if (jwt.isExpired(jwtToken))
+    {
+        res.status(200).json({error: "JWT token is no longer valid"});
+        return;
+    }
+
+    var newToken = jwt.refresh(jwtToken);
+
+    try
+    {
+        const mongo = require('mongodb');
+        var id = new mongo.ObjectID(eventID)
+        await db.collection('Events').deleteOne({_id: id});
+    }
+    catch(e)
+    {
+        error = e.message;
+    }
+
+    res.status(200).json({error: error, jwtToken: newToken});
+
+
 });
 
 app.post('/api/getEvents', async (req, res, next) => {
