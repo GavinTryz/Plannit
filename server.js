@@ -436,7 +436,7 @@ app.post('/api/joinEvent', async (req, res, next) => {
 
 app.post('/api/createWeek', async (req, res, next) => {
     const db = client.db();
-    const {week, userID, jwtToken} = req.body;
+    const {week, names, userID, jwtToken} = req.body;
 
     if (jwt.isExpired(jwtToken))
     {
@@ -448,10 +448,15 @@ app.post('/api/createWeek', async (req, res, next) => {
     
     try
     {
-        db.collection('MyTypicalWeek').insertMany([ 
+        await db.collection('MyTypicalWeek').deleteMany(
+            {userID: userID}
+        );
+        
+        await db.collection('MyTypicalWeek').insertOne( 
             {week: week,
+             names: names,
              userID: userID}
-        ]);
+        );
 
         var error = "";    
     }    
@@ -476,8 +481,9 @@ app.post('/api/getWeek', async (req, res, next) => {
 
     const results = await(
         db.collection('MyTypicalWeek').find( 
-            {userID: userID},
-            {_id:0, week:1}
+            {userID: userID}
+        ).project(
+            {_id:0, week:1, names:1}
         )
     ).toArray();
 
@@ -600,6 +606,34 @@ app.post('/api/getEvents', async (req, res, next) => {
     
 });
 
+app.post('/api/getAllEvents', async (req, res, next) =>
+{
+    const db = client.db();
+    const {jwtToken} = req.body;
+    var events;
+  
+    if (jwt.isExpired(jwtToken))
+    {
+        res.status(200).json({error: "JWT token is no longer valid"});
+        return;
+    }
+
+    var newToken = jwt.refresh(jwtToken);
+
+    try
+    {
+        events = await(db.collection('Events').find({}).project({eventName:1})).toArray();
+
+        var error = "";
+    }
+    catch(e)
+    {
+        var error = e.message;
+    }
+
+    res.status(200).json({events: events, error: error, jwtToken: newToken});
+});
+
 app.post('/api/viewEvent', async (req, res, next) => {
     const db = client.db();
     const mongo = require('mongodb');
@@ -713,4 +747,5 @@ select userid from participants where eventid = eventid
 SELECT eventid, eventname FROM events WHERE creator=userid;
 SELECT eventid, eventname FROM events WHERE participants 
 */
+
 app.listen(process.env.PORT || 5000); // start Node + Express server on port 5000

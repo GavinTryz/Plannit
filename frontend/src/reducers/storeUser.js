@@ -9,7 +9,8 @@ const setUser = (state = INITIAL_USER, action) => {
         case "STORE_DATA":   
              return action.payload;
 
-        //ADD LOGOUT CASE TO CLEAR PAYLOAD
+        case "CLEAR_DATA":
+            return INITIAL_USER;
 
         default:
             return state;

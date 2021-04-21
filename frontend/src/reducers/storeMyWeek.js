@@ -1,7 +1,8 @@
-const setJWT = (state = null, action) => {
+const storeMyWeek = (state = null, action) => {
     switch(action.type){
-        case "STORE_JWT":   
+        case "STORE_MY_WEEK":   
              return action.payload;
+
         case "CLEAR_DATA":
             return null;
 
@@ -10,4 +11,4 @@ const setJWT = (state = null, action) => {
     }
 }
 
-export default setJWT;
+export default storeMyWeek;

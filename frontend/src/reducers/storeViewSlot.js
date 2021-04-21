@@ -1,6 +1,6 @@
-const setJWT = (state = null, action) => {
+const storeViewSlot = (state = null, action) => {
     switch(action.type){
-        case "STORE_JWT":   
+        case "STORE_VIEW_SLOT":   
              return action.payload;
         case "CLEAR_DATA":
             return null;
@@ -10,4 +10,4 @@ const setJWT = (state = null, action) => {
     }
 }
 
-export default setJWT;
+export default storeViewSlot;
