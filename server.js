@@ -709,18 +709,18 @@ app.post('/api/getParticipants', async (req, res, next) => {
 
         var participants = await(
             db.collection('Participants').find(
-                {eventID: eventID},
-                {_id:0, }
+                {eventID: eventID}
+            ).project(
+                {userID:1, firstname:1, lastname:1}
             )
         ).toArray();
-        var names = await db.collection('Users').find({ '_id': { $in: participants } });
 
     }
     catch(e)
     {
         var error = e.message;
     }
-    return res.status(200).json({error: error, participants: names, jwtToken: newToken});  
+    return res.status(200).json({error: error, participants: participants, jwtToken: newToken});  
 
 });
 
