@@ -49,7 +49,6 @@ function RetrieveEvent(){
         }
     }
     
-    
     function linkChange( x ){
         window.location.href = '/dashboard/viewEvents';
         console.log(x);
