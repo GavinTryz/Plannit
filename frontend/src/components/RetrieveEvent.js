@@ -5,10 +5,6 @@ import {storeCreatorEvents, storeParticipantEvents, storeJWT} from '../actions';
 
 import RetrieveCalendar from './RetrieveCalendar';
 
-    function linkChange(){
-        window.location.href = '/dashboard/viewEvents'
-    }
-
 function RetrieveEvent(){
 
     const[eventLists, setEventLists] = useState("");
@@ -52,6 +48,11 @@ function RetrieveEvent(){
             return;
         }
     }
+    
+    
+    function linkChange(){
+        window.location.href = '/dashboard/viewEvents'
+    }
 
     function loadEventData( i ){
         console.log(i);
@@ -62,7 +63,7 @@ function RetrieveEvent(){
         return(
             <table class = 'events'>
                 <tr key={i}>
-                    <td className = 'eventButton'><button onClick={linkChange()}>{getCreatorEvents.eventName}</button></td>
+                    <td className = 'eventButton'><button onClick={linkChange, loadEventData}>{getCreatorEvents.eventName}</button></td>
 
                 </tr>
             </table>
