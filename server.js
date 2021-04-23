@@ -70,6 +70,7 @@ app.post('/api/login', async (req, res, next) => {
         else
         {
             userID = body._id;
+            console.log(userID);
             firstname = body.firstname;
             lastname = body.lastname;
 
@@ -242,7 +243,9 @@ app.post('/api/inviteUser', async(req, res, next) => {
     const db = client.db();
     var error = '';
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
+    var id = await db.collection('Users').findOne({email: email},
+        {"_id":1}
+    );
     if (jwt.isExpired(jwtToken))
     {
         return res.status(200).json({error: "JWT token is no longer valid"});
@@ -254,7 +257,8 @@ app.post('/api/inviteUser', async(req, res, next) => {
     {
         eventID: eventID,
         eventName: eventName,
-        email: email
+        email: email,
+        userID: id._id
     }, process.env.SENDGRID_API_KEY,
     {
         expiresIn: "1d"
@@ -368,7 +372,30 @@ app.post('/api/resetPassword', async(req, res, next) => {
 
     return res.status(200).json({error: error});
 });
-
+app.post('/api/getWeekFromToken', async(req, res, next) => {
+    const {token} = req.body;
+    const db = client.db();
+    var data = jwtLib.verify(token, process.env.SENDGRID_API_KEY);
+    console.log(data);
+    const results = await(
+        db.collection('MyTypicalWeek').find( 
+            {userID: data.userID}
+        ).project(
+            {_id:0, week:1, names:1}
+        )
+    ).toArray();
+    console.log(results);
+    if (results.length > 0)
+    {
+        console.log(results);
+        res.status(200).json({week: results[0].week, error: ""});
+        return;
+    }
+    else
+    {
+        res.status(200).json({error: "Could not find any week info"});
+    }
+});
 app.post('/api/joinEvent', async (req, res, next) => {
     const db = client.db();
     const {token, table, weekly, jwtToken, eventID, eventName} = req.body;
