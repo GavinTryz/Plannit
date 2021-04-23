@@ -235,7 +235,8 @@ app.post('/api/getInvites', async(req, res, next) => {
 
     return res.status(200).json({error: error, invites: invites, jwtToken: newToken});
 });
-
+// TODO modify endpoint to get userid of person invited and return in email token
+// that way the front end can pass userid to join event endpoint
 app.post('/api/inviteUser', async(req, res, next) => {
     const {eventID, email, jwtToken, eventName} = req.body;
     const db = client.db();
