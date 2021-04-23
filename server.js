@@ -398,7 +398,7 @@ app.post('/api/getWeekFromToken', async(req, res, next) => {
 });
 app.post('/api/joinEvent', async (req, res, next) => {
     const db = client.db();
-    const {token, table, weekly, jwtToken, eventID, eventName} = req.body;
+    const {token, availability, jwtToken, eventID, eventName} = req.body;
     var error = "";
 
     if (jwtToken && jwt.isExpired(jwtToken))
@@ -425,24 +425,11 @@ app.post('/api/joinEvent', async (req, res, next) => {
         if (newToken)
         {
             userID = jwtLib.decode(newToken).payload.userId;
-            var email = await db.collection('User').findOne({userID: userID}).project({_id:0, email:1});
+            var email = await db.collection('User').findOne({userID: userID}, {_id:0, email:1});
         }
 
-        var participant = await db.collection('Users').findOne({email: email}).project({firstname:1, lastname:1});
-
-        if (weekly === true)
-        {
-            var availability = await db.collection('MyTypicalWeek').findOne({userID: participant._id}).project({_id:0, availability:1});
-
-            if (!availability)
-            {
-                return res.status(200).json({error: "No Typical Week found", jwtToken: newToken});
-            }
-        }
-        else
-        {
-            var availability = table;
-        }
+        var participant = await db.collection('Users').findOne({email: email}, {firstname:1, lastname:1});
+        
         await db.collection('Participants').insertOne({
             eventID: event, 
             eventName: title,
