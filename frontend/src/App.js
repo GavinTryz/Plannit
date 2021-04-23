@@ -13,7 +13,7 @@ import Set2 from './components/Set2';
 import SetWeekPage from './pages/SetWeekPage';
 import ViewEventPage from './pages/ViewEventPage';
 import TypicalWeekPage from './pages/TypicalWeekPage';
-
+import InviteUserPage from './pages/InviteUserPage';
 import TrialPage from './pages/TrialPage';
 
 function App() {
@@ -59,6 +59,9 @@ function App() {
 
       <Route path = '/dashboard/viewWeek' exact>
         <TypicalWeekPage />
+      </Route>
+      <Route path = '/joinEvent'>
+        <InviteUserPage />
       </Route>
       </Switch>
     </Router>
