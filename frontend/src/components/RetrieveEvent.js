@@ -62,7 +62,7 @@ function RetrieveEvent(){
         return(
             <table class = 'events'>
                 <tr key={i}>
-                    <td className = 'eventButton'><button onClick={linkChange(), loadEventData(i)}>{getCreatorEvents.eventName}</button></td>
+                    <td className = 'eventButton'><button onClick={linkChange()}>{getCreatorEvents.eventName}</button></td>
 
                 </tr>
             </table>
