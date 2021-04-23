@@ -54,16 +54,11 @@ function RetrieveEvent(){
         window.location.href = '/dashboard/viewEvents'
     }
 
-    function loadEventData( i ){
-        console.log(i);
-        linkChange();
-    }
-
     function generateEventsList (getCreatorEvents, i){
         return(
             <table class = 'events'>
                 <tr key={i}>
-                    <td className = 'eventButton'><button onClick={loadEventData(i)}>{getCreatorEvents.eventName}</button></td>
+                    <td className = 'eventButton'><button onClick={linkChange}>{getCreatorEvents.eventName}</button></td>
 
                 </tr>
             </table>
