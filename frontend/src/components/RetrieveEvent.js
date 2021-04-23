@@ -48,21 +48,18 @@ function RetrieveEvent(){
             return;
         }
     }
-
-    function linkChange(){
-        window.location.href = '/dashboard/viewEvents'
-    }
-
-    function loadEventData( i ){
-        console.log(i);
-
+    
+    
+    function linkChange( x ){
+        window.location.href = '/dashboard/viewEvents';
+        console.log(x);
     }
 
     function generateEventsList (getCreatorEvents, i){
         return(
             <table class = 'events'>
                 <tr key={i}>
-                    <td className = 'eventButton'><button onClick={linkChange(), loadEventData(i)}>{getCreatorEvents.eventName}</button></td>
+                    <td className = 'eventButton'><button onClick={linkChange}>{getCreatorEvents.eventName}</button></td>
 
                 </tr>
             </table>
@@ -72,7 +69,8 @@ function RetrieveEvent(){
     return(
         <div>
             {eventLists}
-            <button onClick={showEvents} >Show My Events</button>
+            {/*<button onClick={showEvents} >Show My Events</button>*/}
+            <button onClick={() => linkChange(1)} >Show My Events</button>
         </div>
     );
 }
