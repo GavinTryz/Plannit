@@ -722,6 +722,7 @@ app.post('/api/leaveEvent', async (req, res, next) => {
 });
 
 app.post('/api/getParticipants', async (req, res, next) => {
+    const db = client.db();
     const {eventID, jwtToken} = req.body;
 
     if (jwt.isExpired(jwtToken))
