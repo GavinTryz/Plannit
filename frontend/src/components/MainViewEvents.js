@@ -8,7 +8,7 @@ function MainViewEvents()
     return(
         <div class="main">
             <span>This will be the View Events Table w/ api</span>
-            <Set5 />
+            {/*<Set5 />*/}
         </div>
     );
 }
