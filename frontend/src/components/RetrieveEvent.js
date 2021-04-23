@@ -5,6 +5,10 @@ import {storeCreatorEvents, storeParticipantEvents, storeJWT} from '../actions';
 
 import RetrieveCalendar from './RetrieveCalendar';
 
+    function linkChange(){
+        window.location.href = '/dashboard/viewEvents'
+    }
+
 function RetrieveEvent(){
 
     const[eventLists, setEventLists] = useState("");
@@ -47,10 +51,6 @@ function RetrieveEvent(){
             alert(e.toString());
             return;
         }
-    }
-
-    function linkChange(){
-        window.location.href = '/dashboard/viewEvents'
     }
 
     function loadEventData( i ){
