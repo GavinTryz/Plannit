@@ -397,10 +397,10 @@ app.post('/api/joinEvent', async (req, res, next) => {
         if (newToken)
         {
             userID = jwtLib.decode(newToken).payload.userId;
-            var email = await db.collection('User').findOne({userID: userID}).project({_id:0, email:1});
+            var email = await db.collection('User').findOne({userID: userID}, {_id:0, email:1});
         }
 
-        var participant = await db.collection('Users').findOne({email: email}).project({firstname:1, lastname:1});
+        var participant = await db.collection('Users').findOne({email: email}, {firstname:1, lastname:1});
         
         await db.collection('Participants').insertOne({
             eventID: event, 
