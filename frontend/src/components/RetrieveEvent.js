@@ -1,5 +1,8 @@
 import React, {useState} from 'react';
 
+import {/*useSelector,*/ useDispatch} from 'react-redux';
+import {storeCreatorEvents, storeParticipantEvents, storeJWT} from '../actions';
+
 import RetrieveCalendar from './RetrieveCalendar';
 
 function RetrieveEvent(){
@@ -11,6 +14,7 @@ function RetrieveEvent(){
     const jwt = require('jsonwebtoken');
     var tok = storage.retrieveToken();
     var ud = jwt.decode(tok, {complete: true});
+    const dispatch = useDispatch();
   
     const showEvents = async event => {
 
@@ -33,6 +37,10 @@ function RetrieveEvent(){
             var getCreatorEvents = res.creatorEvents;
 
             setEventLists(getCreatorEvents.map(generateEventsList));
+
+            dispatch(storeJWT(res.jwtToken));
+            dispatch(storeCreatorEvents(res.creatorEvents));
+            dispatch(storeParticipantEvents(res.participantEvents));
         }
         catch(e)
         {

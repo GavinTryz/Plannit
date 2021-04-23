@@ -1,7 +1,8 @@
-const storeViewSlot = (state = null, action) => {
+const storeParticipantEvents = (state = null, action) => {
     switch(action.type){
-        case "STORE_VIEW_SLOT":   
+        case "STORE_PARTICIPANT_EVENTS":   
              return action.payload;
+
         case "CLEAR_DATA":
             return null;
 
@@ -10,4 +11,4 @@ const storeViewSlot = (state = null, action) => {
     }
 }
 
-export default storeViewSlot;
+export default storeParticipantEvents;
