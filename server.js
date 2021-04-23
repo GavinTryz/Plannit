@@ -590,10 +590,9 @@ app.post('/api/getEvents', async (req, res, next) => {
         
         var participantEvents = await(
              db.collection('Participants').find(
-                 {userID: userID}.project(
+                 {userID: userID}).project(
                     {_id:0, eventID:1, eventName:1}
                  )
-             )
          ).toArray();
 
         var error = "";
