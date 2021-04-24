@@ -634,9 +634,10 @@ app.post('/api/searchEvents', async (req, res, next) => {
     var creatorEvents;
     try 
     {
+        var partialMatching = new RegExp(name, 'i');
         creatorEvents = await(
             db.collection('Events').find(
-                {userID: userID, eventName: { $regex: name} }
+                {userID: userID, eventName: partialMatching}
             ).project(
                 {eventName:1}
             )
@@ -645,7 +646,7 @@ app.post('/api/searchEvents', async (req, res, next) => {
         
         var participantEvents = await(
              db.collection('Participants').find(
-                 {userID: userID,  eventName: { $regex: name} }
+                 {userID: userID,  eventName: partialMatching }
              ).project(
                  {_id:0, eventID:1, eventName:1}
              )
