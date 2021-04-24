@@ -235,13 +235,16 @@ app.post('/api/getInvites', async(req, res, next) => {
 
     return res.status(200).json({error: error, invites: invites, jwtToken: newToken});
 });
-
+// TODO modify endpoint to get userid of person invited and return in email token
+// that way the front end can pass userid to join event endpoint
 app.post('/api/inviteUser', async(req, res, next) => {
     const {eventID, email, jwtToken, eventName} = req.body;
     const db = client.db();
     var error = '';
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
+    var id = await db.collection('Users').findOne({email: email},
+        {"_id":1}
+    );
     if (jwt.isExpired(jwtToken))
     {
         return res.status(200).json({error: "JWT token is no longer valid"});
@@ -253,7 +256,8 @@ app.post('/api/inviteUser', async(req, res, next) => {
     {
         eventID: eventID,
         eventName: eventName,
-        email: email
+        email: email,
+        userID: id._id
     }, process.env.SENDGRID_API_KEY,
     {
         expiresIn: "1d"
@@ -367,10 +371,33 @@ app.post('/api/resetPassword', async(req, res, next) => {
 
     return res.status(200).json({error: error});
 });
-
+app.post('/api/getWeekFromToken', async(req, res, next) => {
+    const {token} = req.body;
+    const db = client.db();
+    var data = jwtLib.verify(token, process.env.SENDGRID_API_KEY);
+    console.log(data);
+    const results = await(
+        db.collection('MyTypicalWeek').find( 
+            {userID: data.userID}
+        ).project(
+            {_id:0, week:1, names:1}
+        )
+    ).toArray();
+    console.log(results);
+    if (results.length > 0)
+    {
+        console.log(results);
+        res.status(200).json({week: results[0].week, error: ""});
+        return;
+    }
+    else
+    {
+        res.status(200).json({error: "Could not find any week info"});
+    }
+});
 app.post('/api/joinEvent', async (req, res, next) => {
     const db = client.db();
-    const {token, table, weekly, jwtToken, eventID, eventName} = req.body;
+    const {token, availability, jwtToken, eventID, eventName} = req.body;
     var error = "";
 
     if (jwtToken && jwt.isExpired(jwtToken))
@@ -397,24 +424,11 @@ app.post('/api/joinEvent', async (req, res, next) => {
         if (newToken)
         {
             userID = jwtLib.decode(newToken).payload.userId;
-            var email = await db.collection('User').findOne({userID: userID}).project({_id:0, email:1});
+            var email = await db.collection('User').findOne({userID: userID}, {_id:0, email:1});
         }
 
-        var participant = await db.collection('Users').findOne({email: email}).project({firstname:1, lastname:1});
-
-        if (weekly === true)
-        {
-            var availability = await db.collection('MyTypicalWeek').findOne({userID: participant._id}).project({_id:0, availability:1});
-
-            if (!availability)
-            {
-                return res.status(200).json({error: "No Typical Week found", jwtToken: newToken});
-            }
-        }
-        else
-        {
-            var availability = table;
-        }
+        var participant = await db.collection('Users').findOne({email: email}, {firstname:1, lastname:1});
+        
         await db.collection('Participants').insertOne({
             eventID: event, 
             eventName: title,
@@ -589,9 +603,9 @@ app.post('/api/getEvents', async (req, res, next) => {
         
         var participantEvents = await(
              db.collection('Participants').find(
-                 {userID: userID}.project(
-                    {_id:0, eventID:1, eventName:1}
-                 )
+                 {userID: userID}
+             ).project(
+                 {_id:0, eventID:1, eventName:1}
              )
          ).toArray();
 
@@ -708,6 +722,7 @@ app.post('/api/leaveEvent', async (req, res, next) => {
 });
 
 app.post('/api/getParticipants', async (req, res, next) => {
+    const db = client.db();
     const {eventID, jwtToken} = req.body;
 
     if (jwt.isExpired(jwtToken))
@@ -723,18 +738,18 @@ app.post('/api/getParticipants', async (req, res, next) => {
 
         var participants = await(
             db.collection('Participants').find(
-                {eventID: eventID},
-                {_id:0, }
+                {eventID: eventID}
+            ).project(
+                {userID:1, firstname:1, lastname:1}
             )
         ).toArray();
-        var names = await db.collection('Users').find({ '_id': { $in: participants } });
 
     }
     catch(e)
     {
         var error = e.message;
     }
-    return res.status(200).json({error: error, participants: names, jwtToken: newToken});  
+    return res.status(200).json({error: error, participants: participants, jwtToken: newToken});  
 
 });
 
