@@ -14,6 +14,8 @@ import SetWeekPage from './pages/SetWeekPage';
 import ViewEventPage from './pages/ViewEventPage';
 import TypicalWeekPage from './pages/TypicalWeekPage';
 import InviteUserPage from './pages/InviteUserPage';
+import VerifyEmailPage from './pages/VerifyEmailPage';
+
 import TrialPage from './pages/TrialPage';
 
 function App() {
@@ -62,6 +64,9 @@ function App() {
       </Route>
       <Route path = '/joinEvent'>
         <InviteUserPage />
+      </Route>
+      <Route path = '/verifyEmail'>
+        <VerifyEmailPage />
       </Route>
       </Switch>
     </Router>

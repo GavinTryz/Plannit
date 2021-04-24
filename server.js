@@ -40,7 +40,7 @@ if (process.env.NODE_ENV === 'production')
   // Set static folder
   app.use(express.static(path.join(__dirname, 'frontend', 'build')));
 
-  app.get('*', (req, res) => 
+  app.get('*', (req, res, next) => 
   {
     res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'));
   });
@@ -172,17 +172,13 @@ app.post('/api/register', async (req, res, next) => {
     
 });
 
-app.get('/verifyEmail', async(req, res, next) => {
-    console.log("in verify")
+app.post('/api/verifyEmail', async(req, res, next) => {
     var error = '';
     const db = client.db();
-    const {token} = req.query;
-    console.log("token: " + token);
+    const {token} = req.body;
     try
     {
-        console.log("in try");
         const email = jwtLib.verify(token, process.env.SENDGRID_API_KEY);
-        console.log(`email ${email}`);
         var user = await db.collection('Users').findOne({email: email.email}, {_id:0, verified:1});
         if (user && user.verified)
         {
@@ -199,10 +195,8 @@ app.get('/verifyEmail', async(req, res, next) => {
     }
     catch(error)
     {
-        console.log(error);
         return res.status(200).json({error: error});
     }
-    console.log("returning");
     return res.status(200).json({error: error});
 });
 
