@@ -26,7 +26,7 @@ export default function InviteUserPage(){
 
     return(
         <h1>
-            {loading &&
+            {
                 error
             }
         </h1>
