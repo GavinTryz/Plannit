@@ -637,7 +637,7 @@ app.post('/api/searchEvents', async (req, res, next) => {
         var partialMatching = new RegExp(name, 'i');
         creatorEvents = await(
             db.collection('Events').find(
-                {userID: userID, eventName: partialMatching}
+                {creatorID: userID, eventName: partialMatching}
             ).project(
                 {eventName:1}
             )
