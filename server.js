@@ -179,6 +179,7 @@ app.get('/verifyEmail', async(req, res, next) => {
     try
     {
         const email = jwtLib.verify(token, process.env.SENDGRID_API_KEY);
+        console.log(`email ${email}`);
         var user = await db.collection('Users').findOne({email: email.email}, {_id:0, verified:1});
         if (user && user.verified)
         {
@@ -195,6 +196,7 @@ app.get('/verifyEmail', async(req, res, next) => {
     }
     catch(error)
     {
+        console.log(error);
         return res.status(200).json({error: error});
     }
 
