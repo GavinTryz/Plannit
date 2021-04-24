@@ -609,9 +609,53 @@ app.post('/api/getEvents', async (req, res, next) => {
         
         var participantEvents = await(
              db.collection('Participants').find(
-                 {userID: userID}).project(
-                    {_id:0, eventID:1, eventName:1}
-                 )
+                 {userID: userID}
+             ).project(
+                 {_id:0, eventID:1, eventName:1}
+             )
+         ).toArray();
+
+        var error = "";
+    }
+    catch(e)
+    {
+        var error = e.message;
+    }
+
+    res.status(200).json({creatorEvents: creatorEvents, participantEvents: participantEvents, error: error, jwtToken: newToken});
+    
+});
+
+app.post('/api/searchEvents', async (req, res, next) => {
+    const db = client.db();
+    const{userID, name, jwtToken} = req.body;
+
+    if (jwt.isExpired(jwtToken))
+    {
+        res.status(200).json({error: "JWT token is no longer valid"});
+        return;
+    }
+
+    var newToken = jwt.refresh(jwtToken);
+    var creatorEvents;
+    try 
+    {
+        creatorEvents = await(
+            db.collection('Events').find(
+                {userID: userID, $text: { $search: name} }
+            ).project(
+                {eventName:1}
+            )
+        ).toArray();
+        // to be implemented once we can insert into participants table
+        
+        var participantEvents = await(
+             db.collection('Participants').find(
+                 {userID: userID, $text: { $search: name} }
+             ).project(
+                 {_id:0, eventID:1, eventName:1}
+             )
+
          ).toArray();
 
         var error = "";
