@@ -643,7 +643,7 @@ app.post('/api/searchEvents', async (req, res, next) => {
         await db.collection('Events').createIndex({eventName: "text"});
         creatorEvents = await(
             db.collection('Events').find(
-                {userID: userID, $text: { $search: name} }
+                {$text: { $search: name} }
             ).project(
                 {eventName:1}
             )
