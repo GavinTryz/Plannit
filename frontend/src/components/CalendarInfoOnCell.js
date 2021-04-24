@@ -1,9 +1,11 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import './calendar.css';
 
 function CalendarInfoOnCell(props){
+    const [checked, setChecked] = useState(isChecked());
     const jwt = require('jsonwebtoken');
     const storage = require('../tokenStorage');
+
     function stringToInt(day){
         if(day === "Sunday"){
             return 0;
@@ -28,7 +30,6 @@ function CalendarInfoOnCell(props){
     // RN this function id for testing 
     function handleChange(event)
     {
-        var tok = jwt.decode(storage.retrieveToken());
         //console.log(tok.userId);
         var newCalendar = props.calendar;
         var arr = props.time.toString().split(':');
@@ -46,11 +47,20 @@ function CalendarInfoOnCell(props){
         //alert('selected hour is ' + props.time + 'and the day is ' + props.day);
 
     }
-    
+    function isChecked(){
+        var arr = props.time.toString().split(':');
+        var dayIndex = arr[0]*2;
+        if(arr.length == 2)
+        {
+            dayIndex++;
+        }
+        var check = props.calendar[stringToInt(props.day)][dayIndex];
 
+        return check;
+    }
     return(
         <tr>
-            <label className = "calendarCell"><input type="checkbox" onChange={handleChange}/>
+            <label className = "calendarCell"><input type="checkbox" onChange={handleChange} defaultChecked={checked}/>
             <span className="calendarCellOn"/>
             </label>
          </tr>
