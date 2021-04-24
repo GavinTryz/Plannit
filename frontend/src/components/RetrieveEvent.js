@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {TiDelete} from 'react-icons/ti';
+import DeleteEventBtn from './DeleteEventBtn';
 
 import {useSelector, useDispatch} from 'react-redux';
 import {storeCreatorEvents, storeParticipantEvents, storeJWT, storeEventData} from '../actions';
@@ -91,7 +91,7 @@ function RetrieveEvent(){
         return(
             <table class = 'events'>
                 <tr key={i}>
-                    <td className = 'eventButton'><button onClick={loadEventData(i)}>{getCreatorEvents.eventName}<TiDelete eventKey = {i}/></button></td>
+                    <td className = 'eventButton'><button onClick={loadEventData(i)}>{getCreatorEvents.eventName}<DeleteEventBtn eventKey = {i}/></button></td>
 
                 </tr>
             </table>
@@ -101,7 +101,7 @@ function RetrieveEvent(){
     return(
         <div>
             {eventLists}
-            <button onClick={showEvents} >Show My Events</button> 
+            <button onClick={showEvents} >Show My Events<DeleteEventBtn /></button> 
             {/*<button onClick={loadEventData(1)} >Show My Events</button>*/}
         </div>
     );

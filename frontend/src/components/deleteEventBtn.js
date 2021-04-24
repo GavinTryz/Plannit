@@ -2,10 +2,12 @@ import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {storeJWT} from '../actions';
 import {TiDelete} from 'react-icons/ti';
+import '../index.css';
 
-function deleteEventBtn(props)
+function DeleteEventBtn(props)
 {
     const dispatch = useDispatch();
+    const bp = require('./bp');
 
     const userData = useSelector(state => state.userData);
     const userJWT = useSelector(state => state.userJWT); 
@@ -46,6 +48,10 @@ function deleteEventBtn(props)
         }
     };
 
-    return <button class="deleteBtn" onClick={leaveEvent}><TiDelete /></button>;
+    return (
+        <button class="deleteBtn" onClick={leaveEvent}>
+            <TiDelete />
+        </button>
+    )
 }
-export default deleteEventBtn
+export default DeleteEventBtn;
