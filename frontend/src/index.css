@@ -129,3 +129,14 @@ code {
   font-size: 12pt;
   padding: 5pt;
 }
+
+.deleteBtn
+{
+  font-size: 20px;
+  padding: 0;
+  height: 20px;
+  width: 20px;
+  text-align: left;
+  vertical-align: bottom; 
+  border-style: none;
+}
