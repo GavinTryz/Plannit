@@ -9,6 +9,7 @@ function deleteEventBtn(props)
 
     const userData = useSelector(state => state.userData);
     const userJWT = useSelector(state => state.userJWT); 
+    const myEvents = useSelector(state => state.myEvents);
     var key = props.eventKey;
     var eventId = getEventId(key);
 
