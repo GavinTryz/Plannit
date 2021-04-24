@@ -1,11 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import './calendar.css';
 
-//import {storeViewSlot, slotState} from '../actions';
+import {storeList} from '../actions';
 import {useDispatch, useSelector} from 'react-redux';
 
-function Info4(props){
-
+function Info5(props){
     //redux
     const dispatch = useDispatch();
 
@@ -31,39 +30,9 @@ function Info4(props){
         return 6
     }
 
-
-    /*function toggleHover() { 
-        dispatch(slotState());
-
-        if (!hover) {
-            var arr = props.time.toString().split(':');
-            var dayIndex = arr[0]*2;
-
-            if (arr.length == 2) {
-                dayIndex++;
-            }
-
-            //store index
-            dispatch(storeViewSlot({row: stringToInt(props.day), col: dayIndex}) );
-        }
-    }*/
-
-
-    //IDEA FOR FILLING TABLE FOR AVAILABILITY
-    /* if dbAvailabilityTable[][] == true
-        opacity = 1
-    else
-        opacity = 0
-    
-    if eventNamesTable[][] != null      (from contenteditable CSS)
-        fill <span> or use inner.html located within the specific cell with eventNamesTable[][]
-    */
-
-    const eventTable = useSelector(state => state.eventTable);  //CHANGE TO ACTUAL API RESPONSE
-    const myWeek = useSelector(state => state.myWeek);
-    
-    const [slotOpacity, setSlotOpacity] = useState(0);
-    function fillTable () {
+    function handleChange(event)
+    {
+        var newCalendar = props.calendar;
         var arr = props.time.toString().split(':');
         var dayIndex = arr[0]*2;
         if(arr.length == 2)
@@ -71,21 +40,79 @@ function Info4(props){
             dayIndex++;
         }
 
-        if (myWeek[stringToInt(props.day)][dayIndex] != false)   //CHANGE TO != false
-            setSlotOpacity(1)
+        newCalendar[stringToInt(props.day)][dayIndex] = event.target.checked;
+        props.setCalendar(newCalendar);   
+
+        //console.log(newCalendar);
+
+        if (slotOpacity != 1)
+            setSlotOpacity(1);
+        else 
+            return changeOpacity();
+    }
+
+    function setList() {
+        if (eventTable === null || eventTable === undefined)
+            return ;
+        else{
+            var arr = props.time.toString().split(':');
+            var dayIndex = arr[0]*2;
+
+            if (arr.length == 2) {
+                dayIndex++;
+            }
+            var list = eventTable[stringToInt(props.day)][dayIndex];
+
+            if (list != undefined)
+                dispatch(storeList(list));
+        }
+    }
+
+    function clearList() {
+        if (eventTable != null)
+            dispatch(storeList(null));
+    }
+
+    const [slotOpacity, setSlotOpacity] = useState(0);
+    const eventTable = useSelector(state => state.eventTable);
+    const eventData = useSelector(state => state.eventData);
+    var ratio = 0;
+
+    function changeOpacity() {
+        var arr = props.time.toString().split(':');
+        var dayIndex = arr[0]*2;
+        if(arr.length == 2)
+        {
+            dayIndex++;
+        }
+
+        if (eventTable == null)
+            return setSlotOpacity(0);
+
+        var list = eventTable[stringToInt(props.day)][dayIndex];
+        if (  list === "" || list === null)
+            setSlotOpacity(0)
+        else {
+            //calcOpacity(list);
+            var numWords = (list.split(" ").length) / 2;
+            var totalPeople = eventData.availability.length;
+            ratio = numWords/totalPeople;
+            setSlotOpacity(ratio)
+        }
     }
 
     useEffect( () => {
-        if (myWeek != null)
-        fillTable();
+        changeOpacity();
     }, [])
 
     return(
         <tr>
-            <label className = "calendarViewCell" style={{opacity: slotOpacity}}>
+            <label className = "calendarViewCell" style={{ opacity: slotOpacity }} onMouseEnter={setList} onMouseLeave={clearList}>
+
+            <input type="checkbox" onChange={handleChange}/>
             <span className = "calendarCellOn"/>
             </label>
         </tr>
     );
 }
-export default Info4;
+export default Info5;

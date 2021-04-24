@@ -3,17 +3,19 @@ import axios from 'axios';
 import './calendar.css';
 import Info2 from './Info2';
 
-import {storeEventTable} from '../actions';
-import {useDispatch} from 'react-redux';
+import {storeEventTable, storeEventData} from '../actions';
+import {useDispatch, useSelector} from 'react-redux';
 
 const jwt = require('jsonwebtoken');
 
 function Build2(props){
+    const dispatch = useDispatch();
+
 
     const storage = require('../tokenStorage');
     const bp = require('./bp');
-    const [calendar, setCalendar] = useState(createCalendar());
-    const [particpantArr, setparticpantArr] = useState(createParticipantCalendar());
+    const [calendar, setCalendar] = useState(createCalendar(false));
+    const [particpantArr, setparticpantArr] = useState(createCalendar(null));
 
     // Objects received from SetCalendar.js
     var dayOfWeekObj = props.daysAvailable;
@@ -39,22 +41,12 @@ function Build2(props){
     
     //console.log(userAvail);
 
-    function createCalendar() {     //keep same for select funtion? else change w props | ask db 
+    function createCalendar(value) {     //keep same for select funtion? else change w props | ask db 
         const rows = 7;
         const cols = 48;
 
         const nestedArray = Array.from({ length: rows }, () => 
-        Array.from({ length: cols }, () => false)
-        );
-        return nestedArray;
-    }
-
-    function createParticipantCalendar() {     //keep same for select funtion? else change w props | ask db 
-        const rows = 7;
-        const cols = 48;
-
-        const nestedArray = Array.from({ length: rows }, () => 
-        Array.from({ length: cols }, () => null)
+        Array.from({ length: cols }, () => value)
         );
         return nestedArray;
     }
@@ -130,13 +122,14 @@ function Build2(props){
     }
 
 //Populate participant names in table
-    const dispatch = useDispatch();
-
     useEffect(()=>{
         var newCalendar = particpantArr;
         var avail = userAvail;
         var name = names;
         
+        console.log(avail.length);
+        console.log(avail[0].length);
+
         for (var i = 0 ; i < avail.length ; i++) {          //will have to adjust to take tokens given by db
             for (var j = 0 ; j < avail[0].length ; j++) {
                 if (avail[i][j] === true) {

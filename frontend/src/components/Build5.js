@@ -1,60 +1,42 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios';
 import './calendar.css';
-import Info4 from './Info4';
+import Info5 from './Info5';
 
-import {storeEventTable} from '../actions';
-import {useDispatch} from 'react-redux';
+import {storeEventTable, storeEventData} from '../actions';
+import {useDispatch, useSelector} from 'react-redux';
 
 const jwt = require('jsonwebtoken');
 
-function Build4(props){
+function Build5(props){
 
     const storage = require('../tokenStorage');
     const bp = require('./bp');
-    const [calendar, setCalendar] = useState(createCalendar());
-    const [particpantArr, setparticpantArr] = useState(createParticipantCalendar());
+    const dispatch = useDispatch();
+
+    const [calendar, setCalendar] = useState(createCalendar(false));
+    const [particpantArr, setparticpantArr] = useState(createCalendar(null));
 
     // Objects received from SetCalendar.js
     var dayOfWeekObj = props.daysAvailable;
     var timeObj = props.time;
 
-    //creating example array for testing, later fill w actual user availablity
-    var names = "Bob Bobby, Rob Robert, Lu Lulu";
-    var userAvail = [...Array(7)].map(e => Array(48).fill(false));
-    userAvail[0][18] = true;
-    userAvail[1][19] = true;
-    userAvail[2][20] = true;
-    userAvail[3][21] = true;
-    userAvail[4][22] = true;
-    userAvail[5][23] = true;
-    userAvail[6][24] = true;
-    userAvail[0][28] = true;
-    userAvail[1][28] = true;
-    userAvail[2][28] = true;
-    userAvail[3][28] = true;
-    userAvail[4][28] = true;
-    userAvail[5][28] = true;
-    userAvail[6][28] = true;
-    
-    //console.log(userAvail);
+    //test example 
+    /*var avail1 = createCalendar(false); //rob
+    var avail2 = createCalendar(true);  //bob
 
-    function createCalendar() {     //keep same for select funtion? else change w props | ask db 
+    dispatch(storeEventData({participants: ["rob robby", "bob bobby"], availability: [avail1, avail2]}));
+    */
+
+    const names = useSelector(state => state.eventData.participants);
+    const availability = useSelector(state => state.eventData.availability);
+
+    function createCalendar(value) {
         const rows = 7;
         const cols = 48;
 
         const nestedArray = Array.from({ length: rows }, () => 
-        Array.from({ length: cols }, () => false)
-        );
-        return nestedArray;
-    }
-
-    function createParticipantCalendar() {     //keep same for select funtion? else change w props | ask db 
-        const rows = 7;
-        const cols = 48;
-
-        const nestedArray = Array.from({ length: rows }, () => 
-        Array.from({ length: cols }, () => null)
+        Array.from({ length: cols }, () => value)
         );
         return nestedArray;
     }
@@ -65,8 +47,8 @@ function Build4(props){
         if (dayOfWeekObj === true)
             return(
                 <tr>
-                    <Info4 time={timeObj} day={nameofDay} calendar={calendar} setCalendar={setCalendar} name={names} userAvail={userAvail}/>
-                    <Info4 time={timeObj +  ':30'} day={nameofDay} calendar={calendar} setCalendar={setCalendar} name={names} userAvail={userAvail}/>
+                    <Info5 time={timeObj} day={nameofDay} calendar={calendar} setCalendar={setCalendar}/>
+                    <Info5 time={timeObj +  ':30'} day={nameofDay} calendar={calendar} setCalendar={setCalendar} userAvail={availability}/>
                 </tr>
             );
         else
@@ -88,13 +70,13 @@ function Build4(props){
         return(
             <tr key ={index}>
                 <td className='calendarTd'>{timeToString(timeObj)}</td>
-                <td className='calendarTd'>{tableCell(dayOfWeekObj.sunday, timeObj, 'Sunday')}</td>
-                <td className='calendarTd'>{tableCell(dayOfWeekObj.monday, timeObj, 'Monday')}</td>
-                <td className='calendarTd'>{tableCell(dayOfWeekObj.tuesday, timeObj, 'Tuesday')}</td>
-                <td className='calendarTd'>{tableCell(dayOfWeekObj.wednesday, timeObj, 'Wednesday')}</td>
-                <td className='calendarTd'>{tableCell(dayOfWeekObj.thursday, timeObj, 'Thursday')}</td>
-                <td className='calendarTd'>{tableCell(dayOfWeekObj.friday, timeObj, 'Friday')}</td>
-                <td className='calendarTd'>{tableCell(dayOfWeekObj.saturday, timeObj, 'Saturday')}</td>
+                <td className='calendarTd'>{tableCell(dayOfWeekObj[0], timeObj, 'Sunday')}</td>
+                <td className='calendarTd'>{tableCell(dayOfWeekObj[1], timeObj, 'Monday')}</td>
+                <td className='calendarTd'>{tableCell(dayOfWeekObj[2], timeObj, 'Tuesday')}</td>
+                <td className='calendarTd'>{tableCell(dayOfWeekObj[3], timeObj, 'Wednesday')}</td>
+                <td className='calendarTd'>{tableCell(dayOfWeekObj[4], timeObj, 'Thursday')}</td>
+                <td className='calendarTd'>{tableCell(dayOfWeekObj[5], timeObj, 'Friday')}</td>
+                <td className='calendarTd'>{tableCell(dayOfWeekObj[6], timeObj, 'Saturday')}</td>
             </tr>
         );
     }
@@ -129,10 +111,31 @@ function Build4(props){
         });
     }
 
-//Populate participant names in table
-    const dispatch = useDispatch();
-
+//Populates participant names in table
     useEffect(()=>{
+        var newCalendar = particpantArr;
+        var avail = availability;
+        var name = names;
+
+        for (var k = 0 ; k < avail.length ; k++) {
+            for (var i = 0 ; i < avail[0].length ; i++) {
+                for (var j = 0 ; j < avail[0][1].length ; j++) {
+                    if (availability[k][i][j] === true) {
+                        var curNames = newCalendar[i][j];
+                        if (curNames === null)
+                            curNames = name[k];
+                        else
+                            curNames = curNames + " " + name[k];
+
+                        newCalendar[i][j] = curNames;
+                        
+                        setparticpantArr(newCalendar);
+                    }
+                }
+            }
+        }
+        //console.log(newCalendar);
+        dispatch(storeEventTable(newCalendar));
     }, [])
 
     return(
@@ -141,7 +144,11 @@ function Build4(props){
                 {daysOfWeek.map(tableHeader)}
                 {timeObj.map(makecolumns)}   
             </table>
+            
+            <button /*onClick={handleSubmit}*/>
+                Set Event Time (api not connected yet; empty button)
+            </button>
         </div> 
        );
 }
-export default Build4;
+export default Build5;
