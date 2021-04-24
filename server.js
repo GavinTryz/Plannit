@@ -70,6 +70,7 @@ app.post('/api/login', async (req, res, next) => {
         else
         {
             userID = body._id;
+            console.log(userID);
             firstname = body.firstname;
             lastname = body.lastname;
 
@@ -172,12 +173,16 @@ app.post('/api/register', async (req, res, next) => {
 });
 
 app.get('/verifyEmail', async(req, res, next) => {
+    console.log("in verify")
     var error = '';
     const db = client.db();
     const {token} = req.query;
+    console.log("token: " + token);
     try
     {
+        console.log("in try");
         const email = jwtLib.verify(token, process.env.SENDGRID_API_KEY);
+        console.log(`email ${email}`);
         var user = await db.collection('Users').findOne({email: email.email}, {_id:0, verified:1});
         if (user && user.verified)
         {
@@ -194,9 +199,10 @@ app.get('/verifyEmail', async(req, res, next) => {
     }
     catch(error)
     {
+        console.log(error);
         return res.status(200).json({error: error});
     }
-
+    console.log("returning");
     return res.status(200).json({error: error});
 });
 
@@ -649,6 +655,7 @@ app.post('/api/searchEvents', async (req, res, next) => {
              ).project(
                  {_id:0, eventID:1, eventName:1}
              )
+
          ).toArray();
 
         var error = "";
