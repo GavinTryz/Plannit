@@ -1,8 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import './calendar.css';
 
-
-import {storeViewSlot, slotState, storeList} from '../actions';
+import {storeList} from '../actions';
 import {useDispatch, useSelector} from 'react-redux';
 
 function Info2(props){

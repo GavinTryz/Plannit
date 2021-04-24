@@ -53,3 +53,10 @@ export const storeParticipantEvents = data => {
         payload: data
     };
 };
+
+export const storeEventData = data => {
+    return{
+        type: 'STORE_EVENT_DATA',
+        payload: data
+    };
+};

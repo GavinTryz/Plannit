@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 
-import {/*useSelector,*/ useDispatch} from 'react-redux';
-import {storeCreatorEvents, storeParticipantEvents, storeJWT} from '../actions';
+import {useSelector, useDispatch} from 'react-redux';
+import {storeCreatorEvents, storeParticipantEvents, storeJWT, storeEventData} from '../actions';
 
 import RetrieveCalendar from './RetrieveCalendar';
 
@@ -49,16 +49,55 @@ function RetrieveEvent(){
         }
     }
     
-    function linkChange( x ){
+    /*function loadEvent( key ){
         window.location.href = '/dashboard/viewEvents';
-        console.log(x);
+        console.log( key );
+        {getEventData}
+    }*/
+
+    const myEvents = useSelector(state => state.myEvents);
+    function getEventId (key) {
+        var eventId = myEvents[key]._id;
+        console.log(eventId);
+        return eventId;
+    }
+
+    const loadEventData = (key) => async event => {
+        event.preventDefault();
+
+        var eventId = getEventId(key);
+
+        var obj = {
+            eventID: eventId,
+            jwtToken: tok
+        };
+
+        var js = JSON.stringify(obj);
+
+        try
+        {    
+            const response = await fetch(bp.buildPath('api/viewEvent'),
+                {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
+                
+            var res = JSON.parse(await response.text());
+
+            console.log(res);
+            dispatch(storeEventData(res));
+
+            window.location.href = '/dashboard/viewEvents';
+        }
+        catch(e)
+        {
+            alert(e.toString());
+            return;
+        }
     }
 
     function generateEventsList (getCreatorEvents, i){
         return(
             <table class = 'events'>
                 <tr key={i}>
-                    <td className = 'eventButton'><button onClick={linkChange}>{getCreatorEvents.eventName}</button></td>
+                    <td className = 'eventButton'><button onClick={loadEventData(i)}>{getCreatorEvents.eventName}</button></td>
 
                 </tr>
             </table>
@@ -68,8 +107,8 @@ function RetrieveEvent(){
     return(
         <div>
             {eventLists}
-            {/*<button onClick={showEvents} >Show My Events</button>*/}
-            <button onClick={() => linkChange(1)} >Show My Events</button>
+            <button onClick={showEvents} >Show My Events</button>
+            {/*<button onClick={loadEventData(1)} >Show My Events</button>*/}
         </div>
     );
 }
