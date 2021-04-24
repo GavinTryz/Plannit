@@ -634,6 +634,7 @@ app.post('/api/searchEvents', async (req, res, next) => {
     var creatorEvents;
     try 
     {
+        await db.collection('Events').createIndex({eventName: "text"});
         creatorEvents = await(
             db.collection('Events').find(
                 {userID: userID, $text: { $search: name} }
@@ -643,6 +644,7 @@ app.post('/api/searchEvents', async (req, res, next) => {
         ).toArray();
         // to be implemented once we can insert into participants table
         
+        await db.collection('Participants').createIndex({eventName: "text"});
         var participantEvents = await(
              db.collection('Participants').find(
                  {userID: userID, $text: { $search: name} }
