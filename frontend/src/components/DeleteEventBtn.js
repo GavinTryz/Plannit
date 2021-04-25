@@ -40,6 +40,7 @@ function DeleteEventBtn(props)
             var res = JSON.parse(await response.text());
 
             dispatch(storeJWT(res.jwtToken));
+            window.location.reload(false);
         }
 
         catch(e)
