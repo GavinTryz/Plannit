@@ -13,7 +13,7 @@ function EventTime(props)
                 <option value="4">4:00 AM</option>
                 <option value="5">5:00 AM</option>
                 <option value="6">6:00 AM</option>
-                <option value="7">1:00 AM</option>
+                <option value="7">7:00 AM</option>
                 <option value="8">8:00 AM</option>
                 <option value="9">9:00 AM</option>
                 <option value="10">10:00 AM</option>
