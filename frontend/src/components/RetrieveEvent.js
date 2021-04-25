@@ -91,7 +91,7 @@ function RetrieveEvent(){
         return(
             <table class = 'events'>
                 <tr key={i}>
-                    <td className = 'eventButton'><button onClick={loadEventData(i)}>{getCreatorEvents.eventName}<DeleteEventBtn eventKey = {i}/></button></td>
+                    <td className = 'eventButton'><button onClick={loadEventData(i)}>{getCreatorEvents.eventName}</button><DeleteEventBtn eventKey = {i}/></td>
 
                 </tr>
             </table>
