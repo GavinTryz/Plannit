@@ -117,19 +117,21 @@ function Build5(props){
         var avail = availability;
         var name = names;
 
-        for (var k = 0 ; k < avail.length ; k++) {
-            for (var i = 0 ; i < avail[0].length ; i++) {
-                for (var j = 0 ; j < avail[0][1].length ; j++) {
-                    if (availability[k][i][j] === true) {
-                        var curNames = newCalendar[i][j];
-                        if (curNames === null)
-                            curNames = name[k];
-                        else
-                            curNames = curNames + " " + name[k];
+        if (avail != null){
+            for (var k = 0 ; k < avail.length ; k++) {
+                for (var i = 0 ; i < avail[0].length ; i++) {
+                    for (var j = 0 ; j < avail[0][1].length ; j++) {
+                        if (availability[k][i][j] === true) {
+                            var curNames = newCalendar[i][j];
+                            if (curNames === null)
+                                curNames = name[k];
+                            else
+                                curNames = curNames + " " + name[k];
 
-                        newCalendar[i][j] = curNames;
-                        
-                        setparticpantArr(newCalendar);
+                            newCalendar[i][j] = curNames;
+                            
+                            setparticpantArr(newCalendar);
+                        }
                     }
                 }
             }
