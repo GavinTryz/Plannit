@@ -12,6 +12,8 @@ const HomePage = () =>
   
           <SideBar />
           <InternalMenuBar />
+          <br></br>
+          <br></br>
           <MainSetWeek />
           
         </div>
