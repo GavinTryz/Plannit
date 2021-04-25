@@ -9,7 +9,6 @@ function DeleteEventBtn(props)
     const dispatch = useDispatch();
     const bp = require('./bp');
 
-    const userData = useSelector(state => state.userData);
     const userJWT = useSelector(state => state.userJWT); 
     const myEvents = useSelector(state => state.myEvents);
     var key = props.eventKey;
@@ -27,7 +26,6 @@ function DeleteEventBtn(props)
         
         var obj = {
             eventID: eventId,
-            userID: userData.userId,
             jwtToken: userJWT
         };
         var js = JSON.stringify(obj);
@@ -36,7 +34,7 @@ function DeleteEventBtn(props)
 
         try
         {
-            const response = await fetch(bp.buildPath('api/leaveEvent'),
+            const response = await fetch(bp.buildPath('api/deleteEvent'),
                     {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
 
             var res = JSON.parse(await response.text());
