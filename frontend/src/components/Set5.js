@@ -11,11 +11,13 @@ function Set5(){
     var end = parseInt(eventData.endTime);
     var timeArr = [];
     
-    for ( var i = 0 ; i < dayOfWeekObj.length ; i++ ){
-        if (dayOfWeekObj[i] != "")
-            dayOfWeekObj[i] = false;
-        else
-            dayOfWeekObj[i] = true;
+    if (dayOfWeekObj != null){
+        for ( var i = 0 ; i < dayOfWeekObj.length ; i++ ){
+            if (dayOfWeekObj[i] != "")
+                dayOfWeekObj[i] = false;
+            else
+                dayOfWeekObj[i] = true;
+        }
     }
 
     //var dayOfWeekObj = [false,true,true,true,true,true,true]
