@@ -94,8 +94,14 @@ function Info5(props){
             setSlotOpacity(0)
         else {
             //calcOpacity(list);
+
             var numWords = (list.split(" ").length) / 2;
-            var totalPeople = eventData.availability.length;
+
+            if (eventData.availability.length != nulll)
+                var totalPeople = eventData.availability.length;
+            else
+                var totalPeople = 1;
+
             ratio = numWords/totalPeople;
             setSlotOpacity(ratio)
         }

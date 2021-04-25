@@ -11,12 +11,13 @@ function Set5(){
     var end = parseInt(eventData.endTime);
     var timeArr = [];
     
+
     if (dayOfWeekObj != null){
         for ( var i = 0 ; i < dayOfWeekObj.length ; i++ ){
             if (dayOfWeekObj[i] != "")
-                dayOfWeekObj[i] = false;
-            else
                 dayOfWeekObj[i] = true;
+            else
+                dayOfWeekObj[i] = false;
         }
     }
 
