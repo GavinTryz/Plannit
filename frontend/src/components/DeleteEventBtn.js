@@ -13,7 +13,6 @@ function DeleteEventBtn(props)
     const userJWT = useSelector(state => state.userJWT); 
     const myEvents = useSelector(state => state.myEvents);
     var key = props.eventKey;
-    var eventId = getEventId(key);
 
     function getEventId (key) {
         var eventId = myEvents[key]._id;
@@ -23,6 +22,8 @@ function DeleteEventBtn(props)
 
     const leaveEvent = async event => {
         event.preventDefault();
+
+        var eventId = getEventId(key);
         
         var obj = {
             eventID: eventId,

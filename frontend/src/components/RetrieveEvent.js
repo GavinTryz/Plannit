@@ -53,7 +53,6 @@ function RetrieveEvent(){
     const myEvents = useSelector(state => state.myEvents);
     function getEventId (key) {
         var eventId = myEvents[key]._id;
-        console.log(eventId);
         return eventId;
     }
 
