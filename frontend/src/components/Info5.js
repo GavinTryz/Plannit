@@ -97,7 +97,7 @@ function Info5(props){
 
             var numWords = (list.split(" ").length) / 2;
 
-            if (eventData.availability.length != nulll)
+            if (eventData.availability.length != null)
                 var totalPeople = eventData.availability.length;
             else
                 var totalPeople = 1;
