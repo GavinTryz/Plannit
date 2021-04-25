@@ -12,6 +12,7 @@ import SetCalendar from './components/SetCalendar';
 import Set2 from './components/Set2';
 import SetWeekPage from './pages/SetWeekPage';
 import ViewEventPage from './pages/ViewEventPage';
+import ViewEventsPage from './pages/ViewEventsPage';
 import TypicalWeekPage from './pages/TypicalWeekPage';
 import InviteUserPage from './pages/InviteUserPage';
 import VerifyEmailPage from './pages/VerifyEmailPage';
@@ -55,8 +56,14 @@ function App() {
         <SetWeekPage />
       </Route>
 
+      {/*example of viewEvent*/}
       <Route path = '/dashboard/viewEvent' exact>
         <ViewEventPage />
+      </Route>
+
+      {/*real connected viewEvent*/}
+      <Route path = '/dashboard/viewEvents' exact>
+        <ViewEventsPage />
       </Route>
 
       <Route path = '/dashboard/viewWeek' exact>

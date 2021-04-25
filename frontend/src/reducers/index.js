@@ -3,6 +3,9 @@ import setJWT from './storeJWT';
 import setViewEvent from './storeViewEvent';
 import storeList from './storeList';
 import storeMyWeek from './storeMyWeek';
+import storeMyEvents from './storeMyEvents';
+import storeParticipantEvents from './storeParticipantEvents';
+import storeEventData from './storeEventData';
 
 
 import {combineReducers} from 'redux';
@@ -13,7 +16,10 @@ const allReducers = combineReducers ({
     userJWT : setJWT,
     eventTable : setViewEvent,
     participantList : storeList,
-    myWeek : storeMyWeek
+    myWeek : storeMyWeek,
+    myEvents : storeMyEvents,
+    participantEvents : storeParticipantEvents,
+    eventData : storeEventData
 });
 
 export default allReducers;
