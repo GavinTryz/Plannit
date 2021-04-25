@@ -31,6 +31,8 @@ function DeleteEventBtn(props)
             jwtToken: userJWT
         };
         var js = JSON.stringify(obj);
+        
+        console.log(obj);
 
         try
         {
