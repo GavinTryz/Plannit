@@ -101,7 +101,7 @@ function RetrieveEvent(){
     return(
         <div>
             {eventLists}
-            <button onClick={showEvents} >Show My Events<DeleteEventBtn /></button> 
+            <button onClick={showEvents}>Show My Events</button> 
             {/*<button onClick={loadEventData(1)} >Show My Events</button>*/}
         </div>
     );
