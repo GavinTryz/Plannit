@@ -1,0 +1,117 @@
+.calendarCell
+{
+    position: relative;
+    display: inline-block;
+    width: 90px;
+    height: 15px;
+    cursor: pointer;
+    display: inline-block;
+
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.calendarCell input{
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.calendarCellOn{
+    position: absolute;
+    background-color: none;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.calendarCellOn:before{
+    position: absolute;
+    content: "";
+    background-color: none;
+    width: 90px;
+    height: 15px;
+   
+
+}
+
+.calendarCell input:checked + .calendarCellOn{
+    background-color: rgb(107, 107, 218);
+}
+
+.calendarTable{
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+    border: 1px solid black;
+
+}
+
+.calendarTh, .calendarTd {
+    border: 1px solid rgb(45, 56, 105);
+    
+}
+.calendarTh{
+    text-align: center;
+    
+}
+.calendarTd{
+    font-size: 10pt;
+    vertical-align: top;
+}
+
+
+.calendarCellOff{
+    position: relative;
+    display: inline-block;
+    width: 90px;
+    height: 15px;
+    display: inline-block;
+
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(177, 177, 177);
+}
+
+/*---------View Event Table------------*/
+.calendarViewCell
+{
+    position: relative;
+    display: inline-block;
+    width: 90px;
+    height: 15px;
+    cursor: pointer;
+    display: inline-block;
+    background: blue;
+
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.calendarViewCell :hover
+{
+    background: rgb(95, 215, 255);
+}
+
+.calendarViewCell input{
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.participantList {
+    padding: 0 10px 0 10px;
+}
+
+.calendarViewCell input:checked + .calendarCellOn{
+    background-color: rgb(255, 68, 68);
+
+}
+
