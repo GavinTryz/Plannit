@@ -6,9 +6,19 @@ import SideBar from '../components/SideBar';
 const Dashboard = () =>
 {
 
-    return(
-      <div>
+  const background={
+    backgroundImage: 'url(/PlannitHome7.png)',
+    backgroundPosition: 'center',
+    width: '100vw',
+    height: '100vh',
+    backgroundSize: 'cover'
 
+  }
+
+
+    return(
+      
+      <div style = {background}>
         <SideBar />
         <InternalMenuBar />
 
