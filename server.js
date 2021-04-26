@@ -493,18 +493,12 @@ app.post('/api/getWeek', async (req, res, next) => {
 
     var newToken = jwt.refresh(jwtToken);
 
-    const results = await(
-        db.collection('MyTypicalWeek').find( 
-            {userID: userID}
-        ).project(
-            {_id:0, week:1, names:1}
-        )
-    ).toArray();
+    const results = await db.collection('MyTypicalWeek').findOne( {userID: userID}, {_id:0} );
 
-    if (results.length > 0)
+    if (results)
     {
 
-        res.status(200).json({week: results[0].week, error: "", jwtToken: newToken});
+        res.status(200).json({week: results.week, names: results.names, error: "", jwtToken: newToken});
         return;
     }
     else
