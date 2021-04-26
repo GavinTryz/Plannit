@@ -20,7 +20,7 @@ function ResetPassword()
 
         try
         {    
-            const response = await fetch(bp.buildPath('api/sendReset'),
+            const response = await fetch(bp.buildPath('api/resetPassword'),
                 {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
 
             var res = JSON.parse(await response.text());
