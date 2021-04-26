@@ -32,14 +32,6 @@ export const storeList = data => {
         payload: data
     };
 };
-      
-      
-export const storeViewSlot = data => {
-    return{
-        type: 'STORE_VIEW_SLOT',
-        payload: data
-    };
-};
 
 export const storeMyWeek = data => {
     return{
@@ -48,9 +40,23 @@ export const storeMyWeek = data => {
     };
 };
       
-      
-export const slotState = () => {
+export const storeCreatorEvents = data => {
     return{
-        type: 'HOVER_SLOT_STATE'
+        type: 'STORE_MY_EVENTS',
+        payload: data
+    };
+};
+
+export const storeParticipantEvents = data => {
+    return{
+        type: 'STORE_PARTICIPANT_EVENTS',
+        payload: data
+    };
+};
+
+export const storeEventData = data => {
+    return{
+        type: 'STORE_EVENT_DATA',
+        payload: data
     };
 };

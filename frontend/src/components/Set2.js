@@ -15,7 +15,6 @@ function Set2(){
 
     var timeArr = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18];  //change w info returned by view event
 
-
     return(
         <Build2
             daysAvailable = {dayOfWeekObj}

@@ -1,6 +1,6 @@
 import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {storeMyWeek} from '../actions';
+import {storeMyWeek, storeJWT} from '../actions';
 
 function linkChange(){
     window.location.href = '/dashboard/viewWeek'
@@ -34,7 +34,8 @@ function TypicalWeekButton()
             var res = JSON.parse(await response.text());
 
             dispatch(storeMyWeek(res.week));
-            console.log(res.week);
+            dispatch(storeJWT(res.jwtToken));
+            //console.log(res.week);
             linkChange();
         }
 

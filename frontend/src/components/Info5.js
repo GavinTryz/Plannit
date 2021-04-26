@@ -4,7 +4,7 @@ import './calendar.css';
 import {storeList} from '../actions';
 import {useDispatch, useSelector} from 'react-redux';
 
-function Info2(props){
+function Info5(props){
     //redux
     const dispatch = useDispatch();
 
@@ -75,9 +75,10 @@ function Info2(props){
 
     const [slotOpacity, setSlotOpacity] = useState(0);
     const eventTable = useSelector(state => state.eventTable);
+    const eventData = useSelector(state => state.eventData);
     var ratio = 0;
 
-    function changeOpacity() {        //will have to adjust to take tokens given by db
+    function changeOpacity() {
         var arr = props.time.toString().split(':');
         var dayIndex = arr[0]*2;
         if(arr.length == 2)
@@ -93,8 +94,14 @@ function Info2(props){
             setSlotOpacity(0)
         else {
             //calcOpacity(list);
+
             var numWords = (list.split(" ").length) / 2;
-            var totalPeople = 5;   //example, change after db
+
+            if (eventData.availability.length != null)
+                var totalPeople = eventData.availability.length;
+            else
+                var totalPeople = 1;
+
             ratio = numWords/totalPeople;
             setSlotOpacity(ratio)
         }
@@ -114,4 +121,4 @@ function Info2(props){
         </tr>
     );
 }
-export default Info2;
+export default Info5;
