@@ -16,6 +16,9 @@ import ViewEventsPage from './pages/ViewEventsPage';
 import TypicalWeekPage from './pages/TypicalWeekPage';
 import InviteUserPage from './pages/InviteUserPage';
 import VerifyEmailPage from './pages/VerifyEmailPage';
+import EmailConfirmationPage from './pages/EmailConfirmationPage';
+import ResetPasswordPage from './pages/ResetPasswordPage';
+
 
 import TrialPage from './pages/TrialPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
@@ -74,12 +77,23 @@ function App() {
       <Route path = '/dashboard/viewWeek' exact>
         <TypicalWeekPage />
       </Route>
+
       <Route path = '/joinEvent'>
         <InviteUserPage />
       </Route>
+
       <Route path = '/verifyEmail'>
         <VerifyEmailPage />
       </Route>
+
+      <Route path='/emailConfirmation'>
+        <EmailConfirmationPage />
+      </Route>
+
+      <Route path='/resetPassword'>
+        <ResetPasswordPage />
+      </Route>
+
       </Switch>
     </Router>
   );

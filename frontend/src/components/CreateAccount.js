@@ -31,14 +31,14 @@ function CreateAccount()
                     
                 var res = JSON.parse(await response.text());
     
-                if( res.error)
+                if(res.error)
                 {
-                   setMessage('Email already registered');
+                   setMessage(res.error);
                 }
                 else
                 {
                     setMessage('');
-                    window.location.href = '/login';
+                    window.location.href = '/emailConfirmation';
                 }
             }
             catch(e)

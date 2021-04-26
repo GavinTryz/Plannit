@@ -17,7 +17,10 @@ export default function MainSetWeek() {
         axios.post(bp.buildPath('api/getWeek'), {userID: jwt.decode(tok).userId, jwtToken: tok})
         .then((res) => {
             console.log(res);
-            setCalendar(res.data.week);
+            if(!res.data.error)
+            {
+                setCalendar(res.data.week);
+            }
             setLoading(false);
         })
         .catch((error) => {
