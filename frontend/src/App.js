@@ -18,6 +18,7 @@ import InviteUserPage from './pages/InviteUserPage';
 import VerifyEmailPage from './pages/VerifyEmailPage';
 
 import TrialPage from './pages/TrialPage';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
 
 function App() {
   return (
@@ -64,6 +65,10 @@ function App() {
       {/*real connected viewEvent*/}
       <Route path = '/dashboard/viewEvents' exact>
         <ViewEventsPage />
+      </Route>
+
+      <Route path ='/forgotpassword' exact>
+        <ForgotPasswordPage />
       </Route>
 
       <Route path = '/dashboard/viewWeek' exact>
