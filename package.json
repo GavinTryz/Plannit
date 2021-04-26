@@ -4,7 +4,7 @@
     "description": "",
     "main": "server.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "test": "jest",
         "start": "node server.js",
         "start:local": "nodemon server.js",
         "heroku-postbuild": "cd frontend && npm install && npm run build"
@@ -13,6 +13,7 @@
     "license": "ISC",
     "dependencies": {
         "@sendgrid/mail": "^7.4.2",
+        "axios": "^0.21.1",
         "body-parser": "^1.19.0",
         "cors": "^2.8.5",
         "dotenv": "^8.2.0",
@@ -20,9 +21,18 @@
         "jsonwebtoken": "^8.5.1",
         "mongodb": "^3.6.5",
         "mongoose": "^5.12.1",
+        "p-locate": "^5.0.0",
         "path": "^0.12.7",
         "react-redux": "^7.2.3",
         "react-router-dom": "^5.2.0",
-        "redux": "^4.0.5"
+        "redux": "^4.0.5",
+        "require-directory": "^2.1.1",
+        "require-main-filename": "^2.0.0",
+        "resolve-cwd": "^3.0.0"
+    },
+    "devDependencies": {
+        "jest": "^26.6.3",
+        "jest-circus": "^26.6.3",
+        "jest-jasmine2": "^26.6.3"
     }
 }
