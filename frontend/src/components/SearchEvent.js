@@ -34,12 +34,12 @@ const SearchEvent = () =>
             var res = JSON.parse(await response.text());
 
         
-            
+           
 
             // Get only the object array named CreatorEvents
-            var getCreatorEvents = res.getCreatorEvents;
-
-          //  alert(getCreatorEvents.eventName);
+            var getCreatorEvents = res.creatorEvents;
+            console.log(getCreatorEvents[0].eventName);
+            alert(getCreatorEvents[0].eventName);
 
 
             setEventLists(getCreatorEvents.map(generateEventsList));
@@ -56,7 +56,7 @@ const SearchEvent = () =>
         return(
             <table class = 'events'>
                 <tr key={i}>
-                    <td className = 'eventButton'><button>{getCreatorEvents.eventName}</button></td>
+                    <td className = 'eventButton'><button>{getCreatorEvents[i].eventName}</button></td>
                 </tr>
             </table>
         );
@@ -67,6 +67,7 @@ const SearchEvent = () =>
                  <form onSubmit={handleSearch}>
                  <input type="text" placeholder="Search events..." name="search" ref={(c) => searchEvent = c} />
                  </form>
+                 {eventLists}
         </div>
 
     );
