@@ -5,6 +5,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {storeCreatorEvents, storeParticipantEvents, storeJWT, storeEventData} from '../actions';
 
 import RetrieveCalendar from './RetrieveCalendar';
+import SearchEvent from './SearchEvent';
 
 function RetrieveEvent(){
 
@@ -99,8 +100,9 @@ function RetrieveEvent(){
 
     return(
         <div>
+            
+            <button className="SideBarBtn" onClick={showEvents}>Show My Events</button> 
             {eventLists}
-            <button onClick={showEvents}>Show My Events</button> 
             {/*<button onClick={loadEventData(1)} >Show My Events</button>*/}
         </div>
     );

@@ -152,6 +152,7 @@ function Build2(props){
 
     return(
         <div>
+          
             <table className = 'calendarTable'>
                 {daysOfWeek.map(tableHeader)}
                 {timeObj.map(makecolumns)}   
