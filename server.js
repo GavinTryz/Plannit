@@ -296,17 +296,10 @@ app.post('/api/inviteUser', async(req, res, next) => {
 });
 
 app.post('/api/sendReset', async(req, res, next) => {
-    const {email, jwtToken} = req.body;
+    const {email} = req.body;
     const db = client.db();
     var error = '';
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
-    if (jwt.isExpired(jwtToken))
-    {
-        return res.status(200).json({error: "JWT token is no longer valid"});
-    }
-
-    var newToken = jwt.refresh(jwtToken);
 
     emailToken = jwtLib.sign(
     {
@@ -345,7 +338,7 @@ app.post('/api/sendReset', async(req, res, next) => {
         console.log(e);
         error = e;
     }
-    return res.status(200).json({error: error, jwtToken: newToken});
+    return res.status(200).json({error: error});
 });
 
 app.post('/api/resetPassword', async(req, res, next) => {
