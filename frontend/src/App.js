@@ -17,7 +17,7 @@ import TypicalWeekPage from './pages/TypicalWeekPage';
 import InviteUserPage from './pages/InviteUserPage';
 import VerifyEmailPage from './pages/VerifyEmailPage';
 import EmailConfirmationPage from './pages/EmailConfirmationPage';
-import ResetPasswordPage from './ResetPasswordPage';
+import ResetPasswordPage from './pages/ResetPasswordPage';
 
 
 import TrialPage from './pages/TrialPage';
