@@ -27,7 +27,7 @@ const HomePage = () =>
       <div style = {background}>
         <MenuBar /><br />
         <CreateAccountButton />
-        <p style = {textStyle}>We can write here some text that describe what Plannit is about. Do you have any ideas?</p>
+        <p style = {textStyle}>An event planner that's out of this world!</p>
       </div>
     );
 };
