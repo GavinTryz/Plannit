@@ -44,7 +44,7 @@ function Login()
             }
             else 
             {
-                setMessage('Email sent!');
+                setMessage('A confirmation code has been sent to your email address');
             }
         })
         .catch((error) => {
@@ -55,7 +55,7 @@ function Login()
     return(
         <div className = 'backgroundLogin'><br />
             <div className= 'loginSection'>
-                <span id = 'signInName'>Account recovery</span>
+                <span id = 'signInName'>Password Reset</span>
                 <form onSubmit = {handlePasswordRecovery}>
                     <input className="inputTextField" type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} /><br />
                     <input id="loginButton" type="submit" class="buttons" value="Send email" onClick={handlePasswordRecovery} /><br />
