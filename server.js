@@ -708,11 +708,9 @@ app.post('/api/viewEvent', async (req, res, next) => {
     try 
     {
         var id = new mongo.ObjectID(eventID)
-        var eventInfo = await(
-            db.collection('Events').findOne(
-                {_id: id}
-            )
-        ).toArray();
+        var eventInfo = await db.collection('Events').findOne(
+                {_id: id}, {_id: 0}
+            );
     
          var participants = await(
             db.collection('Participants').find(
