@@ -515,7 +515,7 @@ app.post('/api/getWeek', async (req, res, next) => {
 
 app.post('/api/createEvent', async (req, res, next) => {
     const db = client.db();
-    const{creatorID, eventName, weekly, startTime, endTime, daysOfWeek, availability, jwtToken} = req.body;
+    const{creatorID, eventName, weekly, startTime, endTime, daysOfWeek, jwtToken} = req.body;
 
     if (jwt.isExpired(jwtToken))
     {
@@ -535,7 +535,7 @@ app.post('/api/createEvent', async (req, res, next) => {
             startTime:startTime,
             endTime:endTime,
             daysOfWeek:daysOfWeek,
-            availability:availability
+            eventTime: null
             }
         );
 
@@ -708,11 +708,9 @@ app.post('/api/viewEvent', async (req, res, next) => {
     try 
     {
         var id = new mongo.ObjectID(eventID)
-        var eventInfo = await(
-            db.collection('Events').find(
-                {_id: id}
-            )
-        ).toArray();
+        var eventInfo = await db.collection('Events').findOne(
+                {_id: id}, {_id: 0}
+            );
     
          var participants = await(
             db.collection('Participants').find(
@@ -722,7 +720,7 @@ app.post('/api/viewEvent', async (req, res, next) => {
         ).toArray();
         
         
-        if (eventInfo.length <= 0)
+        if (!eventInfo)
         {
             var error = "Could not find event";
             res.status(200).json({error: error, jwtToken: newToken});
@@ -736,8 +734,8 @@ app.post('/api/viewEvent', async (req, res, next) => {
         var error = e.message;
     }
 
-    res.status(200).json({participants: participants, eventName: eventInfo[0].eventName, weekly: eventInfo[0].weekly, startTime: eventInfo[0].startTime, 
-        endTime: eventInfo[0].endTime, daysOfWeek: eventInfo[0].daysOfWeek, availability: eventInfo[0].availability, error: error, jwtToken: newToken});
+    res.status(200).json({participants: participants, eventName: eventInfo.eventName, weekly: eventInfo.weekly, startTime: eventInfo.startTime, 
+        endTime: eventInfo.endTime, daysOfWeek: eventInfo.daysOfWeek, eventTime: eventInfo.eventTime, error: error, jwtToken: newToken});
 });
 
 app.post('/api/leaveEvent', async (req, res, next) => {
@@ -794,6 +792,37 @@ app.post('/api/getParticipants', async (req, res, next) => {
         var error = e.message;
     }
     return res.status(200).json({error: error, participants: participants, jwtToken: newToken});  
+
+});
+
+app.post('/api/chooseTime', async (req, res, next) => {
+    const db = client.db();
+    const {eventID, eventTime, jwtToken} = req.body;
+
+    if (jwt.isExpired(jwtToken))
+    {
+        res.status(200).json({error: "JWT token is no longer valid"});
+        return;
+    }
+    
+    var newToken = jwt.refresh(jwtToken);
+    var error = "";
+
+    try
+    {
+
+        await db.collection('Events').updateOne(
+            {eventID: eventID},
+            {$set: {eventTime: eventTime}}
+        );
+
+    }
+    catch(e)
+    {
+        error = e.message;
+    }
+
+    return res.status(200).json({error: error, jwtToken: newToken});
 
 });
 

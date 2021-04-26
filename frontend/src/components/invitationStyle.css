@@ -1,0 +1,15 @@
+#InvitationButtonStyle{
+    border: none;
+    border-radius: 8px;
+    background-color: transparent;
+    background-repeat:no-repeat;
+    cursor:pointer;
+}
+
+
+#InvitationButtonStyle:hover{
+    border: none;
+    background-color: rgb(230, 230, 230);
+    background-repeat:no-repeat;
+    cursor:pointer;
+}

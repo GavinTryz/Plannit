@@ -123,7 +123,7 @@ function Login()
                 </form>
                 <div id="loginResult">{message}</div>
                 <span className = 'linkTextTitle'>Forgot password?</span>
-                <Link><a className = 'linkText'>click here</a></Link><br/>
+                <Link to ='/forgotpassword'><a className = 'linkText'>click here</a></Link><br/>
                 <span className = 'linkTextTitle'>No account?</span>
                 <Link to ='/createaccount'><a className = 'linkText'>create one!</a></Link>
             </div>
