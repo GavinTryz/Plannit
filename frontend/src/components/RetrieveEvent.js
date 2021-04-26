@@ -38,6 +38,7 @@ function RetrieveEvent(){
             // Get only the object array named CreatorEvents
             var getCreatorEvents = res.creatorEvents;
 
+
             setEventLists(getCreatorEvents.map(generateEventsList));
 
             dispatch(storeJWT(res.jwtToken));
@@ -87,6 +88,7 @@ function RetrieveEvent(){
         }
     }
 
+
     function generateEventsList (getCreatorEvents, i){
         return(
             <table class = 'events'>
@@ -100,9 +102,11 @@ function RetrieveEvent(){
 
     return(
         <div>
-            
+           
             <button className="SideBarBtn" onClick={showEvents}>Show My Events</button> 
             {eventLists}
+            <SearchEvent />
+            
             {/*<button onClick={loadEventData(1)} >Show My Events</button>*/}
         </div>
     );
