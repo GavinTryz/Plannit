@@ -60,3 +60,16 @@ export const storeEventData = data => {
         payload: data
     };
 };
+
+export const toggleEmailState = () => {
+    return{
+        type: 'TOGGLE_EMAIL_STATE'
+    };
+};
+
+export const storeEventId = data => {
+    return{
+        type: 'STORE_EVENT_IF',
+        payload: data
+    };
+};

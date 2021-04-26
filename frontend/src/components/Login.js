@@ -36,10 +36,7 @@ function Login()
             password:loginPassword.value,
         };
         var js = JSON.stringify(obj);
-
-        //testing redux
-        //dispatch(storeUser({userId: loginName.value, firstName: loginPassword.value, lastName: "lastname"}));
-
+        
         try
         {    
             const response = await fetch(bp.buildPath('api/login'),

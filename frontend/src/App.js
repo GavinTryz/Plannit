@@ -74,12 +74,15 @@ function App() {
       <Route path = '/dashboard/viewWeek' exact>
         <TypicalWeekPage />
       </Route>
+
       <Route path = '/joinEvent'>
         <InviteUserPage />
       </Route>
+
       <Route path = '/verifyEmail'>
         <VerifyEmailPage />
       </Route>
+      
       </Switch>
     </Router>
   );

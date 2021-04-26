@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import DeleteEventBtn from './DeleteEventBtn';
 
 import {useSelector, useDispatch} from 'react-redux';
-import {storeCreatorEvents, storeParticipantEvents, storeJWT, storeEventData} from '../actions';
+import {storeCreatorEvents, storeParticipantEvents, storeJWT, storeEventData, storeEventId} from '../actions';
 
 import RetrieveCalendar from './RetrieveCalendar';
 import SearchEvent from './SearchEvent';
@@ -54,6 +54,7 @@ function RetrieveEvent(){
     const myEvents = useSelector(state => state.myEvents);
     function getEventId (key) {
         var eventId = myEvents[key]._id;
+        dispatch(storeEventId(eventId));
         return eventId;
     }
 
