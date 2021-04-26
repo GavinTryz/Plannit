@@ -40,13 +40,18 @@ function ResetPassword()
     };
 
     return(
-        <div>
-            <form onSubmit = {newPasswordCheck}>
-                <input className="inputTextField" type="text" placeholder="Confirmation Number" ref={(c) => emailToken = c} /><br />
-                <input className="inputTextField" type="password" placeholder="Password" ref={(c) => newPassword = c} /><br />
-                <input id="loginButton" type="submit" class="buttons" value="Reset Password" onClick={newPasswordCheck} /><br />
-            </form>
-            <div id="loginResult">{message}</div>
+        <div className = 'backgroundLogin'><br />
+            <div className= 'loginSection'>
+                <span id = 'signInName'>Password Reset</span>
+                    <div>
+                        <form onSubmit = {newPasswordCheck}>
+                            <input className="inputTextField" type="text" placeholder="Confirmation Number" ref={(c) => emailToken = c} /><br />
+                            <input className="inputTextField" type="password" placeholder="Password" ref={(c) => newPassword = c} /><br />
+                            <input id="loginButton" type="submit" class="buttons" value="Reset Password" onClick={newPasswordCheck} /><br />
+                        </form>
+                        <div id="loginResult">{message}</div>
+                    </div>
+            </div>
         </div>
     );
 }
