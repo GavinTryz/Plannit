@@ -6,11 +6,10 @@ function CreateAccount()
     const bp = require('./bp.js');
     const jwt = require('jsonwebtoken');
 
-    var userFirstName;
-    var userLastName;
-    var userEmail;
-    var userPassword;
-
+    const [userFirstName, setUserFirstName] = useState('');
+    const [userLastName, setUserLastName] = useState('');
+    const [userEmail, setUserEmail] = useState('');
+    const [userPassword, setUserPassword] = useState('');
     const [message,setMessage] = useState('');
 
     const doCreateAccount = async event => 
@@ -18,10 +17,10 @@ function CreateAccount()
         event.preventDefault();
 
         var obj = {
-            firstname: userFirstName.value,
-            lastname: userLastName.value,
-            email: userEmail.value,
-            password: userPassword.value
+            firstname: userFirstName,
+            lastname: userLastName,
+            email: userEmail,
+            password: userPassword
         };
         var js = JSON.stringify(obj);
 
@@ -54,10 +53,10 @@ function CreateAccount()
             <div className= 'loginSection'>
                 <span id = 'signInName'>Plannit Create Account</span>
                 <form onSubmit = {doCreateAccount}>
-                    <input className="inputTextField" type="text" placeholder="First Name" ref={(c) => userFirstName = c} /><br />
-                    <input className="inputTextField" type="text" placeholder="Last Name" ref={(c) => userLastName = c} /><br />
-                    <input className="inputTextField" type="email" placeholder="Email" ref={(c) => userEmail = c} /><br />
-                    <input className="inputTextField" type="password" placeholder="Password" ref={(c) => userPassword = c} /><br />
+                    <input id="first" className="inputTextField" type="text" placeholder="First Name" value={userFirstName} onChange={(e) => setUserFirstName(e.target.value)} /><br />
+                    <input id="last" className="inputTextField" type="text" placeholder="Last Name" value={userLastName} onChange={(e) => setUserLastName(e.target.value)} /><br />
+                    <input id="email" className="inputTextField" type="email" placeholder="Email" value={userEmail} onChange={(e) => setUserEmail(e.target.value)} /><br />
+                    <input id="password" className="inputTextField" type="password" placeholder="Password" value={userPassword} onChange={(e) => setUserPassword(e.target.value)} /><br />
                     <input id="loginButton"  type="submit" class="buttons" value = "Create Account" onClick={doCreateAccount} /><br />
                 </form>
                 <div id="loginResult">{message}</div>
