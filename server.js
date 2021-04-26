@@ -734,7 +734,7 @@ app.post('/api/viewEvent', async (req, res, next) => {
         var error = e.message;
     }
 
-    res.status(200).json({participants: participants, eventName: eventInfo.eventName, weekly: eventInfo.weekly, startTime: eventInfo.startTime, 
+    res.status(200).json({eventID: eventID, participants: participants, eventName: eventInfo.eventName, weekly: eventInfo.weekly, startTime: eventInfo.startTime, 
         endTime: eventInfo.endTime, daysOfWeek: eventInfo.daysOfWeek, eventTime: eventInfo.eventTime, error: error, jwtToken: newToken});
 });
 
