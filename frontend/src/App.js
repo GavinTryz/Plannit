@@ -16,6 +16,7 @@ import ViewEventsPage from './pages/ViewEventsPage';
 import TypicalWeekPage from './pages/TypicalWeekPage';
 import InviteUserPage from './pages/InviteUserPage';
 import VerifyEmailPage from './pages/VerifyEmailPage';
+import EmailConfirmationPage from './pages/EmailConfirmationPage';
 
 import TrialPage from './pages/TrialPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
@@ -79,6 +80,9 @@ function App() {
       </Route>
       <Route path = '/verifyEmail'>
         <VerifyEmailPage />
+      </Route>
+      <Route path='/emailConfirmation'>
+        <EmailConfirmationPage />
       </Route>
       </Switch>
     </Router>
