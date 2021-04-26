@@ -49,7 +49,7 @@ function EmailForm()
         <div>
             <form onSubmit = {handlePasswordRecovery}>
                 <input className="inputTextField" type="email" placeholder="Email" ref={(c) => userEmail = c} /><br />
-                <input id="loginButton" type="submit" class="buttons" value="Continue" onClick={handlePasswordRecovery} /><br />
+                <input id="loginButton" type="submit" class="buttons" value="Continue" onClick={dispatch(toggleEmailState())} /><br />
             </form>
             <div id="loginResult">{message}</div>
         </div>

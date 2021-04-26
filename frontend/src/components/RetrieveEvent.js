@@ -61,7 +61,6 @@ function RetrieveEvent(){
         event.preventDefault();
 
         var eventId = getEventId(key);
-        dispatch(storeEventId(eventId));
 
         var obj = {
             eventID: eventId,
@@ -78,6 +77,7 @@ function RetrieveEvent(){
             var res = JSON.parse(await response.text());
 
             dispatch(storeEventData(res));
+            dispatch(storeEventId(eventId));
 
             window.location.href = '/dashboard/viewEvents';
         }
