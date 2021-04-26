@@ -12,12 +12,7 @@ function SideBar()
 {
     return(
         <div>
-            <p className="Sidebar">
-            Sidebar
-            <button style={{background: "grey"}}>Dummy button</button>
-            <button style={{background: "grey"}}>Dummy button</button>
-            <button style={{background: "grey"}}>Dummy button</button>
-            <button style={{background: "grey"}}>Dummy button</button>
+            <p className="Sidebar"><br/><br/><br/>
             <RetrieveEvent />
             <SetWeekButton />
             <ViewEventButton />
