@@ -34,7 +34,7 @@ function EmailForm()
             }
             else
             {
-                dispatch(toggleEmailState);
+                dispatch(toggleEmailState());
                 setMessage('A confirmation code has been sent to your email address');
             }
         }

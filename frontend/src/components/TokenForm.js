@@ -33,7 +33,7 @@ function TokenForm()
                setMessage('Confirmation number is incorrect');
 
             else {
-                dispatch(toggleEmailState);
+                dispatch(toggleEmailState());
                 setMessage('Your password has sucessfully been reset');
             }
         }

@@ -54,7 +54,6 @@ function RetrieveEvent(){
     const myEvents = useSelector(state => state.myEvents);
     function getEventId (key) {
         var eventId = myEvents[key]._id;
-        dispatch(storeEventId(eventId));
         return eventId;
     }
 
@@ -62,6 +61,7 @@ function RetrieveEvent(){
         event.preventDefault();
 
         var eventId = getEventId(key);
+        dispatch(storeEventId(eventId));
 
         var obj = {
             eventID: eventId,
