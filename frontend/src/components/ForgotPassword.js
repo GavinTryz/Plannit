@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {Link } from 'react-router-dom';
 import jwt_decode from "jwt-decode";
-//import axios from 'axios';
+import axios from 'axios';
 
 //redux
 import {/*useSelector,*/ useDispatch} from 'react-redux';
@@ -16,9 +16,7 @@ function Login()
     var tok = storage.retrieveToken();
     //var ud = jwt.decode(tok, {complete: true});
 
-    var loginName;
-    var loginPassword;
-
+    const [email, setEmail] = useState('');
     const [message,setMessage] = useState('');
 
     //redux
@@ -32,44 +30,26 @@ function Login()
         event.preventDefault();
 
         var obj = {
-            email:loginName.value,
-            password:loginPassword.value,
+            email:email
         };
-        var js = JSON.stringify(obj);
 
         //testing redux
         //dispatch(storeUser({userId: loginName.value, firstName: loginPassword.value, lastName: "lastname"}));
 
-        try
-        {    
-            const response = await fetch(bp.buildPath('api/login'),
-                {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
-
-            var res = JSON.parse(await response.text());
-
-            if( res.userID <= 0 )
+        axios.post(bp.buildPath('api/sendReset'), obj) 
+        .then((res) => {
+            if(res.error)
             {
-               setMessage('Email no registered');
+                setMessage(res.error);
             }
-            else
+            else 
             {
-                //storing in redux
-                dispatch(storeJWT(res.jwtToken));
-
-                var ud = jwt.decode(res.jwtToken, {complete:true});
-                dispatch(storeUser({userId: ud.payload.userId, firstName: ud.payload.firstName, lastName: ud.payload.lastName}));
-                //
-
-                storage.storeToken(res.jwtToken);
-
-                setMessage('A temporary password has been sent to your email address');
+                setMessage('Email sent!');
             }
-        }
-        catch(e)
-        {
-            alert(e.toString());
-            return;
-        }    
+        })
+        .catch((error) => {
+            setMessage('There was an error please try again');
+        })
     };
 
     return(
@@ -77,7 +57,7 @@ function Login()
             <div className= 'loginSection'>
                 <span id = 'signInName'>Account recovery</span>
                 <form onSubmit = {handlePasswordRecovery}>
-                    <input className="inputTextField" type="email" placeholder="Email" ref={(c) => loginName = c} /><br />
+                    <input className="inputTextField" type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} /><br />
                     <input id="loginButton" type="submit" class="buttons" value="Send email" onClick={handlePasswordRecovery} /><br />
                 </form>
                 <div id="loginResult">{message}</div>
