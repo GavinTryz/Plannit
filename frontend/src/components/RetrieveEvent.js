@@ -103,6 +103,7 @@ function RetrieveEvent(){
             
             <button className="SideBarBtn" onClick={showEvents}>Show My Events</button> 
             {eventLists}
+            <SearchEvent />
             {/*<button onClick={loadEventData(1)} >Show My Events</button>*/}
         </div>
     );
