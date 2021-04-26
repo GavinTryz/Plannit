@@ -310,6 +310,13 @@ app.post('/api/sendReset', async(req, res, next) => {
     });
     try
     {
+        var user = await db.collection('Users').findOne({email: email});
+
+        if (!user)
+        {
+            return res.status(200).json({error: "Account with specified email does not exist"});
+        }
+
         // Compose message
         const msg = {
         from: 'plannitnotifications@gmail.com',
