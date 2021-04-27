@@ -47,10 +47,15 @@ function EventCalendarCell(props){
     function handleChange(event)
     {
         var newCalendar = props.finalEvent;
-        var slot = getValue(props.finalEvent);
+        var arr = props.time.toString().split(':');
+        var dayIndex = arr[0]*2;
+        if(arr.length == 2)
+        {
+            dayIndex++;
+        }
 
-        slot = event.target.checked;
-        props.setFinalEvent(newCalendar);   
+        newCalendar[stringToInt(props.day)][dayIndex] = event.target.checked;
+        props.setFinalEvent(newCalendar);  
         console.log(newCalendar);
     }
 
