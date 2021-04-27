@@ -60,3 +60,9 @@ export const storeEventData = data => {
         payload: data
     };
 };
+
+export const setClearWeek = () => {
+    return{
+        type: 'SET_CLEAR_WEEK'
+    };
+};

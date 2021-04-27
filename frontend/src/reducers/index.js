@@ -6,6 +6,7 @@ import storeMyWeek from './storeMyWeek';
 import storeMyEvents from './storeMyEvents';
 import storeParticipantEvents from './storeParticipantEvents';
 import storeEventData from './storeEventData';
+import setClearWeek from './setClearWeek';
 
 
 import {combineReducers} from 'redux';
@@ -19,7 +20,8 @@ const allReducers = combineReducers ({
     myWeek : storeMyWeek,
     myEvents : storeMyEvents,
     participantEvents : storeParticipantEvents,
-    eventData : storeEventData
+    eventData : storeEventData,
+    clearWeek : setClearWeek
 });
 
 export default allReducers;

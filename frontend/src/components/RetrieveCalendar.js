@@ -3,30 +3,13 @@ import axios from 'axios';
 import './calendar.css';
 import CalendarInfoOnCell from './CalendarInfoOnCell';
 
-/**********************************************************************************************************
- *                             I AM CRAFTING A CALENDAR. STILL ON WORK
- * ********************************************************************************************************/
-
 function RetrieveCalendar(props){
 
     // Objects received from SetCalendar.js
     var dayOfWeekObj = props.daysAvailable;
     var timeObj = props.time;
 
-
    var daysOfWeek = ['Time', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-
-    // var dayOfWeekObj = {
-    //     sunday: true,
-    //     monday: true,
-    //     tuesday: true,
-    //     wednesday: true,
-    //     thursday: true,
-    //     friday: true,
-    //     saturday: true
-    // };
-
-    // var timeObj = [9, 10, 11, 12, 1, 2, 3, 4, 5, 6];
 
     var tableCell = (dayOfWeekObj, timeObj, nameofDay) =>{
         if (dayOfWeekObj === true)
