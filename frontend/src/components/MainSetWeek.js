@@ -76,7 +76,7 @@ export default function MainSetWeek() {
             timeArr.push(i);
         }
 
-        dispatch(setWeekTime(fullTimeArr));
+        dispatch(setWeekTime(timeArr));
 
     }
 
