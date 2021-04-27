@@ -414,10 +414,15 @@ app.post('/api/joinEvent', async (req, res, next) => {
     }
     else
     {
+        console.log(availability);
+        console.log("using token");
         const emailToken = jwtLib.verify(token, process.env.SENDGRID_API_KEY);
         var event = emailToken.eventID;
         var email = emailToken.email;
         var title = emailToken.eventName;
+        console.log(event);
+        console.log(email);
+        console.log(title);
     }
 
 

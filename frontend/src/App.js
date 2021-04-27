@@ -66,7 +66,7 @@ function App() {
       </Route>
 
       {/*real connected viewEvent*/}
-      <Route path = '/dashboard/viewEvents' exact>
+      <Route path = '/dashboard/viewEvents' >
         <ViewEventsPage />
       </Route>
 

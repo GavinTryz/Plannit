@@ -54,7 +54,8 @@ export default function InviteUserPage(props){
     function handleSubmit(e) {
         e.preventDefault();
         const payload = {
-            token: values.token
+            token: values.token,
+            availability: calendar
         }
         axios.post(bp.buildPath('api/joinEvent'), payload)
         .then((res) => {
