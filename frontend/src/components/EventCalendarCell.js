@@ -7,7 +7,7 @@ function EventCalendarCell(props){
     const jwt = require('jsonwebtoken');
     const storage = require('../tokenStorage');
     useEffect(() => {
-        setValue(getValue());
+        setValue(getValue(props.calendar));
         setLoading(false);
     }, [])
     function stringToInt(day){
@@ -32,7 +32,7 @@ function EventCalendarCell(props){
         return 6
     }
     // RN this function id for testing 
-    function getValue()
+    function getValue(table)
     {
         var arr = props.time.toString().split(':');
         var dayIndex = arr[0]*2;
@@ -40,9 +40,18 @@ function EventCalendarCell(props){
         {
             dayIndex++;
         }
-        console.log(props.calendar[stringToInt(props.day)][dayIndex])
-        return props.calendar[stringToInt(props.day)][dayIndex];
+        console.log(table[stringToInt(props.day)][dayIndex])
+        return table[stringToInt(props.day)][dayIndex];
+    }
 
+    function handleChange(event)
+    {
+        var newCalendar = props.calendar;
+        var slot = getValue(props.setCalendar);
+
+        slot = event.target.checked;
+        props.setCalendar(newCalendar);   
+        
     }
 
     return(
@@ -52,11 +61,12 @@ function EventCalendarCell(props){
             <tr>
                 <label className = "calendarCell">
                     <td style={{
-                border: "1px solid black",
-                width: "85px",
-                height: "15px",
-                background: "hsl(200, 50%, " + (100-(value/props.numParticipants*100)) + "%)"
-              }}></td>
+                        border: "1px solid black",
+                        width: "85px",
+                        height: "15px",
+                        background: "hsl(200, 50%, " + (100-(value/props.numParticipants*100)) + "%)"
+                    }}></td>
+                    <input type="checkbox" onChange={handleChange}/>
                     {/* <td style={'background: hsl(' + value + ', 100%, 50%)'}> {value}</td> */}
                     {/* <span className="calendarCellOn"/> */}
                 </label>
