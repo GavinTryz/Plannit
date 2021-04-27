@@ -51,7 +51,7 @@ function EventCalendarCell(props){
 
         slot = event.target.checked;
         props.setCalendar(newCalendar);   
-        
+        console.log(newCalendar);
     }
 
     return(
@@ -59,13 +59,13 @@ function EventCalendarCell(props){
         {
             !loading &&
             <tr>
-                <label className = "calendarCell">
-                    <td style={{
+                <label className = "calendarCell"
+                    style={{
                         border: "1px solid black",
                         width: "85px",
                         height: "15px",
                         background: "hsl(200, 50%, " + (100-(value/props.numParticipants*100)) + "%)"
-                    }}></td>
+                    }}>
                     <input type="checkbox" onChange={handleChange}/>
                     {/* <td style={'background: hsl(' + value + ', 100%, 50%)'}> {value}</td> */}
                     {/* <span className="calendarCellOn"/> */}
