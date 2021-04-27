@@ -15,6 +15,10 @@ export default function MainSetWeek() {
     const dispatch = useDispatch();
     const clearWeek = useSelector(state => state.clearWeek);
     const weekTime = useSelector(state => state.weekTime);
+    const eventData = useSelector(state => state.eventData);
+    var dayOfWeekObj = eventData.daysOfWeek;
+
+
     useEffect(() => {
         setLoading(true);
         console.log('using effect');
@@ -34,7 +38,9 @@ export default function MainSetWeek() {
                     setCalendar(res.data.week);
                 }
             }
+            prepData();
             setLoading(false);
+
         })
         .catch((error) => {
             console.log(error);
@@ -51,7 +57,30 @@ export default function MainSetWeek() {
         );
         return nestedArray;
     }
-    var dayOfWeekObj = {    //what days show on the calendar?
+
+    function prepData() {
+        var start = parseInt(eventData.startTime);
+        var end = parseInt(eventData.endTime);
+        var timeArr = [];
+
+        if (dayOfWeekObj != null){
+            for ( var i = 0 ; i < dayOfWeekObj.length ; i++ ){
+                if (dayOfWeekObj[i] != "")
+                    dayOfWeekObj[i] = true;
+                else
+                    dayOfWeekObj[i] = false;
+            }
+        }
+
+        for ( var i = start ; i <= end ; i++ ){
+            timeArr.push(i);
+        }
+
+        dispatch(setWeekTime(fullTimeArr));
+
+    }
+
+    /*var dayOfWeekObj = {    //what days show on the calendar?
         sunday: true,
         monday: true,
         tuesday: true,
@@ -59,10 +88,9 @@ export default function MainSetWeek() {
         thursday: true,
         friday: true,
         saturday: true
-    };
+    };*/
 
     
-
     function handleSubmit(event){
         event.preventDefault();
         var tok = storage.retrieveToken();
