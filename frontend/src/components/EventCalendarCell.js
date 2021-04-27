@@ -46,11 +46,11 @@ function EventCalendarCell(props){
 
     function handleChange(event)
     {
-        var newCalendar = props.calendar;
-        var slot = getValue(props.setCalendar);
+        var newCalendar = props.finalEvent;
+        var slot = getValue(props.finalEvent);
 
         slot = event.target.checked;
-        props.setCalendar(newCalendar);   
+        props.setFinalEvent(newCalendar);   
         console.log(newCalendar);
     }
 
