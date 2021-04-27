@@ -4,6 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Popper from '@material-ui/core/Popper';
 import './invitationStyle.css'
 
+import {useSelector, useDispatch} from 'react-redux';
+import {storeJWT} from '../actions';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -16,22 +18,60 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function AddPersonForm(props) {
+    var participantEmail;
+    const bp = require('./bp');
     const [ person, setPerson ] = useState('');
+    const dispatch = useDispatch();
+
+    const userJWT = useSelector(state => state.userJWT); 
+    const eventData = useSelector(state => state.eventData); 
       
     function handleChange(e) {
       setPerson(e.target.value);
     }
-      
-    function handleSubmit(e) {
+
+    function handleSubmit() {
       props.handleSubmit(person);
       setPerson('');
-      e.preventDefault();
     }
+
+    const addParticipant = async event => {
+
+      event.preventDefault();
+      handleSubmit();
+
+      var obj = {
+        jwtToken: userJWT,
+        email: participantEmail.value,
+        eventID: eventData.eventId,
+        eventName: eventData.eventName
+      };
+      var js = JSON.stringify(obj);
+
+      try
+      {    
+          const response = await fetch(bp.buildPath('api/inviteUser'),
+              {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
+
+          var res = JSON.parse(await response.text());
+
+          dispatch(storeJWT(res.jwtToken));
+      }
+      catch(e)
+      {
+          alert(e.toString());
+          return;
+      }   
+    };
+
+
+
     return (
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={addParticipant}>
         <input type="email" 
           placeholder="Participant's email" 
           onChange={handleChange} 
+          ref={(c) => participantEmail = c}
           value={person} />
         <button type="submit">Invite Participant</button>
       </form>
@@ -39,7 +79,6 @@ function AddPersonForm(props) {
 }
   
 function PeopleList(props) {
-
     const arr = props.data;
     const listItems = arr.map((val, index) =>
         <li key={index}>{val}</li>
