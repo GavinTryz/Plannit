@@ -66,3 +66,10 @@ export const setClearWeek = () => {
         type: 'SET_CLEAR_WEEK'
     };
 };
+
+export const setWeekTime = data => {
+    return{
+        type: 'SET_WEEK_TIME',
+        payload: data
+    };
+};
