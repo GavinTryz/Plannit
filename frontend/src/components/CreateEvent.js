@@ -120,7 +120,9 @@ function CreateEvent()
 
                 dispatch(storeJWT(res.jwtToken));
                 dispatch(storeCreateName(eventName));
-                dispatch(storeCreateId(res.eventID));
+                console.log(res);
+                console.log(res.eventID);
+                //dispatch(storeCreateId(res.eventID));
 
                 //link change
                 window.location.href = '/dashboard/joinEvent';
