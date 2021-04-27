@@ -19,7 +19,10 @@ export default function InviteUserPage(props){
         axios.post(bp.buildPath('api/getWeekFromToken'), {token: values.token})
         .then((res) => {
             console.log(res);
-            setCalendar(res.data.week);
+            if(!res.data.error)
+            {
+                setCalendar(res.data.week);
+            }
             console.log(calendar);
             setLoading(false);
         })
