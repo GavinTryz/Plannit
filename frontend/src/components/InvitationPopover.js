@@ -5,7 +5,7 @@ import Popper from '@material-ui/core/Popper';
 import './invitationStyle.css'
 
 import {useSelector, useDispatch} from 'react-redux';
-import {storeCreatorEvents, storeParticipantEvents, storeJWT, storeEventData} from '../actions';
+import {storeJWT} from '../actions';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -23,7 +23,6 @@ function AddPersonForm(props) {
     const [ person, setPerson ] = useState('');
     const dispatch = useDispatch();
 
-    const eventId = useSelector(state => state.eventId);
     const userJWT = useSelector(state => state.userJWT); 
     const eventData = useSelector(state => state.eventData); 
       
@@ -43,8 +42,8 @@ function AddPersonForm(props) {
 
       var obj = {
         jwtToken: userJWT,
-        eventID: eventId,
         email: participantEmail.value,
+        eventID: eventData.eventId,
         eventName: eventData.eventName
       };
       var js = JSON.stringify(obj);

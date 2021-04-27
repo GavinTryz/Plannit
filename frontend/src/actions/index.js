@@ -60,10 +60,3 @@ export const storeEventData = data => {
         payload: data
     };
 };
-
-export const storeEventId = data => {
-    return{
-        type: 'STORE_EVENT_IF',
-        payload: data
-    };
-};
