@@ -540,9 +540,7 @@ app.post('/api/createEvent', async (req, res, next) => {
             }
         );
 
-        var eventID = await db.collection('Events').findOne({creatorID: creatorID, eventName: eventName},
-            {"_id":1}
-        );
+        var eventID = await db.collection('Events').findOne({creatorID: creatorID, eventName: eventName});
 
         var error = "";    
     }    
@@ -551,7 +549,7 @@ app.post('/api/createEvent', async (req, res, next) => {
         var error = e.message;
     }
 
-    res.status(200).json({eventID: eventID, error: error, jwtToken: newToken});
+    res.status(200).json({eventID: eventID.eventID, error: error, jwtToken: newToken});
 });
 
 app.post('/api/deleteEvent', async (req, res, next) => {
