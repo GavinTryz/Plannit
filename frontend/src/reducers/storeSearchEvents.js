@@ -5,7 +5,9 @@ const INITIAL_SEARCH = {
 const storeSearchEvents = (state = INITIAL_SEARCH, action) => {
     switch(action.type){
         case "STORE_SEARCH_EVENTS":   
-             return action.payload;
+             return {
+                 arr: [action.payload]
+            }
 
         case "ADD_SEARCH_EVENTS":
             return {
