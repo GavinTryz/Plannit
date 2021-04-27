@@ -242,9 +242,7 @@ app.post('/api/inviteUser', async(req, res, next) => {
     const db = client.db();
     var error = '';
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-    var id = await db.collection('Users').findOne({email: email},
-        {"_id":1}
-    );
+    var id = await db.collection('Users').findOne({email: email});
     if (jwt.isExpired(jwtToken))
     {
         return res.status(200).json({error: "JWT token is no longer valid"});
