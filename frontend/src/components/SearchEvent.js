@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import DeleteEventBtn from './DeleteEventBtn';
 
 import {useSelector, useDispatch} from 'react-redux';
-import {addSearchEvents, storeSearchEvents, storeJWT, storeEventData} from '../actions';
+import {storeSearchEvents, storeJWT, storeEventData} from '../actions';
 
 
 const SearchEvent = () =>
@@ -42,7 +42,7 @@ const SearchEvent = () =>
 
             dispatch(storeJWT(res.jwtToken));
             dispatch(storeSearchEvents(res.creatorEvents));
-            dispatch(addSearchEvents(res.participantEvents));
+            dispatch(storeSearchEvents(res.participantEvents));
         }
         catch(e)
         {
@@ -54,7 +54,7 @@ const SearchEvent = () =>
     //adjusted to be all events
     const searchEvents = useSelector(state => state.searchEvents);
     function getEventId (key) {
-        var eventId = searchEvents[key]._id;
+        var eventId = searchEvents.arr[0][key]._id;
         return eventId;
     }
 
