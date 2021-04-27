@@ -5,6 +5,8 @@ import {useLocation, useHistory} from 'react-router-dom';
 import RetrieveCalendar from '../components/RetrieveCalendar';
 import axios from 'axios';
 import queryString from 'query-string';
+import {useSelector, useDispatch} from 'react-redux';
+import {storeJWT, storeCreateName, storeCreateId} from '../actions';
 
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
@@ -16,6 +18,12 @@ export default function InviteUserPage(props){
     const {search} = useLocation();
     const values = queryString.parse(search);
     const bp = require('../components/bp.js');
+
+    const login = useSelector(state => state.login);
+    const userJWT = useSelector(state => state.userJWT); 
+    const createId = useSelector(state => state.createId); 
+    const createName = useSelector(state => state.createName); 
+
     useEffect(() => {
         axios.post(bp.buildPath('api/getWeekFromToken'), {token: values.token})
         .then((res) => {
@@ -53,10 +61,23 @@ export default function InviteUserPage(props){
     var timeArr = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18];  //times that show on cal
     function handleSubmit(e) {
         e.preventDefault();
-        const payload = {
-            token: values.token,
-            availability: calendar
+
+        const payload = {};
+
+        if (login) {    //if user is logged in
+            const payload = {
+                availability: calendar,
+                jwtToken: userJWT,
+                eventID: createId,
+                eventName: createName
+            }
+        } else {
+            const payload = {
+                token: values.token,
+                availability: calendar
+            }
         }
+
         axios.post(bp.buildPath('api/joinEvent'), payload)
         .then((res) => {
             console.log(res);
