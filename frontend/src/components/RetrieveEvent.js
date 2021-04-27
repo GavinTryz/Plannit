@@ -4,12 +4,12 @@ import DeleteEventBtn from './DeleteEventBtn';
 import {useSelector, useDispatch} from 'react-redux';
 import {storeCreatorEvents, storeParticipantEvents, storeJWT, storeEventData} from '../actions';
 
-import RetrieveCalendar from './RetrieveCalendar';
 import SearchEvent from './SearchEvent';
 
 function RetrieveEvent(){
 
     const[eventLists, setEventLists] = useState("");
+    const[invitedList, setInvitedList] = useState("");
 
     const storage = require('../tokenStorage');
     const bp = require('./bp');
@@ -37,8 +37,10 @@ function RetrieveEvent(){
 
             // Get only the object array named CreatorEvents
             var getCreatorEvents = res.creatorEvents;
+            var getInvitedEvents = res.participantEvents;
 
             setEventLists(getCreatorEvents.map(generateEventsList));
+            setInvitedList(getInvitedEvents.map(generateInvitedList));
 
             dispatch(storeJWT(res.jwtToken));
             dispatch(storeCreatorEvents(res.creatorEvents));
@@ -52,8 +54,9 @@ function RetrieveEvent(){
     }
 
     const myEvents = useSelector(state => state.myEvents);
-    function getEventId (key) {
-        var eventId = myEvents[key]._id;
+    const invitedEvents = useSelector(state => state.participantEvents);
+    function getEventId (key, list) {
+        var eventId = list[key]._id;
         return eventId;
     }
 
@@ -87,11 +90,22 @@ function RetrieveEvent(){
         }
     }
 
-    function generateEventsList (getCreatorEvents, i){
+    function generateEventsList (getInvitedEvents, i) {
         return(
             <table class = 'events'>
                 <tr key={i}>
-                    <td className = 'eventButton'><button onClick={loadEventData(i)}>{getCreatorEvents.eventName}</button><DeleteEventBtn eventKey = {i}/></td>
+                    <td className = 'eventButton'><button onClick={loadEventData(i, myEvents)}>{getInvitedEvents.eventName}</button><DeleteEventBtn eventKey = {i}/></td>
+
+                </tr>
+            </table>
+        );
+    }
+
+    function generateInvitedList (getCreatorEvents, i) {
+        return(
+            <table class = 'events'>
+                <tr key={i}>
+                    <td className = 'eventButton'><button onClick={loadEventData(i, invitedEvents)}>{getCreatorEvents.eventName}</button><DeleteEventBtn eventKey = {i}/></td>
 
                 </tr>
             </table>
@@ -103,6 +117,8 @@ function RetrieveEvent(){
             
             <button className="SideBarBtn" onClick={showEvents}>Show My Events</button> 
             {eventLists}
+            <br />
+            {invitedList}
             <SearchEvent />
             {/*<button onClick={loadEventData(1)} >Show My Events</button>*/}
         </div>
