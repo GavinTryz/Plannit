@@ -10,7 +10,7 @@ const storeSearchEvents = (state = INITIAL_SEARCH, action) => {
         case "ADD_SEARCH_EVENTS":
             return {
                 ...state,
-                arr: [ ...state.arr, action.newItem ]
+                arr: [ ...state.arr, action.payload.newItem ]
             }
 
         case "CLEAR_DATA":
