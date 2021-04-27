@@ -7,13 +7,9 @@ import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import CreateAccountPage from './pages/CreateAccountPage';
 import Dashboard from './pages/Dashboard';
-import SetCalendar from './components/SetCalendar';
 
-import Set2 from './components/Set2';
 import SetWeekPage from './pages/SetWeekPage';
-import ViewEventPage from './pages/ViewEventPage';
 import ViewEventsPage from './pages/ViewEventsPage';
-import TypicalWeekPage from './pages/TypicalWeekPage';
 import InviteUserPage from './pages/InviteUserPage';
 import VerifyEmailPage from './pages/VerifyEmailPage';
 import EmailConfirmationPage from './pages/EmailConfirmationPage';
@@ -48,34 +44,16 @@ function App() {
         <Dashboard />
       </Route>
 
-      <Route path = '/calendar' exact>
-        <SetCalendar />
-      </Route>
-       
-      <Route path = '/grad' exact>
-        <Set2 />
-      </Route>
-
       <Route path = '/dashboard/setWeek' exact>
         <SetWeekPage />
       </Route>
 
-      {/*example of viewEvent*/}
-      <Route path = '/dashboard/viewEvent' exact>
-        <ViewEventPage />
-      </Route>
-
-      {/*real connected viewEvent*/}
       <Route path = '/dashboard/viewEvents' >
         <ViewEventsPage />
       </Route>
 
       <Route path ='/forgotpassword' exact>
         <ForgotPasswordPage />
-      </Route>
-
-      <Route path = '/dashboard/viewWeek' exact>
-        <TypicalWeekPage />
       </Route>
 
       <Route path = '/joinEvent'>
