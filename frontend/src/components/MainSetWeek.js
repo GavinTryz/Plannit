@@ -81,7 +81,7 @@ export default function MainSetWeek() {
 
         dispatch(setWeekTime(fullTimeArr));
 
-        // window.location.reload();
+        window.location.reload();
     }
 
     function clearBtn()

@@ -1,4 +1,4 @@
-const setWeekTime = (state = null, action) => {
+const setWeekTime = (state = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18], action) => {
     switch(action.type){
         case "SET_WEEK_TIME":   
              return action.payload;
@@ -7,7 +7,7 @@ const setWeekTime = (state = null, action) => {
             return null;
 
         default:
-            return [9, 10, 11, 12, 13, 14, 15, 16, 17, 18];  //times that show on cal
+            return state;  //times that show on cal
     }
 }
 
