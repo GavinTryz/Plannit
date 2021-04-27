@@ -93,3 +93,24 @@ export const addSearchEvents = data => {
         payload: data
     };
 };
+
+export const storeLogin = data => {
+    return{
+        type: 'STORE_LOGIN',
+        payload: data
+    };
+};
+
+export const storeCreateId = data => {
+    return{
+        type: 'STORE_CREATE_ID',
+        payload: data
+    };
+};
+
+export const storeCreateName = data => {
+    return{
+        type: 'STORE_CREATE_NAME',
+        payload: data
+    };
+};

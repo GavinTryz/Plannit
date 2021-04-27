@@ -5,9 +5,13 @@ import EventTime from './EventTime';
 import EventName from './EventName';
 import './modalContent.css';
 import EventWeekly from './EventWeekly';
+import {useDispatch} from 'react-redux';
+import {storeJWT, storeCreateName, storeCreateId} from '../actions';
 
 function CreateEvent()
 {
+    const dispatch = useDispatch();
+
     // Set modal show / hide
     const[modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -113,6 +117,13 @@ function CreateEvent()
             {
                 setMessage('');
                 setModalIsOpen(false);
+
+                dispatch(storeJWT(res.jwtToken));
+                dispatch(storeCreateName(eventName));
+                dispatch(storeCreateId(res.eventID));
+
+                //link change
+                window.location.href = '/dashboard/joinEvent';
             }
         }
         catch(e)
