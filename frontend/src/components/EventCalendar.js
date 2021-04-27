@@ -8,6 +8,17 @@ function EventCalendar(props){
     // Objects received from SetCalendar.js
     var dayOfWeekObj = props.daysAvailable;
     var timeObj = props.time;
+    const [finalEvent, setFinalEvent] = useState(createCalendar(false));
+
+    function createCalendar(value) {
+        const rows = 7;
+        const cols = 48;
+
+        const nestedArray = Array.from({ length: rows }, () => 
+        Array.from({ length: cols }, () => value)
+        );
+        return nestedArray;
+    }
 
    var daysOfWeek = ['Time', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
@@ -15,8 +26,8 @@ function EventCalendar(props){
         if (dayOfWeekObj != "")
             return(
                 <tr>
-                    <EventCalendarCell time={timeObj} day={nameofDay} calendar={props.calendar} numParticipants={props.numParticipants}/>
-                    <EventCalendarCell time={timeObj +  ':30'} day={nameofDay} calendar={props.calendar} numParticipants={props.numParticipants}/>
+                    <EventCalendarCell time={timeObj} day={nameofDay} calendar={props.calendar} finalEvent={finalEvent} setFinalEvent={setFinalEvent} numParticipants={props.numParticipants}/>
+                    <EventCalendarCell time={timeObj +  ':30'} day={nameofDay} calendar={props.calendar} finalEvent={finalEvent} setFinalEvent={setFinalEvent} numParticipants={props.numParticipants}/>
                 </tr>
             );
         else

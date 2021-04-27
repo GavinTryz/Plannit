@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import bp from './bp';
 import './Main.css'
 import {useSelector} from 'react-redux';
@@ -9,6 +9,7 @@ import axios from 'axios';
 function MainViewEvents()
 {
     const eventData = useSelector(state => state.eventData);
+
     function calculateAvailability() {
         const rows = 7;
         const cols = 48;
