@@ -117,10 +117,13 @@ function CreateEvent()
             {
                 setMessage('');
                 setModalIsOpen(false);
+                
+                console.log(res);
+                console.log(res.eventID);
 
                 dispatch(storeJWT(res.jwtToken));
                 dispatch(storeCreateName(eventName));
-                dispatch(storeCreateId(res.eventID));
+                //dispatch(storeCreateId(res.eventID));
 
                 //link change
                 window.location.href = '/dashboard/joinEvent';
