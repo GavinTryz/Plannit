@@ -6,7 +6,6 @@ import storeMyWeek from './storeMyWeek';
 import storeMyEvents from './storeMyEvents';
 import storeParticipantEvents from './storeParticipantEvents';
 import storeEventData from './storeEventData';
-import toggleEmailState from './toggleEmailState';
 import storeEventId from './storeEventId';
 
 
@@ -22,7 +21,6 @@ const allReducers = combineReducers ({
     myEvents : storeMyEvents,
     participantEvents : storeParticipantEvents,
     eventData : storeEventData,
-    emailState : toggleEmailState,
     eventId : storeEventId
 });
 

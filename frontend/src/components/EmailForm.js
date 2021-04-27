@@ -47,7 +47,7 @@ function EmailForm()
 
     return(
         <div>
-            <form onSubmit = {handlePasswordRecovery}>
+            <form>
                 <input className="inputTextField" type="email" placeholder="Email" ref={(c) => userEmail = c} /><br />
                 <input id="loginButton" type="submit" class="buttons" value="Continue" onClick={dispatch(toggleEmailState())} /><br />
             </form>
