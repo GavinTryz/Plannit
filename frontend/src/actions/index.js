@@ -61,9 +61,15 @@ export const storeEventData = data => {
     };
 };
 
-export const setClearWeek = () => {
+export const setClearWeekTrue = () => {
     return{
-        type: 'SET_CLEAR_WEEK'
+        type: 'SET_CLEAR_WEEK_TRUE'
+    };
+};
+
+export const setClearWeekFalse = () => {
+    return{
+        type: 'SET_CLEAR_WEEK_FALSE'
     };
 };
 

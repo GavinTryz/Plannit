@@ -4,8 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Popper from '@material-ui/core/Popper';
 import './invitationStyle.css'
 
-import {useSelector, useDispatch} from 'react-redux';
-import {storeJWT} from '../actions';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -18,21 +16,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function AddPersonForm(props) {
-    var participantEmail;
-    const bp = require('./bp');
     const [ person, setPerson ] = useState('');
-    const dispatch = useDispatch();
-
-    const userJWT = useSelector(state => state.userJWT); 
-    const eventData = useSelector(state => state.eventData); 
       
     function handleChange(e) {
       setPerson(e.target.value);
     }
-
-    function handleSubmit() {
+      
+    function handleSubmit(e) {
       props.handleSubmit(person);
       setPerson('');
+      e.preventDefault();
     }
 
     const addParticipant = async event => {
@@ -67,18 +60,18 @@ function AddPersonForm(props) {
 
 
     return (
-      <form onSubmit={addParticipant}>
+      <form onSubmit={handleSubmit}>
         <input type="email" 
           placeholder="Participant's email" 
           onChange={handleChange} 
-          ref={(c) => participantEmail = c}
           value={person} />
-        <button type="submit" onClick={addParticipant}>Invite Participant</button>
+        <button type="submit">Invite Participant</button>
       </form>
     );
 }
   
 function PeopleList(props) {
+
     const arr = props.data;
     const listItems = arr.map((val, index) =>
         <li key={index}>{val}</li>
