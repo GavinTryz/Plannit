@@ -250,6 +250,11 @@ app.post('/api/inviteUser', async(req, res, next) => {
 
     var newToken = jwt.refresh(jwtToken);
 
+    if (!id)
+    {
+        return res.status(200).json({error: "User does not exist", jwtToken: newToken});
+    }
+
     emailToken = jwtLib.sign(
     {
         eventID: eventID,
