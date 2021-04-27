@@ -5,7 +5,7 @@ import jwt_decode from "jwt-decode";
 
 //redux
 import {/*useSelector,*/ useDispatch} from 'react-redux';
-import {storeUser, storeJWT} from '../actions';
+import {storeUser, storeJWT, storeLogin} from '../actions';
 
 function Login()
 {
@@ -14,7 +14,6 @@ function Login()
     const jwt = require('jsonwebtoken');
 
     var tok = storage.retrieveToken();
-    //var ud = jwt.decode(tok, {complete: true});
 
     var loginName;
     var loginPassword;
@@ -37,52 +36,10 @@ function Login()
         };
         var js = JSON.stringify(obj);
 
-        //testing redux
-        //dispatch(storeUser({userId: loginName.value, firstName: loginPassword.value, lastName: "lastname"}));
-
         try
         {    
             const response = await fetch(bp.buildPath('api/login'),
                 {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
-                
-        // ====================================================================================
-        //                             CODE FOR AXIOS IMPLEMENTATION
-        // ====================================================================================                           
-
-        //    var config = 
-        //    {
-        //        method: 'post',
-        //        url: bp.buildPath('api/login'),
-        //        headers: 
-        //        {
-        //            'Content-Type': 'application/json'
-        //        },
-        //        data: js
-        //    };
-        //    axios(config)
-        //        .then(function (response) 
-        //        {
-        //            var res = response.data;
-        //            // console.log(response)
-        //            if (res.error) 
-        //            {
-        //                setMessage('User/Password combination incorrect');
-        //            }
-        //            else 
-        //            {
-        //                storage.storeToken(res);
-        //                window.location.href = '/dashboard';
-        //            }
-        //        })
-        //        .catch(function (error) 
-        //        {
-        //            console.log(error);
-        //        });
-        //     }
-        //     catch(e)
-        //     {
-        //         console.log(e.message);
-        //     }
     
             var res = JSON.parse(await response.text());
 
@@ -97,6 +54,7 @@ function Login()
 
                 var ud = jwt.decode(res.jwtToken, {complete:true});
                 dispatch(storeUser({userId: ud.payload.userId, firstName: ud.payload.firstName, lastName: ud.payload.lastName}));
+                dispatch(storeLogin(true));
                 //
 
                 storage.storeToken(res.jwtToken);

@@ -9,7 +9,9 @@ import storeEventData from './storeEventData';
 import setClearWeek from './setClearWeek';
 import setWeekTime from './setWeekTime';
 import storeSearchEvents from './storeSearchEvents';
-
+import storeLogin from './storeLogin';
+import storeCreateId from './storeCreateId';
+import storeCreateName from './storeCreateName';
 
 import {combineReducers} from 'redux';
 
@@ -25,7 +27,10 @@ const allReducers = combineReducers ({
     eventData : storeEventData,
     clearWeek : setClearWeek,
     weekTime: setWeekTime,
-    searchEvents : storeSearchEvents
+    searchEvents : storeSearchEvents,
+    login : storeLogin,
+    createId : storeCreateId,
+    createName : storeCreateName
 });
 
 export default allReducers;
