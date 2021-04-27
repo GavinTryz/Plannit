@@ -1,7 +1,7 @@
 // pass daysAvailabble: sunday -> saturday true or false
 // pass time: array of integers (0-23)
 import React, {useState, useEffect} from 'react';
-import {useLocation} from 'react-router-dom';
+import {useLocation, useHistory} from 'react-router-dom';
 import RetrieveCalendar from '../components/RetrieveCalendar';
 import axios from 'axios';
 import queryString from 'query-string';
@@ -10,6 +10,7 @@ require('dotenv').config();
 const jwt = require('jsonwebtoken');
 
 export default function InviteUserPage(props){
+    let history = useHistory();
     const [loading, setLoading] = useState(true);
     const [calendar, setCalendar] = useState(createCalendar());
     const {search} = useLocation();
@@ -19,7 +20,10 @@ export default function InviteUserPage(props){
         axios.post(bp.buildPath('api/getWeekFromToken'), {token: values.token})
         .then((res) => {
             console.log(res);
-            setCalendar(res.data.week);
+            if(!res.data.error)
+            {
+                setCalendar(res.data.week);
+            }
             console.log(calendar);
             setLoading(false);
         })
@@ -55,6 +59,7 @@ export default function InviteUserPage(props){
         axios.post(bp.buildPath('api/joinEvent'), payload)
         .then((res) => {
             console.log(res);
+            history.push('/login');
         })
         .catch((error) => {
             console.log(error);

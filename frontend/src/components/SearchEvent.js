@@ -1,43 +1,45 @@
 import React, {useState} from 'react';
+
 import DeleteEventBtn from './DeleteEventBtn';
 
 import {useSelector, useDispatch} from 'react-redux';
 import {storeCreatorEvents, storeParticipantEvents, storeJWT, storeEventData} from '../actions';
 
-import RetrieveCalendar from './RetrieveCalendar';
-import SearchEvent from './SearchEvent';
 
-function RetrieveEvent(){
 
-    const[eventLists, setEventLists] = useState("");
 
+const SearchEvent = () =>
+{
     const storage = require('../tokenStorage');
     const bp = require('./bp');
     const jwt = require('jsonwebtoken');
     var tok = storage.retrieveToken();
     var ud = jwt.decode(tok, {complete: true});
+    var searchEvent;
     const dispatch = useDispatch();
-  
-    const showEvents = async event => {
+
+    const[eventLists, setEventLists] = useState("");
+
+    const handleSearch = async event => {
 
         event.preventDefault();
 
         var obj = {
             userID: jwt.decode(tok).userId,
+            name: searchEvent.value,
             jwtToken: tok
         };
         var js = JSON.stringify(obj);
 
         try
         {    
-            const response = await fetch(bp.buildPath('api/getEvents'),
+            const response = await fetch(bp.buildPath('api/searchEvents'),
                 {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
                 
             var res = JSON.parse(await response.text());
 
-            // Get only the object array named CreatorEvents
             var getCreatorEvents = res.creatorEvents;
-
+       
             setEventLists(getCreatorEvents.map(generateEventsList));
 
             dispatch(storeJWT(res.jwtToken));
@@ -51,11 +53,13 @@ function RetrieveEvent(){
         }
     }
 
+
     const myEvents = useSelector(state => state.myEvents);
     function getEventId (key) {
         var eventId = myEvents[key]._id;
         return eventId;
     }
+
 
     const loadEventData = (key) => async event => {
         event.preventDefault();
@@ -98,14 +102,27 @@ function RetrieveEvent(){
         );
     }
 
+
+
+
+    // function generateEventsList (getCreatorEvents, i){
+    //     return(
+    //         <table class = 'events'>
+    //             <tr key={i}>
+    //                 <td className = 'eventButton'><button>{getCreatorEvents.eventName}</button></td>
+    //             </tr>
+    //         </table>
+    //     );
+    // }
+
     return(
-        <div>
-            
-            <button className="SideBarBtn" onClick={showEvents}>Show My Events</button> 
-            {eventLists}
-            <SearchEvent />
-            {/*<button onClick={loadEventData(1)} >Show My Events</button>*/}
+        <div className="search-container">
+                 <form onSubmit={handleSearch}>
+                 <input type="text" placeholder="Search events..." name="search" ref={(c) => searchEvent = c} />
+                 </form>
+                 {eventLists}
         </div>
+
     );
-}
-export default RetrieveEvent;
+};
+export default SearchEvent;

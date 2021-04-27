@@ -5,6 +5,8 @@ import Info5 from './Info5';
 
 import {storeEventTable, storeEventData} from '../actions';
 import {useDispatch, useSelector} from 'react-redux';
+import InvitationPopover from './InvitationPopover';
+
 
 const jwt = require('jsonwebtoken');
 
@@ -142,6 +144,7 @@ function Build5(props){
 
     return(
         <div>
+            <InvitationPopover />
             <table className = 'calendarTable'>
                 {daysOfWeek.map(tableHeader)}
                 {timeObj.map(makecolumns)}   

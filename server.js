@@ -264,7 +264,7 @@ app.post('/api/inviteUser', async(req, res, next) => {
     });
     try
     {
-        const results = await db.collection('Invites').insertOne({email: email, eventID: eventID, eventName: eventName});
+        await db.collection('Invites').insertOne({email: email, eventID: eventID, eventName: eventName});
         // Compose message
         const msg = {
         from: 'plannitnotifications@gmail.com',
@@ -282,8 +282,10 @@ app.post('/api/inviteUser', async(req, res, next) => {
         <a href = "http://${req.headers.host}/joinEvent?token=${emailToken}">Join event.</a>
         `
         }
+        console.log('sent');
         sgMail.send(msg)
         .catch((err) => {
+            console.log(err);
             error = err;
         })
     }
@@ -296,17 +298,10 @@ app.post('/api/inviteUser', async(req, res, next) => {
 });
 
 app.post('/api/sendReset', async(req, res, next) => {
-    const {email, jwtToken} = req.body;
+    const {email} = req.body;
     const db = client.db();
     var error = '';
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
-    if (jwt.isExpired(jwtToken))
-    {
-        return res.status(200).json({error: "JWT token is no longer valid"});
-    }
-
-    var newToken = jwt.refresh(jwtToken);
 
     emailToken = jwtLib.sign(
     {
@@ -317,6 +312,13 @@ app.post('/api/sendReset', async(req, res, next) => {
     });
     try
     {
+        var user = await db.collection('Users').findOne({email: email});
+
+        if (!user)
+        {
+            return res.status(200).json({error: "Account with specified email does not exist"});
+        }
+
         // Compose message
         const msg = {
         from: 'plannitnotifications@gmail.com',
@@ -345,7 +347,7 @@ app.post('/api/sendReset', async(req, res, next) => {
         console.log(e);
         error = e;
     }
-    return res.status(200).json({error: error, jwtToken: newToken});
+    return res.status(200).json({error: error});
 });
 
 app.post('/api/resetPassword', async(req, res, next) => {
@@ -493,18 +495,12 @@ app.post('/api/getWeek', async (req, res, next) => {
 
     var newToken = jwt.refresh(jwtToken);
 
-    const results = await(
-        db.collection('MyTypicalWeek').find( 
-            {userID: userID}
-        ).project(
-            {_id:0, week:1, names:1}
-        )
-    ).toArray();
+    const results = await db.collection('MyTypicalWeek').findOne( {userID: userID}, {_id:0} );
 
-    if (results.length > 0)
+    if (results)
     {
 
-        res.status(200).json({week: results[0].week, error: "", jwtToken: newToken});
+        res.status(200).json({week: results.week, names: results.names, error: "", jwtToken: newToken});
         return;
     }
     else
@@ -515,7 +511,7 @@ app.post('/api/getWeek', async (req, res, next) => {
 
 app.post('/api/createEvent', async (req, res, next) => {
     const db = client.db();
-    const{creatorID, eventName, weekly, startTime, endTime, daysOfWeek, availability, jwtToken} = req.body;
+    const{creatorID, eventName, weekly, startTime, endTime, daysOfWeek, jwtToken} = req.body;
 
     if (jwt.isExpired(jwtToken))
     {
@@ -535,7 +531,7 @@ app.post('/api/createEvent', async (req, res, next) => {
             startTime:startTime,
             endTime:endTime,
             daysOfWeek:daysOfWeek,
-            availability:availability
+            eventTime: null
             }
         );
 
@@ -708,21 +704,19 @@ app.post('/api/viewEvent', async (req, res, next) => {
     try 
     {
         var id = new mongo.ObjectID(eventID)
-        var eventInfo = await(
-            db.collection('Events').find(
-                {_id: id}
-            )
-        ).toArray();
+        var eventInfo = await db.collection('Events').findOne(
+                {_id: id}, {_id: 0}
+            );
     
          var participants = await(
             db.collection('Participants').find(
                 {eventID: eventID}).project(
-                    {_id:0, userID:1, firstName:1, lastName:1}
+                    {_id:0, userID:1, firstName:1, lastName:1, availability:1}
                 )
         ).toArray();
         
         
-        if (eventInfo.length <= 0)
+        if (!eventInfo)
         {
             var error = "Could not find event";
             res.status(200).json({error: error, jwtToken: newToken});
@@ -736,8 +730,8 @@ app.post('/api/viewEvent', async (req, res, next) => {
         var error = e.message;
     }
 
-    res.status(200).json({participants: participants, eventName: eventInfo[0].eventName, weekly: eventInfo[0].weekly, startTime: eventInfo[0].startTime, 
-        endTime: eventInfo[0].endTime, daysOfWeek: eventInfo[0].daysOfWeek, availability: eventInfo[0].availability, error: error, jwtToken: newToken});
+    res.status(200).json({eventID: eventID, participants: participants, eventName: eventInfo.eventName, weekly: eventInfo.weekly, startTime: eventInfo.startTime, 
+        endTime: eventInfo.endTime, daysOfWeek: eventInfo.daysOfWeek, eventTime: eventInfo.eventTime, error: error, jwtToken: newToken});
 });
 
 app.post('/api/leaveEvent', async (req, res, next) => {
@@ -794,6 +788,37 @@ app.post('/api/getParticipants', async (req, res, next) => {
         var error = e.message;
     }
     return res.status(200).json({error: error, participants: participants, jwtToken: newToken});  
+
+});
+
+app.post('/api/chooseTime', async (req, res, next) => {
+    const db = client.db();
+    const {eventID, eventTime, jwtToken} = req.body;
+
+    if (jwt.isExpired(jwtToken))
+    {
+        res.status(200).json({error: "JWT token is no longer valid"});
+        return;
+    }
+    
+    var newToken = jwt.refresh(jwtToken);
+    var error = "";
+
+    try
+    {
+
+        await db.collection('Events').updateOne(
+            {eventID: eventID},
+            {$set: {eventTime: eventTime}}
+        );
+
+    }
+    catch(e)
+    {
+        error = e.message;
+    }
+
+    return res.status(200).json({error: error, jwtToken: newToken});
 
 });
 
