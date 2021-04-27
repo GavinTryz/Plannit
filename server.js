@@ -264,7 +264,7 @@ app.post('/api/inviteUser', async(req, res, next) => {
     });
     try
     {
-        const results = await db.collection('Invites').insertOne({email: email, eventID: eventID, eventName: eventName});
+        await db.collection('Invites').insertOne({email: email, eventID: eventID, eventName: eventName});
         // Compose message
         const msg = {
         from: 'plannitnotifications@gmail.com',
@@ -709,7 +709,7 @@ app.post('/api/viewEvent', async (req, res, next) => {
          var participants = await(
             db.collection('Participants').find(
                 {eventID: eventID}).project(
-                    {_id:0, userID:1, firstName:1, lastName:1}
+                    {_id:0, userID:1, firstName:1, lastName:1, availability:1}
                 )
         ).toArray();
         
