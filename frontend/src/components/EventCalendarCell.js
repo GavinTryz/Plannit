@@ -73,7 +73,7 @@ function EventCalendarCell(props){
                     }}>
                     <input type="checkbox" onChange={handleChange}/>
                     {/* <td style={'background: hsl(' + value + ', 100%, 50%)'}> {value}</td> */}
-                    {/* <span className="calendarCellOn"/> */}
+                    <span className="calendarCellOn"/>
                 </label>
             </tr>
         }
