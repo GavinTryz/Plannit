@@ -81,7 +81,10 @@ export default function InviteUserPage(props){
         axios.post(bp.buildPath('api/joinEvent'), payload)
         .then((res) => {
             console.log(res);
-            history.push('/login');
+            if (login)
+                history.push('/dashboard');
+            else
+                history.push('/login');
         })
         .catch((error) => {
             console.log(error);
