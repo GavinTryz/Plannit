@@ -43,7 +43,7 @@ function AddPersonForm(props) {
       var obj = {
         jwtToken: userJWT,
         email: participantEmail.value,
-        eventID: eventData.eventId,
+        eventID: eventData.eventID,
         eventName: eventData.eventName
       };
       var js = JSON.stringify(obj);

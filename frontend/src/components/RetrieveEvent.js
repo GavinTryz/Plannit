@@ -79,6 +79,9 @@ function RetrieveEvent(){
                 
             var res = JSON.parse(await response.text());
 
+            console.log(res);
+            console.log(res.participants);
+
             dispatch(storeEventData(res));
 
             window.location.href = '/dashboard/viewEvents';
