@@ -23,7 +23,7 @@ const allReducers = combineReducers ({
     participantEvents : storeParticipantEvents,
     eventData : storeEventData,
     clearWeek : setClearWeek,
-    weekTime : setWeekTime,
+    weekTime: setWeekTime
 });
 
 export default allReducers;
