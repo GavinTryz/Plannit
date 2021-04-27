@@ -60,10 +60,10 @@ function RetrieveEvent(){
         return eventId;
     }
 
-    const loadEventData = (key) => async event => {
+    const loadEventData = (key, list) => async event => {
         event.preventDefault();
 
-        var eventId = getEventId(key);
+        var eventId = getEventId(key, list);
 
         var obj = {
             eventID: eventId,
@@ -120,7 +120,6 @@ function RetrieveEvent(){
             <br />
             {invitedList}
             <SearchEvent />
-            {/*<button onClick={loadEventData(1)} >Show My Events</button>*/}
         </div>
     );
 }
