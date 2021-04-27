@@ -123,10 +123,10 @@ function CreateEvent()
 
                 dispatch(storeJWT(res.jwtToken));
                 dispatch(storeCreateName(eventName));
-                //dispatch(storeCreateId(res.eventID));
+                dispatch(storeCreateId(res.eventID));
 
                 //link change
-                window.location.href = '/dashboard/joinEvent';
+                //window.location.href = '/dashboard/joinEvent';
             }
         }
         catch(e)
