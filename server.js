@@ -540,7 +540,7 @@ app.post('/api/createEvent', async (req, res, next) => {
             }
         );
 
-        var id = await db.collection('Events').findOne({creatorID: creatorID, eventName: eventName},
+        var eventID = await db.collection('Events').findOne({creatorID: creatorID, eventName: eventName},
             {"_id":1}
         );
 
