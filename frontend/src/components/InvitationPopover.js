@@ -73,7 +73,7 @@ function AddPersonForm(props) {
           onChange={handleChange} 
           ref={(c) => participantEmail = c}
           value={person} />
-        <button type="submit">Invite Participant</button>
+        <button type="submit" onClick={addParticipant}>Invite Participant</button>
       </form>
     );
 }
