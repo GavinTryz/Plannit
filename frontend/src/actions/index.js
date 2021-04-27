@@ -79,3 +79,17 @@ export const setWeekTime = data => {
         payload: data
     };
 };
+
+export const storeSearchEvents = data => {
+    return{
+        type: 'STORE_SEARCH_EVENTS',
+        payload: data
+    };
+};
+
+export const addSearchEvents = data => {
+    return{
+        type: 'ADD_SEARCH_EVENTS',
+        payload: data
+    };
+};
