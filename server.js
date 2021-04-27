@@ -282,8 +282,10 @@ app.post('/api/inviteUser', async(req, res, next) => {
         <a href = "http://${req.headers.host}/joinEvent?token=${emailToken}">Join event.</a>
         `
         }
+        console.log('sent');
         sgMail.send(msg)
         .catch((err) => {
+            console.log(err);
             error = err;
         })
     }
