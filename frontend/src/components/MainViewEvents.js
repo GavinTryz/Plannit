@@ -12,6 +12,8 @@ function MainViewEvents()
     const [availability, setAvailability] = useState([[]]);
     const eventData = useSelector(state => state.eventData);
     var dayOfWeekObj = eventData.daysOfWeek;
+    var start = parseInt(eventData.startTime);
+    var end = parseInt(eventData.endTime);
     var timeArr = [];
 
     useEffect(() => {
@@ -20,8 +22,23 @@ function MainViewEvents()
         {
 
         }
-        dayOfWeekObj = prepData(dayOfWeekObj);
-        timeArr = prepTime(timeArr);
+
+        if (dayOfWeekObj != null){
+            for ( var i = 0 ; i < dayOfWeekObj.length ; i++ ){
+                if (dayOfWeekObj[i] != "")
+                    dayOfWeekObj[i] = true;
+                else
+                    dayOfWeekObj[i] = false;
+            }
+        }
+
+        for ( var i = start ; i <= end ; i++ ){
+            timeArr.push(i);
+        }
+
+
+        //dayOfWeekObj = prepData(dayOfWeekObj);
+        //timeArr = prepTime(timeArr);
         setLoading(false);
     }, [])
 
