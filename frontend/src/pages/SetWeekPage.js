@@ -1,7 +1,6 @@
 import React from 'react';
 import InternalMenuBar from '../components/InternalMenuBar';
 import SideBar from '../components/SideBar';
-import './viewEventsStyle.css';
 import MainSetWeek from '../components/MainSetWeek';
 
 
