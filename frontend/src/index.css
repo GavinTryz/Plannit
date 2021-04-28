@@ -116,6 +116,8 @@ code {
   height: 45px;
   text-align: center;
   padding: 0;
+  z-index: 20;
+  position: absolute;
 }
 .linkTextTitle
 {
