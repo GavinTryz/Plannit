@@ -551,7 +551,7 @@ app.post('/api/createEvent', async (req, res, next) => {
         var error = e.message;
     }
 
-    res.status(200).json({eventID: eventID.eventID, error: error, jwtToken: newToken});
+    res.status(200).json({eventID: eventID._id, error: error, jwtToken: newToken});
 });
 
 app.post('/api/deleteEvent', async (req, res, next) => {
