@@ -738,6 +738,42 @@ app.post('/api/viewEvent', async (req, res, next) => {
         endTime: eventInfo.endTime, daysOfWeek: eventInfo.daysOfWeek, eventTime: eventInfo.eventTime, error: error, jwtToken: newToken});
 });
 
+app.post('/api/getCreator', async (req, res, next) => {
+    const db = client.db();
+    const {eventID, jwtToken} = req.body;
+
+    if (jwt.isExpired(jwtToken))
+    {
+        res.status(200).json({error: "JWT token is no longer valid"});
+        return;
+    }
+
+    var newToken = jwt.refresh(jwtToken);
+
+    try 
+    {
+        var id = new mongo.ObjectID(eventID)
+        var eventInfo = await db.collection('Events').findOne(
+                {_id: id}, {}
+            );
+        
+        if (!eventInfo)
+        {
+            var error = "Could not find event";
+            res.status(200).json({error: error, jwtToken: newToken});
+            return;
+        }
+
+        var error = "";
+    }
+    catch(e)
+    {
+        var error = e.message;
+    }
+
+    res.status(200).json({creatorID: eventInfo.creatorID, error: error, jwtToken: newToken});
+})
+
 app.post('/api/leaveEvent', async (req, res, next) => {
     const db = client.db();
     const{userID, eventID, jwtToken} = req.body;
