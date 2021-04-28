@@ -437,6 +437,7 @@ app.post('/api/joinEvent', async (req, res, next) => {
             var email = await db.collection('User').findOne({userID: userID}, {_id:0, email:1});
         }
 
+        console.log(email);
         var participant = await db.collection('Users').findOne({email: email}, {firstname:1, lastname:1});
         
         await db.collection('Participants').insertOne({
@@ -448,7 +449,11 @@ app.post('/api/joinEvent', async (req, res, next) => {
             availability: availability
         });
         
-        await db.collection('Invites').deleteOne({email: email, eventID: eventID});
+        if (emailToken)
+        {
+            await db.collection('Invites').deleteOne({email: email, eventID: eventID});
+        }
+        
     }
     catch(e)
     {
