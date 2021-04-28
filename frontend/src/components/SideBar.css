@@ -2,7 +2,8 @@
     position: fixed;
     background-color: rgba(151, 157, 175, 0.897);
     height: 100%;
-    width: 180px;
+    padding: 0 0 20px 0;
+    width: 220px;
     text-align: center;
     overflow-y:scroll;
     overflow-x:hidden;
@@ -10,13 +11,13 @@
 .SideBarBtn
 {
     font-size: 10pt;
-    width: 160px;
+    width: 200px;
     position: relative;
     font-family: helvetica;
-    border: 1px solid;
     border-radius: 5px;
     color: #1e2638;
     padding: 5px 15px;
+    margin: 5px 0;
     text-decoration: none;
     text-align: center;
     cursor: pointer;
@@ -29,11 +30,11 @@
 .search
 {
     font-size: 10pt;
-    width: 158px;
+    width: 198px;
     position: relative;
     font-family: helvetica;
     border: 1px solid;
-    border-radius: 10px;
+    border-radius: 100%;
     border-color: rgb(168, 169, 197);
     text-decoration: #1e2638;
     padding: 4px 0px;

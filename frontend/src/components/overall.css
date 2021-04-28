@@ -70,3 +70,33 @@
 .logOutBtn:hover {
     background-color: #404c72;
 }
+
+.eventsBtn {
+    background-color: rgb(34, 34, 34);
+    border: none;
+    border-top: 2px solid white;
+    border-bottom: 2px solid white;
+    color: white;
+    width: 150px;
+    text-align: center;
+    display: inline-block;
+    font-size: 15px;
+    padding: 5px;
+    margin: 0;
+    cursor: pointer;
+  }
+
+.deleteBtn
+{
+  font-size: 20px;
+  padding: 0;
+  height: 20px;
+  width: 20px;
+  text-align: left;
+  vertical-align: middle; 
+  border: none;
+  border-top: 2px solid white;
+  border-bottom: 2px solid white;
+  color: white;
+  background-color: rgb(34, 34, 34);
+}
