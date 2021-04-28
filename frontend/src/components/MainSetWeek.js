@@ -33,6 +33,9 @@ export default function MainSetWeek() {
                 else
                 {
                     setCalendar(res.data.week);
+                    var start = getEarliestStartTime();
+                    var end = getLatestEndTime();
+                    dispatch(setWeekTime(start, end));
                 }
             }
             setLoading(false);
@@ -99,47 +102,44 @@ export default function MainSetWeek() {
         return startTime;
     }
 
-    /*function getLatestEndTime() {
+    function getLatestEndTime() {
         var lateSlot = 0, endTime, cols, rows;
 
         for (cols = 0; cols < calendar.length; cols++) {
             for (rows = (calendar[0].length - 1); rows >= 0; rows--) {
                 if (calendar[rows][cols] == true) {
                     if (rows > lateSlot) {
-                        startTime = rows;
-                        break;
-                    }
-
-                    currentHour = Math.floor(rows / 2);
-                    if (currentHour > endTime)
-                    {
-                        endTime = currentHour;
+                        endTime = rows;
                         break;
                     }
                 }
             }
         }
+
+        if (endTime % 2)
+            endTime =  Math.floor(rows / 2);
+        else
+            endTime = endTime / 2;
+
         return endTime;
-    }*/
-
-    function makeTimeArr(startTime, endTime)
-    {
-        var timeDiff = endTime - startTime;
-        var timeArr = [];
-        var i;
-        for (i = 0; i < timeDiff; i++)
-        {
-            timeArr[i] = startTime + i;
-        }
-
-        dispatch(setWeekTime(timeArr));
-
-        window.location.reload();
     }
 
-    function handleFullDay()
-    {
-        makeTimeArr(0, 24);
+    function prepTime(start, end) {
+        var adjustedTime = [];
+
+        for ( var i = start ; i <= end ; i++ ){
+            adjustedTime.push(i);
+        }
+        console.log(adjustedTime);
+        return adjustedTime;
+    }
+
+    function fullHours(){
+        var adjustedTime = [];
+        for ( var i = 0 ; i <= 24 ; i++ ){
+            adjustedTime.push(i);
+        }
+        return adjustedTime;
     }
 
     function clearBtn()
@@ -160,7 +160,7 @@ export default function MainSetWeek() {
                     handleSubmit = {handleSubmit}
                 />
             }
-            <button onClick={handleFullDay}>Show Full Day</button>
+            <button onClick={fullHours}>Show Full Day</button>
             <button onClick={clearBtn}>Clear</button>
         </div>
         
