@@ -7,7 +7,7 @@ import MainSetWeek from '../components/MainSetWeek';
 const HomePage = () =>
 {
     return(
-        <div>
+         <div className="stylePage">
   
           <SideBar />
           <InternalMenuBar />
