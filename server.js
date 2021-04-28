@@ -605,16 +605,8 @@ app.post('/api/getEvents', async (req, res, next) => {
     }
 
     var newToken = jwt.refresh(jwtToken);
-    var creatorEvents;
     try 
     {
-        creatorEvents = await(
-            db.collection('Events').find(
-                {creatorID: userID}
-            ).project(
-                {eventName:1}
-            )
-        ).toArray();
         // to be implemented once we can insert into participants table
         
         var participantEvents = await(
@@ -632,7 +624,7 @@ app.post('/api/getEvents', async (req, res, next) => {
         var error = e.message;
     }
 
-    res.status(200).json({creatorEvents: creatorEvents, participantEvents: participantEvents, error: error, jwtToken: newToken});
+    res.status(200).json({participantEvents: participantEvents, error: error, jwtToken: newToken});
     
 });
 
@@ -647,17 +639,9 @@ app.post('/api/searchEvents', async (req, res, next) => {
     }
 
     var newToken = jwt.refresh(jwtToken);
-    var creatorEvents;
     try 
     {
         var partialMatching = new RegExp(name, 'i');
-        creatorEvents = await(
-            db.collection('Events').find(
-                {creatorID: userID, eventName: partialMatching}
-            ).project(
-                {eventName:1}
-            )
-        ).toArray();
         // to be implemented once we can insert into participants table
         
         var participantEvents = await(
@@ -676,7 +660,7 @@ app.post('/api/searchEvents', async (req, res, next) => {
         var error = e.message;
     }
 
-    res.status(200).json({creatorEvents: creatorEvents, participantEvents: participantEvents, error: error, jwtToken: newToken});
+    res.status(200).json({participantEvents: participantEvents, error: error, jwtToken: newToken});
     
 });
 
