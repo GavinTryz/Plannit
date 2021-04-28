@@ -19,7 +19,6 @@ export default function MainSetWeek() {
     const clearWeek = useSelector(state => state.clearWeek);
     const weekTime = useSelector(state => state.weekTime);
     const eventData = useSelector(state => state.eventData);
-    var dayOfWeekObj = eventData.daysOfWeek;
     var timeArr = [];
 
     useEffect(() => {
@@ -61,7 +60,8 @@ export default function MainSetWeek() {
         );
         return nestedArray;
     }
-    var dayOfWeekObj = {    //what days show on the calendar?
+
+    var dayOfWeekObj = {   
         sunday: true,
         monday: true,
         tuesday: true,
