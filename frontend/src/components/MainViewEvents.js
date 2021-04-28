@@ -11,14 +11,37 @@ function MainViewEvents()
     const [loading, setLoading] = useState(true);
     const [availability, setAvailability] = useState([[]]);
     const eventData = useSelector(state => state.eventData);
+    var dayOfWeekObj = eventData.daysOfWeek;
+    var timeArr = [];
+
     useEffect(() => {
         setAvailability(calculateAvailability());
         while(!availability)
         {
 
         }
+        prepData();
         setLoading(false);
     }, [])
+
+    function prepData() {
+        var start = parseInt(eventData.startTime);
+        var end = parseInt(eventData.endTime);
+
+        if (dayOfWeekObj != null){
+            for ( var i = 0 ; i < dayOfWeekObj.length ; i++ ){
+                if (dayOfWeekObj[i] != "")
+                    dayOfWeekObj[i] = true;
+                else
+                    dayOfWeekObj[i] = false;
+            }
+        }
+
+        for ( var i = start ; i <= end ; i++ ){
+            timeArr.push(i);
+        }
+    }
+
     function calculateAvailability() {
         const rows = 7;
         const cols = 48;
@@ -41,7 +64,7 @@ function MainViewEvents()
         }
         return availabilityTable;
     }
-    var timeArr = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+    
     return(
         <div>
         { 

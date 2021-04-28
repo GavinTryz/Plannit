@@ -59,10 +59,6 @@ export default function MainSetWeek() {
     }
 
     function prepData() {
-        var start = parseInt(eventData.startTime);
-        var end = parseInt(eventData.endTime);
-        var timeArr = [];
-
         if (dayOfWeekObj != null){
             for ( var i = 0 ; i < dayOfWeekObj.length ; i++ ){
                 if (dayOfWeekObj[i] != "")
@@ -71,13 +67,6 @@ export default function MainSetWeek() {
                     dayOfWeekObj[i] = false;
             }
         }
-
-        for ( var i = start ; i <= end ; i++ ){
-            timeArr.push(i);
-        }
-
-        dispatch(setWeekTime(timeArr));
-
     }
 
     /*var dayOfWeekObj = {    //what days show on the calendar?
