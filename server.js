@@ -583,6 +583,10 @@ app.post('/api/deleteEvent', async (req, res, next) => {
         const mongo = require('mongodb');
         var id = new mongo.ObjectID(eventID)
         await db.collection('Events').deleteOne({_id: id});
+
+        await db.collection('Participants').deleteMany({eventID: eventID});
+
+        await db.collection('Invites').deleteMany({eventID: eventID});
     }
     catch(e)
     {
