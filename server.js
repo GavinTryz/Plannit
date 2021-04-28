@@ -571,13 +571,6 @@ app.post('/api/getEvents', async (req, res, next) => {
     try 
     {
         // to be implemented once we can insert into participants table
-        
-        var participants = await(
-            db.collection('Participants').find(
-                {eventID: eventID}).project(
-                    {_id:0, userID:1, firstName:1, lastName:1, availability:1}
-                )
-        ).toArray();
 
         var participantEvents = await(
              db.collection('Participants').find(
