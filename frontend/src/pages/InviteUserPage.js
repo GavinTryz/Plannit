@@ -23,6 +23,7 @@ export default function InviteUserPage(props){
     const userJWT = useSelector(state => state.userJWT); 
     const createId = useSelector(state => state.createId); 
     const createName = useSelector(state => state.createName); 
+    var timeArr = [];
 
     useEffect(() => {
         axios.post(bp.buildPath('api/getWeekFromToken'), {token: values.token})
@@ -48,7 +49,7 @@ export default function InviteUserPage(props){
         );
         return nestedArray;
     }
-    var dayOfWeekObj = {    //what days show on the calendar?
+    var dayOfWeekObj = {
         sunday: true,
         monday: true,
         tuesday: true,
@@ -58,7 +59,15 @@ export default function InviteUserPage(props){
         saturday: true
     };
 
-    var timeArr = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18];  //times that show on cal
+    //var timeArr = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+    function fullHours(){
+        var adjustedTime = timeArr;
+        for ( var i = 0 ; i <= 24 ; i++ ){
+            adjustedTime.push(i);
+        }
+        return adjustedTime;
+    }
+
     function handleSubmit(e) {
         e.preventDefault();
 
@@ -95,7 +104,7 @@ export default function InviteUserPage(props){
             {!loading &&
                 <RetrieveCalendar
                 daysAvailable = {dayOfWeekObj}
-                time = {timeArr}
+                time = {fullHours()}
                 calendar = {calendar}
                 setCalendar = {setCalendar}
                 handleSubmit = {handleSubmit}
