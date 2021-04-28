@@ -28,7 +28,7 @@ function MenuBar()
                     <tr>
                         <td><Link style= {navLink} to= '/'>Home </Link></td> 
                         <td><Link style= {navLink} to='/about'>About</Link></td>
-                        <td><Link to ='/login'><button style={navButton}>Sign In</button></Link></td>
+                        <td><Link to ='/login'><button id="signin" style={navButton}>Sign In</button></Link></td>
                     </tr>
                 </tbody>
             </table>

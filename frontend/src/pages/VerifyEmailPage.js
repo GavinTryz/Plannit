@@ -17,7 +17,7 @@ export default function InviteUserPage(){
     useEffect(() => {
         axios.post(bp.buildPath('api/verifyEmail'), {token: values.token})
         .then((res) => {
-            history.push("/login")
+            history.push("/login");
         })
         .catch((error) => {
             setError("Error: please retry");
