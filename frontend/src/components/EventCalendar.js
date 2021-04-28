@@ -2,7 +2,6 @@ import React, {useState} from 'react'
 import axios from 'axios';
 import './calendar.css';
 import EventCalendarCell from './EventCalendarCell';
-import SetTimeBtn from './SetTimeBtn';
 
 function EventCalendar(props){
 
@@ -84,9 +83,6 @@ function EventCalendar(props){
                 {daysOfWeek.map(tableHeader)}
                 {timeObj.map(makecolumns)}   
             </table>
-            <SetTimeBtn 
-                finalTimes={finalEvent}
-            />
         </div> 
        );
 }

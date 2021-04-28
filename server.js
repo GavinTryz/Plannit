@@ -202,7 +202,7 @@ app.post('/api/verifyEmail', async(req, res, next) => {
 
 app.post('/api/getInvites', async(req, res, next) => {
     const {jwtToken} = req.body;
-    const userID = jwtLib.decode(jwtToken).payload.userId;
+    const userID = jwtLib.decode(jwtToken, {complete: true}).payload.userId;
     var error = "";
 
     if (jwt.isExpired(jwtToken))
@@ -404,6 +404,7 @@ app.post('/api/joinEvent', async (req, res, next) => {
     const db = client.db();
     const {token, availability, jwtToken, eventID, eventName} = req.body;
     var error = "";
+    var newToken;
 
     if (jwtToken && jwt.isExpired(jwtToken))
     {
@@ -411,7 +412,7 @@ app.post('/api/joinEvent', async (req, res, next) => {
     }   
     else if(jwtToken)
     {
-        var newToken = jwt.refresh(jwtToken);
+        newToken = jwt.refresh(jwtToken);
         var event = eventID;
         var title = eventName;
     }
@@ -433,22 +434,32 @@ app.post('/api/joinEvent', async (req, res, next) => {
     {
         if (newToken)
         {
-            userID = jwtLib.decode(newToken).payload.userId;
-            var email = await db.collection('User').findOne({userID: userID}, {_id:0, email:1});
+            userID = jwtLib.decode(newToken, {complete: true}).payload.userId;
+            const mongo = require('mongodb');
+            var searchID = new mongo.ObjectID(userID);
+            var participant = await db.collection('Users').findOne({_id: searchID}, {firstname:1, lastname:1});
+            var id = userID;
         }
-
-        var participant = await db.collection('Users').findOne({email: email}, {firstname:1, lastname:1});
+        else
+        {
+            var participant = await db.collection('Users').findOne({email: email}, {firstname:1, lastname:1});
+            var id = participant._id;
+        }
         
         await db.collection('Participants').insertOne({
             eventID: event, 
             eventName: title,
-            userID: participant._id, 
+            userID: id, 
             firstname: participant.firstname, 
             lastname: participant.lastname,
             availability: availability
         });
         
-        await db.collection('Invites').deleteOne({email: email, eventID: eventID});
+        if (!newToken)
+        {
+            await db.collection('Invites').deleteOne({email: email, eventID: eventID});
+        }
+        
     }
     catch(e)
     {

@@ -44,7 +44,7 @@ function EventCalendarCell(props){
         return table[stringToInt(props.day)][dayIndex];
     }
 
-    function handleChange(event)
+    /*function handleChange(event)
     {
         var newCalendar = props.finalEvent;
         var arr = props.time.toString().split(':');
@@ -57,21 +57,21 @@ function EventCalendarCell(props){
         newCalendar[stringToInt(props.day)][dayIndex] = event.target.checked;
         props.setFinalEvent(newCalendar);  
         console.log(newCalendar);
-    }
+    }*/
 
     return(
     <div>
         {
             !loading &&
             <tr>
-                <label className = "calendarCell"
+                <label className = "calendarViewCell"
                     style={{
                         border: "1px solid black",
                         width: "85px",
                         height: "15px",
                         background: "hsl( " + (((value/props.numParticipants)*120)) + " , 100%, 50%)"
                     }}>
-                    <input type="checkbox" onChange={handleChange}/>
+                    {/*<input type="checkbox" onChange={handleChange}/>*/}
                     {/* <td style={'background: hsl(' + value + ', 100%, 50%)'}> {value}</td> */}
                     <span className="calendarCellOn"/>
                 </label>

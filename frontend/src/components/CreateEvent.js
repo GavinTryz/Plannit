@@ -127,7 +127,7 @@ function CreateEvent()
                 dispatch(storeCreateId(res.eventID));
 
                 //link change
-                //window.location.href = '/dashboard/joinEvent';
+                window.location.href = '/joinEvent';
             }
         }
         catch(e)
