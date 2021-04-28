@@ -20,26 +20,35 @@ function MainViewEvents()
         {
 
         }
-        prepData();
+        dayOfWeekObj = prepData(dayOfWeekObj);
+        timeArr = prepTime(timeArr);
         setLoading(false);
     }, [])
 
-    function prepData() {
+    function prepData(dayOfWeekObj) {
+        var newWeekObj = dayOfWeekObj;
+        if (newWeekObj != null){
+            for ( var i = 0 ; i < newWeekObj.length ; i++ ){
+                if (newWeekObj[i] != "")
+                    newWeekObj[i] = true;
+                else
+                    newWeekObj[i] = false;
+            }
+        }
+        console.log(newWeekObj);
+        return(newWeekObj);
+    }
+
+    function prepTime (timeArr) {
+        var adjustedTime = timeArr;
         var start = parseInt(eventData.startTime);
         var end = parseInt(eventData.endTime);
 
-        if (dayOfWeekObj != null){
-            for ( var i = 0 ; i < dayOfWeekObj.length ; i++ ){
-                if (dayOfWeekObj[i] != "")
-                    dayOfWeekObj[i] = true;
-                else
-                    dayOfWeekObj[i] = false;
-            }
-        }
-
         for ( var i = start ; i <= end ; i++ ){
-            timeArr.push(i);
+            adjustedTime.push(i);
         }
+        console.log(adjustedTime);
+        return adjustedTime;
     }
 
     function calculateAvailability() {

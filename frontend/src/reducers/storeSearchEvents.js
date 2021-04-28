@@ -1,17 +1,10 @@
-const INITIAL_SEARCH = {
-    arr : []
-}
-
-const storeSearchEvents = (state = INITIAL_SEARCH, action) => {
+const storeSearchEvents = (state = null, action) => {
     switch(action.type){
         case "STORE_SEARCH_EVENTS":   
-            return {
-                ...state,
-                arr: [ ...state.arr, action.payload.newItem ]
-            }
+            return action.payload;
 
         case "CLEAR_DATA":
-            return INITIAL_SEARCH;
+            return null;
 
         default:
             return state;
