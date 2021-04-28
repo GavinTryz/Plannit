@@ -12,6 +12,8 @@ export default function MainSetWeek() {
     const [calendar, setCalendar] = useState(createCalendar());
     const [loading, setLoading] = useState(false);
     const [fullWeek, setFullWeek] = useState(false);
+    const [startTime, setStartTime] = useState(getEarliestStartTime());
+    const [endTime, setEndTime] = useState(getLatestEndTime());
 
     const dispatch = useDispatch();
     const clearWeek = useSelector(state => state.clearWeek);
@@ -140,17 +142,10 @@ export default function MainSetWeek() {
 
     function getTime(){
         if (fullWeek = true){
-            var adjustedTime = [];
-            for ( var i = 0 ; i <= 24 ; i++ ){
-                adjustedTime.push(i);
-            }
-            return adjustedTime;
+            return prepTime(0, 24);
         }
-
         else {
-            var start = getEarliestStartTime();
-            var end = getLatestEndTime();
-            return prepTime(start, end);
+            return prepTime(startTime, endTime);
         }
     }
 
