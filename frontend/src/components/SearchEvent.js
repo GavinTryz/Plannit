@@ -112,7 +112,7 @@ const SearchEvent = () =>
 
     return(
         <div className="search-container">
-                 <form onSubmit={handleSearch}>
+                 <form onChange={handleSearch}>
                  <input className="search" type="text" placeholder="Search events..." name="search" ref={(c) => searchEvent = c} />
                  </form>
                  {eventLists}
