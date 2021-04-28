@@ -25,19 +25,43 @@ export default function InviteUserPage(props){
     var timeArr = [];
 
     useEffect(() => {
-        axios.post(bp.buildPath('api/getWeekFromToken'), {token: values.token})
-        .then((res) => {
-            console.log(res);
-            if(!res.data.error)
-            {
-                setCalendar(res.data.week);
+        if(values.token)
+        {
+            axios.post(bp.buildPath('api/getWeekFromToken'), {token: values.token})
+            .then((res) => {
+                console.log(res);
+                if(!res.data.error)
+                {
+                    setCalendar(res.data.week);
+                }
+                console.log(calendar);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        }
+        else 
+        {
+            const payload = {
+                userID: jwt.decode(userJWT).userID,
+                jwtToken: userJWT
             }
-            console.log(calendar);
-            setLoading(false);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+            axios.post(bp.buildPath('api/getWeek'), payload)
+            .then((res) => {
+                console.log(res);
+                if(!res.data.error)
+                {
+                    setCalendar(res.data.week);
+                }
+                console.log(calendar);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        }
+        
     }, []);
     function createCalendar() {
         const rows = 7;
