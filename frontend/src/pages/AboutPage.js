@@ -16,11 +16,12 @@ const AboutPage = () =>
 
   const textStyle = 
   {
+      margin: '0 auto',
       color: 'white',
       fontFamily: 'helvetica',
       fontSize: '18pt',
       textAlign: 'center',
-      margin: '0',
+      padding: '100px 0 0 0'
   }
 
   const listStyle = 
