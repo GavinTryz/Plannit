@@ -15,8 +15,14 @@ function DeleteEventBtn(props)
     const userData = useSelector(state => state.userData);
     const leaveEvent = async event => {
         event.preventDefault();
+        const payload = {
+            eventID: props.eventID,
+            jwtToken: userJWT
+        }
         axios.post(bp.buildPath('api/getCreator'), payload)
         .then((res) => {
+            console.log("hello");
+            console.log(res);
             dispatch(storeJWT(res.data.jwtToken));
             if(res.data.creatorID === userData.userID)
             {
@@ -32,6 +38,9 @@ function DeleteEventBtn(props)
                     window.location.reload(false);
                 })
             }
+        })
+        .catch((error) => {
+            console.log(error);
         })
     };
 

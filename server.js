@@ -770,7 +770,7 @@ app.post('/api/getCreator', async (req, res, next) => {
     {
         var error = e.message;
     }
-
+    console.log(eventInfo);
     res.status(200).json({creatorID: eventInfo.creatorID, error: error, jwtToken: newToken});
 })
 
