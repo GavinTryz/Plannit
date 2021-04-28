@@ -1,5 +1,5 @@
 .link {
-    font-size: 15pt;
+    font-size: 17px;
     font-family: helvetica;
     color: white;
     text-decoration: none;
@@ -30,4 +30,43 @@
 
 .signIn:hover {
     background-color: #ffd392;
+}
+
+.dashboardBtn {
+    font-size: 15px;
+    font-family: helvetica;
+    color: white;
+    text-decoration: none;
+    width: 180px;
+    height: 40px;
+    background-color: #151b29;
+    box-shadow: none;
+    border: none;
+    cursor: pointer;
+    float: left;
+    transform: translateX(175%);
+}
+
+.dashboardBtn:hover {
+    background-color: #404c72;
+}
+
+.logOutBtn {
+    margin-right: 0;
+    font-size: 15px;
+    font-family: helvetica;
+    color: white;
+    text-decoration: none;
+    width: 190px;
+    height: 42px;
+    background-color: #151b29;
+    box-shadow: none;
+    border-style:none;
+    border-left: solid white;
+    cursor: pointer;
+    float: right;
+}
+
+.logOutBtn:hover {
+    background-color: #404c72;
 }
