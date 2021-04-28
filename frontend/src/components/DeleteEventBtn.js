@@ -26,16 +26,27 @@ function DeleteEventBtn(props)
             dispatch(storeJWT(res.data.jwtToken));
             if(res.data.creatorID === userData.userID)
             {
-                axios.post(bp.buildPath('api/deleteEvent'), )
+                var obj = {eventID: props.eventID, jwtToken: userJWT}
+                console.log(obj);
+                axios.post(bp.buildPath('api/deleteEvent'), obj)
                 .then((res) => {
+                    console.log(res.data);
                     window.location.reload(false);
+                })
+                .catch((error) => {
+                    console.log(error);
                 })
             }
             else 
             {
-                axios.post(bp.buildPath('api/leaveEvent'), )
+                var obj = {eventID: props.eventID, jwtToken: userJWT, userID: userData.userID}
+                console.log(obj);
+                axios.post(bp.buildPath('api/leaveEvent'), obj)
                 .then((res) => {
                     window.location.reload(false);
+                })
+                .catch((error) => {
+                    console.log(error);
                 })
             }
         })
