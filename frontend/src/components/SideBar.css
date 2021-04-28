@@ -1,7 +1,7 @@
 .Sidebar{
     position: fixed;
-    background-color: rgba(151, 157, 175, 0.897);
-    height: auto;
+    background-color: rgb(34, 34, 34);
+    height: 100%;
     padding: 0 0 20px 0;
     margin: 45px 0 0 0;
     width: 220px;
@@ -19,7 +19,7 @@
     border-radius: 5px;
     color: #1e2638;
     padding: 5px 15px;
-    margin: 13px 0 5px 0;
+    margin: 5px 0;
     text-decoration: none;
     text-align: center;
     cursor: pointer;
@@ -41,7 +41,7 @@
     text-decoration: #1e2638;
     padding: 4px 0px;
     text-align: center;
-    background-color: rgb(34, 34, 34);
+    background-color: rgb(142, 142, 170);
     margin: 0 0 20px 0;
 }
 .search::placeholder{
