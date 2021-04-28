@@ -7,10 +7,7 @@
     cursor: pointer;
     display: inline-block;
 
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    margin: 0 0 -3px 0;
 }
 
 .calendarCell input{
@@ -22,8 +19,8 @@
 .calendarCellOn{
     position: absolute;
     background-color: none;
-    top: 0;
-    left: 0;
+    top: -3;
+    left: -3;
     right: 0;
     bottom: 0;
 }
@@ -38,23 +35,23 @@
 
 }
 .calendarCell input:checked + .calendarCellOn{
-    background-color: rgb(107, 107, 218);
+    background-color: white;
 }
 .calendarTable{
     margin-left: auto;
     margin-right: auto;
     border-collapse: collapse;
-    background-color: rgb(236, 242, 248);
+    background: none;
 }
 
 .calendarTh, .calendarTd {
-    border: 1px solid rgb(45, 56, 105);
+    border: 1px solid white;
 }
 .calendarTh{
     text-align: center;
     font-size: 13px;
     color:rgb(45, 56, 105);
-    background-color: #f2d49b;
+    background-color: white;
     padding: 4px;
 }
 .calendarTd{
@@ -86,16 +83,13 @@
     height: 15px;
     cursor: pointer;
     display: inline-block;
-    background: blue;
+    background: rgb(140, 0, 255);
 
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    margin: 0 0 -10px 0;
 }
 
 .calendarViewCell :hover{
-    background: rgb(95, 215, 255);
+    background: rgb(133, 224, 255);
 }
 
 .calendarViewCell input{
@@ -104,12 +98,7 @@
     height: 0;
 }
 
-.participantList {
-    padding: 0 10px 0 10px;
-}
-
 .calendarViewCell input:checked + .calendarCellOn{
-    background-color: rgb(255, 68, 68);
-
+    background-color: white;
 }
 

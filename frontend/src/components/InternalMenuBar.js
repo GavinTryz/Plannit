@@ -8,7 +8,7 @@ function InternalMenuBar(){
 
     return(
         <div>
-        <table className = 'internalMenu'>
+        <table className = 'menu'>
             <tr>
                 <td><CreateEvent /></td> 
                 <td><Logout /></td>

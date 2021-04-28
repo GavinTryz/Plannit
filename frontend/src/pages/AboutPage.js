@@ -7,7 +7,7 @@ const AboutPage = () =>
 {
   const background = 
   {
-      backgroundImage: 'url(/graphicplanet.png)',
+      backgroundImage: 'url(/plannitBg2.png)',
       backgroundPosition: 'center',
       width: '100vw',
       height: '100vh',
@@ -16,11 +16,12 @@ const AboutPage = () =>
 
   const textStyle = 
   {
+      margin: '0 auto',
       color: 'white',
       fontFamily: 'helvetica',
       fontSize: '18pt',
       textAlign: 'center',
-      padding: '50px'
+      padding: '100px 0 0 0'
   }
 
   const listStyle = 
@@ -31,6 +32,7 @@ const AboutPage = () =>
     return(
       <div style = {background}>
         <MenuBar />
+        
         <p style = {textStyle}>
 
         <h1>What is Plannit?</h1>

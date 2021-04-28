@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {storeJWT} from '../actions';
 import {TiDelete} from 'react-icons/ti';
 import '../index.css';
+import axios from 'axios';
 
 function DeleteEventBtn(props)
 {
@@ -11,40 +12,27 @@ function DeleteEventBtn(props)
 
     const userJWT = useSelector(state => state.userJWT); 
     const myEvents = useSelector(state => state.myEvents);
-
-    /*function getEventId (key) {
-        var eventId = myEvents[key]._id;
-        console.log(eventId);
-        return eventId;
-    }*/
-
+    const userData = useSelector(state => state.userData);
     const leaveEvent = async event => {
         event.preventDefault();
-
-        var obj = {
-            eventID: props.eventID,
-            jwtToken: userJWT
-        };
-        var js = JSON.stringify(obj);
-        
-        console.log(obj);
-
-        try
-        {
-            const response = await fetch(bp.buildPath('api/deleteEvent'),
-                    {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
-
-            var res = JSON.parse(await response.text());
-
-            dispatch(storeJWT(res.jwtToken));
-            window.location.reload(false);
-        }
-
-        catch(e)
-        {
-            alert(e.toString());
-            return;
-        }
+        axios.post(bp.buildPath('api/getCreator'), payload)
+        .then((res) => {
+            dispatch(storeJWT(res.data.jwtToken));
+            if(res.data.creatorID === userData.userID)
+            {
+                axios.post(bp.buildPath('api/deleteEvent'), )
+                .then((res) => {
+                    window.location.reload(false);
+                })
+            }
+            else 
+            {
+                axios.post(bp.buildPath('api/leaveEvent'), )
+                .then((res) => {
+                    window.location.reload(false);
+                })
+            }
+        })
     };
 
     return (

@@ -88,7 +88,7 @@ export default function RetrieveEvent(){
                 <table class = 'events'> 
                 {
                     events.map((item) => 
-                        <tr><td className='eventButton'><button itemindex={item._id} onClick={handleEventClick}>{item.eventName}</button></td></tr>
+                        <tr><td className='eventButton'><button itemindex={item._id} onClick={handleEventClick}>{item.eventName}</button><DeleteEventBtn eventID={item._id} /></td></tr>
                     )
                 }
                 </table>
