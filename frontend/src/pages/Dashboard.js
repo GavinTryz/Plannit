@@ -20,7 +20,7 @@ const Dashboard = () =>
     return(
       
       <div style = {background}>
-      {/*<Welcome />*/}
+      <Welcome />
         <SideBar />
         <InternalMenuBar />
 
