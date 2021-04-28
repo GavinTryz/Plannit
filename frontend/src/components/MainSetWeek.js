@@ -135,7 +135,7 @@ export default function MainSetWeek() {
         return adjustedTime;
     }
 
-    function fullHours(){
+    /*function fullHours(){
         setFullWeek( true );
         getTime();
     }
@@ -147,6 +147,14 @@ export default function MainSetWeek() {
         else {
             return prepTime(startTime, endTime);
         }
+    }*/
+
+    function fullHours(){
+        var adjustedTime = [];
+        for ( var i = 0 ; i <= 24 ; i++ ){
+            adjustedTime.push(i);
+        }
+        return adjustedTime;
     }
 
     function clearBtn()
@@ -161,7 +169,7 @@ export default function MainSetWeek() {
                 !loading &&
                 <RetrieveCalendar
                     daysAvailable = {dayOfWeekObj}
-                    time = {getTime()}
+                    time = {fullHours()}
                     calendar = {calendar}
                     setCalendar = {setCalendar}
                     handleSubmit = {handleSubmit}
