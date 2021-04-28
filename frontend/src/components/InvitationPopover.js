@@ -34,12 +34,11 @@ function AddPersonForm(props) {
 //       props.handleSubmit(person);
 //       setPerson('');
 //     }
-    function handleSubmit(e) {
+    function handleSubmit() {
       if(person !== '') {
         props.handleSubmit(person);
         setPerson('');
       }
-      e.preventDefault();
     }
 
     const addParticipant = async event => {
