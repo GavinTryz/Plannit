@@ -7,7 +7,7 @@
     cursor: pointer;
     display: inline-block;
 
-    margin: 0 0 -3px 0;
+    margin: 0 0 0 0;
 }
 
 .calendarCell input{
@@ -19,8 +19,8 @@
 .calendarCellOn{
     position: absolute;
     background-color: none;
-    top: -3;
-    left: -3;
+    top: 0;
+    left: 0;
     right: 0;
     bottom: 0;
 }
@@ -85,7 +85,7 @@
     display: inline-block;
     background: rgb(140, 0, 255);
 
-    margin: 0 0 -10px 0;
+    margin: 0;
 }
 
 .calendarViewCell :hover{

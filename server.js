@@ -740,6 +740,7 @@ app.post('/api/viewEvent', async (req, res, next) => {
 
 app.post('/api/getCreator', async (req, res, next) => {
     const db = client.db();
+    const mongo = require('mongodb');
     const {eventID, jwtToken} = req.body;
 
     if (jwt.isExpired(jwtToken))
@@ -752,9 +753,10 @@ app.post('/api/getCreator', async (req, res, next) => {
 
     try 
     {
+
         var id = new mongo.ObjectID(eventID)
         var eventInfo = await db.collection('Events').findOne(
-                {_id: id}, {}
+                {_id: id}
             );
         
         if (!eventInfo)
