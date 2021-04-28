@@ -11,6 +11,8 @@ export default function MainSetWeek() {
     const bp = require('./bp');
     const [calendar, setCalendar] = useState(createCalendar());
     const [loading, setLoading] = useState(false);
+    const [fullWeek, setFullWeek] = useState(false);
+
     const dispatch = useDispatch();
     const clearWeek = useSelector(state => state.clearWeek);
     const weekTime = useSelector(state => state.weekTime);
@@ -33,9 +35,6 @@ export default function MainSetWeek() {
                 else
                 {
                     setCalendar(res.data.week);
-                    var start = getEarliestStartTime();
-                    var end = getLatestEndTime();
-                    dispatch(setWeekTime(prepTime(start, end)));
                 }
             }
             setLoading(false);
@@ -135,11 +134,24 @@ export default function MainSetWeek() {
     }
 
     function fullHours(){
-        var adjustedTime = [];
-        for ( var i = 0 ; i <= 24 ; i++ ){
-            adjustedTime.push(i);
+        setFullWeek( true );
+        getTime();
+    }
+
+    function getTime(){
+        if (fullWeek = true){
+            var adjustedTime = [];
+            for ( var i = 0 ; i <= 24 ; i++ ){
+                adjustedTime.push(i);
+            }
+            return adjustedTime;
         }
-        return adjustedTime;
+
+        else {
+            var start = getEarliestStartTime();
+            var end = getLatestEndTime();
+            return prepTime(start, end);
+        }
     }
 
     function clearBtn()
@@ -154,7 +166,7 @@ export default function MainSetWeek() {
                 !loading &&
                 <RetrieveCalendar
                     daysAvailable = {dayOfWeekObj}
-                    time = {weekTime}
+                    time = {getTime()}
                     calendar = {calendar}
                     setCalendar = {setCalendar}
                     handleSubmit = {handleSubmit}
