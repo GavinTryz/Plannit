@@ -23,7 +23,7 @@ function EventCalendar(props){
    var daysOfWeek = ['Time', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
     var tableCell = (dayOfWeekObj, timeObj, nameofDay) =>{
-        if (dayOfWeekObj != "")
+        if (dayOfWeekObj === true)
             return(
                 <tr>
                     <EventCalendarCell time={timeObj} day={nameofDay} calendar={props.calendar} finalEvent={finalEvent} setFinalEvent={setFinalEvent} numParticipants={props.numParticipants}/>
