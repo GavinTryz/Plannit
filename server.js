@@ -605,16 +605,8 @@ app.post('/api/getEvents', async (req, res, next) => {
     }
 
     var newToken = jwt.refresh(jwtToken);
-    var creatorEvents;
     try 
     {
-        creatorEvents = await(
-            db.collection('Events').find(
-                {creatorID: userID}
-            ).project(
-                {eventName:1}
-            )
-        ).toArray();
         // to be implemented once we can insert into participants table
         
         var participantEvents = await(
@@ -632,7 +624,7 @@ app.post('/api/getEvents', async (req, res, next) => {
         var error = e.message;
     }
 
-    res.status(200).json({creatorEvents: creatorEvents, participantEvents: participantEvents, error: error, jwtToken: newToken});
+    res.status(200).json({participantEvents: participantEvents, error: error, jwtToken: newToken});
     
 });
 
@@ -647,17 +639,9 @@ app.post('/api/searchEvents', async (req, res, next) => {
     }
 
     var newToken = jwt.refresh(jwtToken);
-    var creatorEvents;
     try 
     {
         var partialMatching = new RegExp(name, 'i');
-        creatorEvents = await(
-            db.collection('Events').find(
-                {creatorID: userID, eventName: partialMatching}
-            ).project(
-                {eventName:1}
-            )
-        ).toArray();
         // to be implemented once we can insert into participants table
         
         var participantEvents = await(
@@ -676,7 +660,7 @@ app.post('/api/searchEvents', async (req, res, next) => {
         var error = e.message;
     }
 
-    res.status(200).json({creatorEvents: creatorEvents, participantEvents: participantEvents, error: error, jwtToken: newToken});
+    res.status(200).json({participantEvents: participantEvents, error: error, jwtToken: newToken});
     
 });
 
@@ -753,6 +737,42 @@ app.post('/api/viewEvent', async (req, res, next) => {
     res.status(200).json({creatorID: eventInfo.creatorID, eventID: eventID, participants: participants, eventName: eventInfo.eventName, weekly: eventInfo.weekly, startTime: eventInfo.startTime, 
         endTime: eventInfo.endTime, daysOfWeek: eventInfo.daysOfWeek, eventTime: eventInfo.eventTime, error: error, jwtToken: newToken});
 });
+
+app.post('/api/getCreator', async (req, res, next) => {
+    const db = client.db();
+    const {eventID, jwtToken} = req.body;
+
+    if (jwt.isExpired(jwtToken))
+    {
+        res.status(200).json({error: "JWT token is no longer valid"});
+        return;
+    }
+
+    var newToken = jwt.refresh(jwtToken);
+
+    try 
+    {
+        var id = new mongo.ObjectID(eventID)
+        var eventInfo = await db.collection('Events').findOne(
+                {_id: id}, {}
+            );
+        
+        if (!eventInfo)
+        {
+            var error = "Could not find event";
+            res.status(200).json({error: error, jwtToken: newToken});
+            return;
+        }
+
+        var error = "";
+    }
+    catch(e)
+    {
+        var error = e.message;
+    }
+
+    res.status(200).json({creatorID: eventInfo.creatorID, error: error, jwtToken: newToken});
+})
 
 app.post('/api/leaveEvent', async (req, res, next) => {
     const db = client.db();
