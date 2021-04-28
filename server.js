@@ -404,6 +404,7 @@ app.post('/api/joinEvent', async (req, res, next) => {
     const db = client.db();
     const {token, availability, jwtToken, eventID, eventName} = req.body;
     var error = "";
+    var newToken;
 
     if (jwtToken && jwt.isExpired(jwtToken))
     {
@@ -411,7 +412,7 @@ app.post('/api/joinEvent', async (req, res, next) => {
     }   
     else if(jwtToken)
     {
-        var newToken = jwt.refresh(jwtToken);
+        newToken = jwt.refresh(jwtToken);
         var event = eventID;
         var title = eventName;
     }
@@ -434,9 +435,12 @@ app.post('/api/joinEvent', async (req, res, next) => {
         if (newToken)
         {
             userID = jwtLib.decode(newToken, {complete: true}).payload.userId;
-            var email = await db.collection('User').findOne({userID: userID}, {_id:0, email:1});
+            const mongo = require('mongodb');
+            var id = new mongo.ObjectID(userID);
+            var email = await db.collection('Users').findOne({_id: id}, {_id:0, email:1});
         }
 
+        console.log(email);
         var participant = await db.collection('Users').findOne({email: email}, {firstname:1, lastname:1});
         
         await db.collection('Participants').insertOne({
@@ -448,7 +452,11 @@ app.post('/api/joinEvent', async (req, res, next) => {
             availability: availability
         });
         
-        await db.collection('Invites').deleteOne({email: email, eventID: eventID});
+        if (!newToken)
+        {
+            await db.collection('Invites').deleteOne({email: email, eventID: eventID});
+        }
+        
     }
     catch(e)
     {
