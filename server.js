@@ -200,41 +200,6 @@ app.post('/api/verifyEmail', async(req, res, next) => {
     return res.status(200).json({error: error});
 });
 
-app.post('/api/getInvites', async(req, res, next) => {
-    const {jwtToken} = req.body;
-    const userID = jwtLib.decode(jwtToken, {complete: true}).payload.userId;
-    var error = "";
-
-    if (jwt.isExpired(jwtToken))
-    {
-        return res.status(200).json({error: "JWT token is no longer valid"});
-    }
-
-    var newToken = jwt.refresh(jwtToken);
-
-    try
-    {
-        
-        const ObjectID = require('mongodb').ObjectID;
-        var id = new ObjectID(userID);
-        var email = await db.collection('Users').findOne(
-            {_id: id}
-        ).project(
-            {_id:0, email:1}
-        )
-        var invites = await db.collection('Invites').find(
-            {email: email}
-        ).project(
-            {_id:0, email:0}
-        ).toArray();
-    }
-    catch(e)
-    {
-        var error = e.message
-    }
-
-    return res.status(200).json({error: error, invites: invites, jwtToken: newToken});
-});
 // TODO modify endpoint to get userid of person invited and return in email token
 // that way the front end can pass userid to join event endpoint
 app.post('/api/inviteUser', async(req, res, next) => {
@@ -267,7 +232,6 @@ app.post('/api/inviteUser', async(req, res, next) => {
     });
     try
     {
-        await db.collection('Invites').insertOne({email: email, eventID: eventID, eventName: eventName});
         // Compose message
         const msg = {
         from: 'plannitnotifications@gmail.com',
@@ -457,11 +421,6 @@ app.post('/api/joinEvent', async (req, res, next) => {
             availability: availability
         });
         
-        if (!newToken)
-        {
-            await db.collection('Invites').deleteOne({email: email, eventID: eventID});
-        }
-        
     }
     catch(e)
     {
@@ -587,8 +546,6 @@ app.post('/api/deleteEvent', async (req, res, next) => {
         await db.collection('Events').deleteOne({_id: id});
 
         await db.collection('Participants').deleteMany({eventID: eventID});
-
-        await db.collection('Invites').deleteMany({eventID: eventID});
     }
     catch(e)
     {
@@ -615,6 +572,13 @@ app.post('/api/getEvents', async (req, res, next) => {
     {
         // to be implemented once we can insert into participants table
         
+        var participants = await(
+            db.collection('Participants').find(
+                {eventID: eventID}).project(
+                    {_id:0, userID:1, firstName:1, lastName:1, availability:1}
+                )
+        ).toArray();
+
         var participantEvents = await(
              db.collection('Participants').find(
                  {userID: userID}
