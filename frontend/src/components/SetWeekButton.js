@@ -5,7 +5,7 @@ function linkChange(){
 }
 
 function SetWeekButton(){
-    return <button onClick={linkChange}>Set Typical Week</button>
+    return <button className="SideBarBtn" onClick={linkChange}>Set Typical Week</button>
 }
 
 export default SetWeekButton;

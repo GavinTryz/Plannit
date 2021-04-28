@@ -7,7 +7,7 @@ import MainViewEvents from '../components/MainViewEvents';
 const ViewEventsPage = () =>
 {
     return(
-        <div className="stylePage">
+        <div className="regMain">
   
           <SideBar />
           <InternalMenuBar />
