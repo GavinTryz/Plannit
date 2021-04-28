@@ -7,7 +7,10 @@
     cursor: pointer;
     display: inline-block;
 
-    margin: 0 0 0 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 .calendarCell input{
@@ -35,17 +38,18 @@
 
 }
 .calendarCell input:checked + .calendarCellOn{
-    background-color: rgb(107, 107, 218);
+    background-color: white;
 }
 .calendarTable{
     margin-left: auto;
     margin-right: auto;
     border-collapse: collapse;
     background: none;
+    background-color: rgba(255, 255, 255, 0.11);
 }
 
 .calendarTh, .calendarTd {
-    border: 1px solid white;
+    border: 1px solid rgb(130, 135, 150);
 }
 .calendarTh{
     text-align: center;
@@ -54,9 +58,11 @@
     background-color: white;
     padding: 4px;
 }
+/* The color changes the hours color*/
 .calendarTd{
     font-size: 10pt;
     vertical-align: top;
+    color: white;
 }
 
 
@@ -71,7 +77,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgb(177, 177, 177);
+    background-color: rgb(255, 255, 255);
 }
 
 /*---------View Event Table------------*/
@@ -85,7 +91,10 @@
     display: inline-block;
     background: rgb(140, 0, 255);
 
-    margin: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 .calendarViewCell :hover{
@@ -99,6 +108,7 @@
 }
 
 .calendarViewCell input:checked + .calendarCellOn{
-    background-color: rgb(255, 68, 68);
+    background-color: white;
 }
+
 
