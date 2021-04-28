@@ -125,8 +125,9 @@ export default function InviteUserPage(props){
     }
     return(
         <div className="stylePage">
+            <div><br/>
             {!loading &&
-                <br/><RetrieveCalendar
+                <RetrieveCalendar
                 daysAvailable = {dayOfWeekObj}
                 time = {fullHours()}
                 calendar = {calendar}
@@ -137,6 +138,7 @@ export default function InviteUserPage(props){
             {loading &&
                 <div>loading</div>
             }
+            </div>
         </div>
         );
 }
