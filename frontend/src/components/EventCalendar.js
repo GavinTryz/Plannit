@@ -49,13 +49,13 @@ function EventCalendar(props){
         return(
             <tr key ={index}>
                 <td className='calendarTd'>{timeToString(timeObj)}</td>
-                <td className='calendarTd'>{tableCell(dayOfWeekObj.sunday, timeObj, 'Sunday')}</td>
-                <td className='calendarTd'>{tableCell(dayOfWeekObj.monday, timeObj, 'Monday')}</td>
-                <td className='calendarTd'>{tableCell(dayOfWeekObj.tuesday, timeObj, 'Tuesday')}</td>
-                <td className='calendarTd'>{tableCell(dayOfWeekObj.wednesday, timeObj, 'Wednesday')}</td>
-                <td className='calendarTd'>{tableCell(dayOfWeekObj.thursday, timeObj, 'Thursday')}</td>
-                <td className='calendarTd'>{tableCell(dayOfWeekObj.friday, timeObj, 'Friday')}</td>
-                <td className='calendarTd'>{tableCell(dayOfWeekObj.saturday, timeObj, 'Saturday')}</td>
+                <td className='calendarTd'>{tableCell(dayOfWeekObj[0], timeObj, 'Sunday')}</td>
+                <td className='calendarTd'>{tableCell(dayOfWeekObj[1], timeObj, 'Monday')}</td>
+                <td className='calendarTd'>{tableCell(dayOfWeekObj[2], timeObj, 'Tuesday')}</td>
+                <td className='calendarTd'>{tableCell(dayOfWeekObj[3], timeObj, 'Wednesday')}</td>
+                <td className='calendarTd'>{tableCell(dayOfWeekObj[4], timeObj, 'Thursday')}</td>
+                <td className='calendarTd'>{tableCell(dayOfWeekObj[5], timeObj, 'Friday')}</td>
+                <td className='calendarTd'>{tableCell(dayOfWeekObj[6], timeObj, 'Saturday')}</td>
             </tr>
         );
     }
