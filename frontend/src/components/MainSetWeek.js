@@ -85,7 +85,7 @@ export default function MainSetWeek() {
         });
     }
 
-    function getEarliestStartTime() {
+    /*function getEarliestStartTime() {
         var earlySlot = 47, startTime, cols, rows;
 
         for (cols = 0; cols < calendar.length; cols++){
@@ -142,21 +142,17 @@ export default function MainSetWeek() {
         console.log(start);
         console.log(end);
         return adjustedTime;
-    }
+    }*/
 
-    function fullHours(){
-        setFullWeek( true );
-        getTime();
-    }
-
+    /*
     function getTime(){
-        /*if (fullWeek = true){
+        if (fullWeek = true){
             return prepTime(0, 24);
         }
-        else {*/
+        else {
             return prepTime(startTime, endTime);
         //}
-    }
+    }*/
 
     function fullHours(){
         var adjustedTime = timeArr;
@@ -178,7 +174,7 @@ export default function MainSetWeek() {
                 !loading &&
                 <RetrieveCalendar
                     daysAvailable = {dayOfWeekObj}
-                    time = {getTime()}
+                    time = {fullHours()}
                     calendar = {calendar}
                     setCalendar = {setCalendar}
                     handleSubmit = {handleSubmit}
