@@ -77,16 +77,12 @@ export default function MainSetWeek() {
         });
     }
 
-    function getEarliestStartTime()
-    {
+    function getEarliestStartTime() {
         var earlySlot = 47, startTime, cols, rows;
 
-        for (cols = 0; cols < calendar.length; cols++)
-        {
-            for (rows = 0; rows < calendar[0].length; rows++)
-            {
-                if (calendar[rows][cols] == true)
-                {
+        for (cols = 0; cols < calendar.length; cols++){
+            for (rows = 0; rows < calendar[0].length; rows++){
+                if (calendar[rows][cols] == true) {
                     if (rows < earlySlot){
                         startTime = rows;
                         break;
@@ -101,25 +97,17 @@ export default function MainSetWeek() {
             startTime = startTime / 2;
 
         return startTime;
-
     }
 
-    /*function getLatestEndTime()
-    {
+    /*function getLatestEndTime() {
         var lateSlot = 0, endTime, cols, rows;
 
-        for (cols = 0; cols < calendar.length; cols++)
-        {
-            for (rows = (calendar[0].length - 1); rows >= 0; rows--)
-            {
-                if (calendar[rows][cols] == true)
-                {
-                    if (calendar[rows][cols] == true)
-                    {
-                        if (row > lateSlot){
-                            startTime = row;
-                            break;
-                        }
+        for (cols = 0; cols < calendar.length; cols++) {
+            for (rows = (calendar[0].length - 1); rows >= 0; rows--) {
+                if (calendar[rows][cols] == true) {
+                    if (rows > lateSlot) {
+                        startTime = rows;
+                        break;
                     }
 
                     currentHour = Math.floor(rows / 2);
@@ -131,7 +119,6 @@ export default function MainSetWeek() {
                 }
             }
         }
-
         return endTime;
     }*/
 

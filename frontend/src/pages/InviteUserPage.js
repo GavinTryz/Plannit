@@ -22,6 +22,7 @@ export default function InviteUserPage(props){
     const userJWT = useSelector(state => state.userJWT); 
     const createId = useSelector(state => state.createId); 
     const createName = useSelector(state => state.createName); 
+    const userData = useSelector(state => state.userData); 
     var timeArr = [];
 
     useEffect(() => {
@@ -44,7 +45,7 @@ export default function InviteUserPage(props){
         else 
         {
             const payload = {
-                userID: jwt.decode(userJWT).userID,
+                userID: userData.userId,
                 jwtToken: userJWT
             }
             axios.post(bp.buildPath('api/getWeek'), payload)
@@ -82,7 +83,6 @@ export default function InviteUserPage(props){
         saturday: true
     };
 
-    //var timeArr = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
     function fullHours(){
         var adjustedTime = timeArr;
         for ( var i = 0 ; i <= 24 ; i++ ){

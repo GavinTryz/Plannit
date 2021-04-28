@@ -7,7 +7,7 @@ function SideBar()
 {
     return(
         <div>
-            <p className="Sidebar"><br/><br/><br/>
+            <p className="Sidebar"><br/><br/>
             <RetrieveEvent />
             <SetWeekButton />
             </p>
