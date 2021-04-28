@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import DeleteEventBtn from './DeleteEventBtn';
 
 import {useSelector, useDispatch} from 'react-redux';
-import {storeCreatorEvents, storeParticipantEvents, storeJWT, storeEventData} from '../actions';
+import {storeSearchEvents, storeSearchInvites, storeJWT, storeEventData} from '../actions';
 
 import SearchEvent from './SearchEvent';
 import LeaveEventBtn from './LeaveEventBtn';

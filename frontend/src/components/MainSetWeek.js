@@ -87,8 +87,8 @@ export default function MainSetWeek() {
             {
                 if (calendar[rows][cols] == true)
                 {
-                    if (row < earlySlot){
-                        startTime = row;
+                    if (rows < earlySlot){
+                        startTime = rows;
                         break;
                     }
                 }
@@ -104,7 +104,7 @@ export default function MainSetWeek() {
 
     }
 
-    function getLatestEndTime()
+    /*function getLatestEndTime()
     {
         var lateSlot = 0, endTime, cols, rows;
 
@@ -133,7 +133,7 @@ export default function MainSetWeek() {
         }
 
         return endTime;
-    }
+    }*/
 
     function makeTimeArr(startTime, endTime)
     {
