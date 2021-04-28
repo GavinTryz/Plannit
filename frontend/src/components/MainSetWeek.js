@@ -38,8 +38,8 @@ export default function MainSetWeek() {
                 else
                 {
                     setCalendar(res.data.week);
-                    setStartTime(getEarliestStartTime());
-                    setEndTime(getLatestEndTime());
+                    // setStartTime(getEarliestStartTime());
+                    // setEndTime(getLatestEndTime());
                 }
             }
             setLoading(false);

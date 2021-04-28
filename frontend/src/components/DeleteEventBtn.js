@@ -21,16 +21,12 @@ function DeleteEventBtn(props)
         }
         axios.post(bp.buildPath('api/getCreator'), payload)
         .then((res) => {
-            console.log("hello");
-            console.log(res);
             dispatch(storeJWT(res.data.jwtToken));
-            if(res.data.creatorID === userData.userID)
+            if(res.data.creatorID === userData.userId)
             {
                 var obj = {eventID: props.eventID, jwtToken: userJWT}
-                console.log(obj);
                 axios.post(bp.buildPath('api/deleteEvent'), obj)
                 .then((res) => {
-                    console.log(res.data);
                     window.location.reload(false);
                 })
                 .catch((error) => {
@@ -39,7 +35,7 @@ function DeleteEventBtn(props)
             }
             else 
             {
-                var obj = {eventID: props.eventID, jwtToken: userJWT, userID: userData.userID}
+                var obj = {eventID: props.eventID, jwtToken: userJWT, userID: userData.userId}
                 console.log(obj);
                 axios.post(bp.buildPath('api/leaveEvent'), obj)
                 .then((res) => {
