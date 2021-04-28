@@ -145,12 +145,12 @@ export default function MainSetWeek() {
     }
 
     function getTime(){
-        if (fullWeek = true){
+        /*if (fullWeek = true){
             return prepTime(0, 24);
         }
-        else {
+        else {*/
             return prepTime(startTime, endTime);
-        }
+        //}
     }
 
     function fullHours(){
