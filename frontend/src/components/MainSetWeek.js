@@ -132,11 +132,11 @@ export default function MainSetWeek() {
     function prepTime(start, end) {
         var adjustedTime = timeArr;
 
-        adjustedTime = [0,1,2,3,4];
+        //adjustedTime = [0,1,2,3,4];
 
-        /*for ( var i = start ; i <= end ; i++ ){
+        for ( var i = start ; i <= end ; i++ ){
             adjustedTime.push(i);
-        }*/
+        }
 
         console.log(adjustedTime);
         console.log(start);
