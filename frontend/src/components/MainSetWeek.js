@@ -35,7 +35,7 @@ export default function MainSetWeek() {
                     setCalendar(res.data.week);
                     var start = getEarliestStartTime();
                     var end = getLatestEndTime();
-                    dispatch(setWeekTime(start, end));
+                    dispatch(setWeekTime(prepTime(start, end)));
                 }
             }
             setLoading(false);
