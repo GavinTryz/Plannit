@@ -1,7 +1,7 @@
 #InvitationButtonStyle{
     border: none;
     border-radius: 8px;
-    background-color: transparent;
+    background-color: rgba(230, 230, 230, 0.76);
     background-repeat:no-repeat;
     cursor:pointer;
 }
