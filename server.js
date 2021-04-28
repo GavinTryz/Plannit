@@ -407,7 +407,7 @@ app.post('/api/joinEvent', async (req, res, next) => {
         else
         {
             var participant = await db.collection('Users').findOne({email: email}, {firstname:1, lastname:1});
-            var id = participant._id;
+            var id = participant._id.toString();
             console.log("id from email");
             console.log(id);
         }
