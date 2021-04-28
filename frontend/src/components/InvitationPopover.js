@@ -30,9 +30,16 @@ function AddPersonForm(props) {
       setPerson(e.target.value);
     }
 
-    function handleSubmit() {
-      props.handleSubmit(person);
-      setPerson('');
+//     function handleSubmit() {
+//       props.handleSubmit(person);
+//       setPerson('');
+//     }
+    function handleSubmit(e) {
+      if(person !== '') {
+        props.handleSubmit(person);
+        setPerson('');
+      }
+      e.preventDefault();
     }
 
     const addParticipant = async event => {
