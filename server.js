@@ -404,6 +404,7 @@ app.post('/api/joinEvent', async (req, res, next) => {
     const db = client.db();
     const {token, availability, jwtToken, eventID, eventName} = req.body;
     var error = "";
+    var newToken;
 
     if (jwtToken && jwt.isExpired(jwtToken))
     {
@@ -411,7 +412,7 @@ app.post('/api/joinEvent', async (req, res, next) => {
     }   
     else if(jwtToken)
     {
-        var newToken = jwt.refresh(jwtToken);
+        newToken = jwt.refresh(jwtToken);
         var event = eventID;
         var title = eventName;
     }
@@ -449,7 +450,7 @@ app.post('/api/joinEvent', async (req, res, next) => {
             availability: availability
         });
         
-        if (emailToken)
+        if (!newToken)
         {
             await db.collection('Invites').deleteOne({email: email, eventID: eventID});
         }
