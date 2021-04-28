@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 
 import DeleteEventBtn from './DeleteEventBtn';
+import LeaveEventBtn from './LeaveEventBtn';
 
 import {useSelector, useDispatch} from 'react-redux';
 import {storeSearchEvents, storeJWT, storeEventData, storeSearchInvites} from '../actions';
-
 
 const SearchEvent = () =>
 {
@@ -119,7 +119,7 @@ const SearchEvent = () =>
         return(
             <table class = 'events'>
                 <tr key={i}>
-                    <td className = 'eventButton'><button onClick={loadEventData(i, searchInvites)}>{getCreatorEvents.eventName}</button><DeleteEventBtn eventKey = {i}/></td>
+                    <td className = 'eventButton'><button onClick={loadEventData(i, searchInvites)}>{getCreatorEvents.eventName}</button><LeaveEventBtn eventKey = {i}/></td>
                 </tr>
             </table>
         );
