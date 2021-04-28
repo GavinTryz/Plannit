@@ -20,6 +20,8 @@ export default function MainSetWeek() {
     const weekTime = useSelector(state => state.weekTime);
     const eventData = useSelector(state => state.eventData);
     var dayOfWeekObj = eventData.daysOfWeek;
+    var timeArr = [];
+    
     useEffect(() => {
         setLoading(true);
         console.log('using effect');
@@ -150,7 +152,7 @@ export default function MainSetWeek() {
     }*/
 
     function fullHours(){
-        var adjustedTime = [];
+        var adjustedTime = timeArr;
         for ( var i = 0 ; i <= 24 ; i++ ){
             adjustedTime.push(i);
         }
