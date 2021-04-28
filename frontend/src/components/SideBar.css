@@ -4,6 +4,8 @@
     height: 100%;
     width: 180px;
     text-align: center;
+    overflow-y:scroll;
+    overflow-x:hidden;
 }
 .SideBarBtn
 {
