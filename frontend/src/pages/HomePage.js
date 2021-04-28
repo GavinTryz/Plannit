@@ -27,7 +27,7 @@ const HomePage = () =>
       <div style = {background}>
         <MenuBar /><br />
         <CreateAccountButton />
-        <p style = {textStyle}>An event planner that's out of this world!</p>
+        {/*<p style = {textStyle}>An event planner that's out of this world!</p>*/}
       </div>
     );
 };
