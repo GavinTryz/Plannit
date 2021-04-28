@@ -24,6 +24,6 @@ describe('testing home page components all render', () => {
     });
 
     test('Sign In Button exists', () => {
-        expect(wrapper.find('button[id="signin"]').text()).toEqual("Sign In");
+        expect(wrapper.find('button[id="signin"]').text()).toEqual("Login");
     });
 })
