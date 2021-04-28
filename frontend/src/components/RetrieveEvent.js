@@ -5,6 +5,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {storeCreatorEvents, storeParticipantEvents, storeJWT, storeEventData} from '../actions';
 
 import SearchEvent from './SearchEvent';
+import LeaveEventBtn from './LeaveEventBtn';
 
 function RetrieveEvent(){
     
@@ -12,7 +13,7 @@ function RetrieveEvent(){
     const[invitedList, setInvitedList] = useState("");
     const[showEventList, setShowEventList] = useState(false);
     const[myEvents, setMyEvents] = useState([{}]);
-    const[myInvitedEvents, setMyInvitedEvents] = useState([{}])
+    const[myInvitedEvents, setMyInvitedEvents] = useState([{}]);
     useEffect(() => {
         loadEvents();
     }, [])
@@ -50,7 +51,6 @@ function RetrieveEvent(){
         }
     }
     function showEvents() {
-
         setEventLists(myEvents.map(generateEventsList));
         setInvitedList(myInvitedEvents.map(generateInvitedList));
         setShowEventList(true);
@@ -107,7 +107,7 @@ function RetrieveEvent(){
         return(
             <table class = 'events'>
                 <tr key={i}>
-                    <td className = 'eventButton'><button onClick={loadEventData(i, invitedEvents)}>{getCreatorEvents.eventName}</button><DeleteEventBtn eventKey = {i}/></td>
+                    <td className = 'eventButton'><button onClick={loadEventData(i, invitedEvents)}>{getCreatorEvents.eventName}</button><LeaveEventBtn eventKey = {i}/></td>
 
                 </tr>
             </table>

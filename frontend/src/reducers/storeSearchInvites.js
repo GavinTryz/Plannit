@@ -1,6 +1,6 @@
-const storeSearchEvents = (state = null, action) => {
+const storeSearchInvites = (state = null, action) => {
     switch(action.type){
-        case "STORE_SEARCH_EVENTS":   
+        case "ADD_SEARCH_INVITES":   
             return action.payload;
 
         case "CLEAR_DATA":
@@ -11,4 +11,4 @@ const storeSearchEvents = (state = null, action) => {
     }
 }
 
-export default storeSearchEvents;
+export default storeSearchInvites;

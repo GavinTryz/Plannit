@@ -2,7 +2,7 @@ exports.storeToken = function ( tok )
 {
     try
     {
-      localStorage.setItem('user_data', tok);
+      sessionStorage.setItem('user_data', tok);
     }
     catch(e)
     {
@@ -15,7 +15,7 @@ exports.retrieveToken = function ()
     var ud;
     try
     {
-      ud = localStorage.getItem('user_data');
+      ud = sessionStorage.getItem('user_data');
     }
     catch(e)
     {

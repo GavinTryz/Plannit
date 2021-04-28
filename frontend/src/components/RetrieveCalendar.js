@@ -52,14 +52,14 @@ function RetrieveCalendar(props){
     }
     function timeToString(time) {
         var newTime = '';
-        if (time == 24)
-        {
-            time = 12;
-            newTime = time.toString() + " a.m.";
-        }
-        else if(time > 12)
+        
+        if(time > 12)
         {
             time = time % 12;
+            newTime = time.toString() + " p.m.";
+        }
+        else if (time == 12)
+        {
             newTime = time.toString() + " p.m.";
         }
         else if (time == 0)
@@ -67,10 +67,11 @@ function RetrieveCalendar(props){
             time = 12;
             newTime = time.toString() + " a.m.";
         }
-        else 
+        else
         {
             newTime = time.toString() + " a.m.";
         }
+        
         return newTime;
     }
     

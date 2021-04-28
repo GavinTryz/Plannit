@@ -11,6 +11,9 @@ function MainViewEvents()
     const [loading, setLoading] = useState(true);
     const [availability, setAvailability] = useState([[]]);
     const eventData = useSelector(state => state.eventData);
+    var dayOfWeekObj = eventData.daysOfWeek;
+    var timeArr = [];
+
     useEffect(() => {
         setAvailability(calculateAvailability());
         while(!availability)
@@ -19,6 +22,33 @@ function MainViewEvents()
         }
         setLoading(false);
     }, [])
+
+    function prepData() {
+        var newWeekObj = dayOfWeekObj;
+        if (newWeekObj != null){
+            for ( var i = 0 ; i < newWeekObj.length ; i++ ){
+                if (newWeekObj[i] != "")
+                    newWeekObj[i] = true;
+                else
+                    newWeekObj[i] = false;
+            }
+        }
+        console.log(newWeekObj);
+        return(newWeekObj);
+    }
+
+    function prepTime() {
+        var adjustedTime = timeArr;
+        var start = parseInt(eventData.startTime);
+        var end = parseInt(eventData.endTime);
+
+        for ( var i = start ; i <= end ; i++ ){
+            adjustedTime.push(i);
+        }
+        console.log(adjustedTime);
+        return adjustedTime;
+    }
+
     function calculateAvailability() {
         const rows = 7;
         const cols = 48;
@@ -41,7 +71,7 @@ function MainViewEvents()
         }
         return availabilityTable;
     }
-    var timeArr = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+    
     return(
         <div>
         { 
@@ -50,8 +80,8 @@ function MainViewEvents()
                 <span>{eventData.eventName}</span>
                 <InvitationPopover />
                 <EventCalendar 
-                    daysAvailable={eventData.daysOfWeek}
-                    time={timeArr}
+                    daysAvailable={prepData()}
+                    time={prepTime()}
                     calendar={calculateAvailability()}
                     numParticipants={eventData.participants.length}
                 /> 

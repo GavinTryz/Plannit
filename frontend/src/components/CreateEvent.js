@@ -7,6 +7,7 @@ import './modalContent.css';
 import EventWeekly from './EventWeekly';
 import {useDispatch} from 'react-redux';
 import {storeJWT, storeCreateName, storeCreateId} from '../actions';
+import './InternalMenuBar.css';
 
 function CreateEvent()
 {
@@ -138,7 +139,7 @@ function CreateEvent()
     
     return(
         <div>
-            <button onClick={()=>setModalIsOpen(true)}>Create Event</button>
+            <button className="createEventBtn" onClick={()=>setModalIsOpen(true)}>Create Event</button>
             <Modal id="ModalStyle"isOpen={modalIsOpen} 
                 style={{
                     overlay:{ backgroundColor: '#00000080'},

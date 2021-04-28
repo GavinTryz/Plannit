@@ -15,6 +15,8 @@ export default function MainSetWeek() {
     const dispatch = useDispatch();
     const clearWeek = useSelector(state => state.clearWeek);
     const weekTime = useSelector(state => state.weekTime);
+    const eventData = useSelector(state => state.eventData);
+    var dayOfWeekObj = eventData.daysOfWeek;
     useEffect(() => {
         setLoading(true);
         console.log('using effect');
@@ -40,6 +42,7 @@ export default function MainSetWeek() {
             console.log(error);
             setLoading(false);
         });
+
     }, []);
     
     function createCalendar() {
@@ -75,13 +78,71 @@ export default function MainSetWeek() {
         });
     }
 
-    function handleFullDay()
+    function getEarliestStartTime()
     {
-        var fullTimeArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ,21 ,22, 23, 24];
+        var startTime = 24, cols, rows, currentHour;
 
-        dispatch(setWeekTime(fullTimeArr));
+        for (cols = 0; cols < calendar.length; cols++)
+        {
+            for (rows = 0; rows < calendar[0].length; rows++)
+            {
+                if (calendar[cols][rows])
+                {
+                    currentHour = Math.floor(rows / 2);
+                    if (currentHour < startTime)
+                    {
+                        startTime = currentHour;
+                    }
+                    break;
+                }
+            }
+        }
+
+        return startTime;
+
+    }
+
+    function getLatestEndTime()
+    {
+        var endTime = 0, cols, rows, currentHour;
+
+        for (cols = (calendar.length - 1); cols >= 0; cols--)
+        {
+            for (rows = (calendar[0].length - 1); rows >= 0; rows--)
+            {
+                if (calendar[cols][rows])
+                {
+                    currentHour = Math.floor(rows / 2);
+                    if (currentHour > endTime)
+                    {
+                        endTime = currentHour;
+                    }
+                    break;
+                }
+            }
+        }
+
+        return endTime;
+    }
+
+    function makeTimeArr(startTime, endTime)
+    {
+        var timeDiff = endTime - startTime;
+        var timeArr = [];
+        var i;
+        for (i = 0; i < timeDiff; i++)
+        {
+            timeArr[i] = startTime + i;
+        }
+
+        dispatch(setWeekTime(timeArr));
 
         window.location.reload();
+    }
+
+    function handleFullDay()
+    {
+        makeTimeArr(0, 24);
     }
 
     function clearBtn()

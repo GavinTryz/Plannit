@@ -460,7 +460,7 @@ app.post('/api/joinEvent', async (req, res, next) => {
 
 app.post('/api/createWeek', async (req, res, next) => {
     const db = client.db();
-    const {week, names, userID, jwtToken} = req.body;
+    const {week, userID, jwtToken} = req.body;
 
     if (jwt.isExpired(jwtToken))
     {
@@ -478,7 +478,6 @@ app.post('/api/createWeek', async (req, res, next) => {
         
         await db.collection('MyTypicalWeek').insertOne( 
             {week: week,
-             names: names,
              userID: userID}
         );
 
@@ -508,7 +507,7 @@ app.post('/api/getWeek', async (req, res, next) => {
     if (results)
     {
 
-        res.status(200).json({week: results.week, names: results.names, error: "", jwtToken: newToken});
+        res.status(200).json({week: results.week, error: "", jwtToken: newToken});
         return;
     }
     else
@@ -552,7 +551,7 @@ app.post('/api/createEvent', async (req, res, next) => {
         var error = e.message;
     }
 
-    res.status(200).json({eventID: eventID.eventID, error: error, jwtToken: newToken});
+    res.status(200).json({eventID: eventID._id, error: error, jwtToken: newToken});
 });
 
 app.post('/api/deleteEvent', async (req, res, next) => {
@@ -740,7 +739,7 @@ app.post('/api/viewEvent', async (req, res, next) => {
         var error = e.message;
     }
 
-    res.status(200).json({eventID: eventID, participants: participants, eventName: eventInfo.eventName, weekly: eventInfo.weekly, startTime: eventInfo.startTime, 
+    res.status(200).json({creatorID: eventInfo.creatorID, eventID: eventID, participants: participants, eventName: eventInfo.eventName, weekly: eventInfo.weekly, startTime: eventInfo.startTime, 
         endTime: eventInfo.endTime, daysOfWeek: eventInfo.daysOfWeek, eventTime: eventInfo.eventTime, error: error, jwtToken: newToken});
 });
 
