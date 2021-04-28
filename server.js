@@ -398,7 +398,7 @@ app.post('/api/joinEvent', async (req, res, next) => {
     {
         if (newToken)
         {
-            userID = jwtLib.decode(newToken, {complete: true}).payload.userId;
+            var userID = jwtLib.decode(newToken, {complete: true}).payload.userId;
             const mongo = require('mongodb');
             var searchID = new mongo.ObjectID(userID);
             var participant = await db.collection('Users').findOne({_id: searchID}, {firstname:1, lastname:1});
