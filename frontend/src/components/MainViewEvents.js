@@ -23,7 +23,7 @@ function MainViewEvents()
 
         }
 
-        if (dayOfWeekObj != null){
+        /*if (dayOfWeekObj != null){
             for ( var i = 0 ; i < dayOfWeekObj.length ; i++ ){
                 if (dayOfWeekObj[i] != "")
                     dayOfWeekObj[i] = true;
@@ -31,12 +31,12 @@ function MainViewEvents()
                     dayOfWeekObj[i] = false;
             }
             console.log(dayOfWeekObj);
-        }
+        }*/
         console.log(dayOfWeekObj);
 
-        for ( var i = start ; i <= end ; i++ ){
+        /*for ( var i = start ; i <= end ; i++ ){
             timeArr.push(i);
-        }
+        }*/
         console.log(timeArr);
 
 
@@ -45,7 +45,7 @@ function MainViewEvents()
         setLoading(false);
     }, [])
 
-    function prepData(dayOfWeekObj) {
+    function prepData() {
         var newWeekObj = dayOfWeekObj;
         if (newWeekObj != null){
             for ( var i = 0 ; i < newWeekObj.length ; i++ ){
@@ -59,7 +59,7 @@ function MainViewEvents()
         return(newWeekObj);
     }
 
-    function prepTime (timeArr) {
+    function prepTime() {
         var adjustedTime = timeArr;
         var start = parseInt(eventData.startTime);
         var end = parseInt(eventData.endTime);
@@ -102,8 +102,8 @@ function MainViewEvents()
                 <span>{eventData.eventName}</span>
                 <InvitationPopover />
                 <EventCalendar 
-                    daysAvailable={eventData.daysOfWeek}
-                    time={timeArr}
+                    daysAvailable={prepData()}
+                    time={prepTime()}
                     calendar={calculateAvailability()}
                     numParticipants={eventData.participants.length}
                 /> 
