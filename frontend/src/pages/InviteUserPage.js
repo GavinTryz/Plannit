@@ -86,7 +86,7 @@ export default function InviteUserPage(props){
 
     function fullHours(){
         var adjustedTime = timeArr;
-        for ( var i = 0 ; i <= 24 ; i++ ){
+        for ( var i = 0 ; i < 24 ; i++ ){
             adjustedTime.push(i);
         }
         return adjustedTime;
