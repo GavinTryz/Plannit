@@ -5,6 +5,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {storeCreatorEvents, storeParticipantEvents, storeJWT, storeEventData} from '../actions';
 
 import SearchEvent from './SearchEvent';
+import LeaveEventBtn from './LeaveEventBtn';
 
 function RetrieveEvent(){
     
@@ -106,7 +107,7 @@ function RetrieveEvent(){
         return(
             <table class = 'events'>
                 <tr key={i}>
-                    <td className = 'eventButton'><button onClick={loadEventData(i, invitedEvents)}>{getCreatorEvents.eventName}</button><DeleteEventBtn eventKey = {i}/></td>
+                    <td className = 'eventButton'><button onClick={loadEventData(i, invitedEvents)}>{getCreatorEvents.eventName}</button><LeaveEventBtn eventKey = {i}/></td>
 
                 </tr>
             </table>
