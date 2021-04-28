@@ -436,17 +436,22 @@ app.post('/api/joinEvent', async (req, res, next) => {
         {
             userID = jwtLib.decode(newToken, {complete: true}).payload.userId;
             const mongo = require('mongodb');
-            var id = new mongo.ObjectID(userID);
-            var email = await db.collection('Users').findOne({_id: id}, {_id:0, email:1});
+            var searchID = new mongo.ObjectID(userID);
+            var participant = await db.collection('Users').findOne({_id: searchID}, {firstname:1, lastname:1});
+            var id = userID;
+        }
+        else
+        {
+            var participant = await db.collection('Users').findOne({email: email}, {firstname:1, lastname:1});
+            var id = participant._id;
         }
 
         console.log(email);
-        var participant = await db.collection('Users').findOne({email: email}, {firstname:1, lastname:1});
         
         await db.collection('Participants').insertOne({
             eventID: event, 
             eventName: title,
-            userID: participant._id, 
+            userID: id, 
             firstname: participant.firstname, 
             lastname: participant.lastname,
             availability: availability
