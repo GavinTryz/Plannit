@@ -12,13 +12,9 @@ export default function MainSetWeek() {
     const [calendar, setCalendar] = useState(createCalendar());
     const [loading, setLoading] = useState(false);
     const [fullWeek, setFullWeek] = useState(false);
-    const [startTime, setStartTime] = useState("");
-    const [endTime, setEndTime] = useState("");
 
     const dispatch = useDispatch();
     const clearWeek = useSelector(state => state.clearWeek);
-    const weekTime = useSelector(state => state.weekTime);
-    const eventData = useSelector(state => state.eventData);
     var timeArr = [];
 
     useEffect(() => {
@@ -38,8 +34,6 @@ export default function MainSetWeek() {
                 else
                 {
                     setCalendar(res.data.week);
-                    // setStartTime(getEarliestStartTime());
-                    // setEndTime(getLatestEndTime());
                 }
             }
             setLoading(false);
