@@ -12,21 +12,18 @@ function LeaveEventBtn(props)
     const userJWT = useSelector(state => state.userJWT); 
     const searchEvents = useSelector(state => state.searchEvents);
     const userData = useSelector(state => state.userData);
-    var key = props.eventKey;
 
-    function getEventId (key) {
+    /*function getEventId (key) {
         var eventId = searchEvents[key]._id;
         console.log(eventId);
         return eventId;
-    }
+    }*/
 
     const leaveEvent = async event => {
         event.preventDefault();
 
-        var eventId = getEventId(key);
-        
         var obj = {
-            eventID: eventId,
+            eventID: props.eventID,
             jwtToken: userJWT,
             userID: userData.Id
         };
