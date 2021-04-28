@@ -202,7 +202,7 @@ app.post('/api/verifyEmail', async(req, res, next) => {
 
 app.post('/api/getInvites', async(req, res, next) => {
     const {jwtToken} = req.body;
-    const userID = jwtLib.decode(jwtToken).payload.userId;
+    const userID = jwtLib.decode(jwtToken, {complete: true}).payload.userId;
     var error = "";
 
     if (jwt.isExpired(jwtToken))
@@ -433,7 +433,7 @@ app.post('/api/joinEvent', async (req, res, next) => {
     {
         if (newToken)
         {
-            userID = jwtLib.decode(newToken).payload.userId;
+            userID = jwtLib.decode(newToken, {complete: true}).payload.userId;
             var email = await db.collection('User').findOne({userID: userID}, {_id:0, email:1});
         }
 
