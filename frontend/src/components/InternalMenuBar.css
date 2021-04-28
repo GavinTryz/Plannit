@@ -1,6 +1,6 @@
 .internalMenu
 {
-    background-color:grey;
+    background-color: #3f485e;
     font-size: 14pt;
     font-family: helvetica;
     width: 100%;
@@ -9,6 +9,7 @@
     position: fixed;
     z-index: 1;
 }
+
 .calendar{
     background-color:blue;
     font-size: 12pt;
@@ -17,5 +18,23 @@
     padding: 8px;
     text-align: center;
     position: absolute;
-
+}
+.createEventBtn
+{
+    font-size: 10pt;
+    width: 160px;
+    position: relative;
+    font-family: helvetica;
+    border: 1px solid;
+    border-radius: 5px;
+    color:#e5a493;
+    padding: 5px 15px;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    background-color: inherit;
+}
+.createEventBtn:active
+{
+    background-color: #e5a493;
 }
