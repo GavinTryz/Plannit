@@ -38,3 +38,16 @@
 {
     background-color: #e5a493;
 }
+.logoutBtn
+{
+    font-size: 10pt;
+    width: 120px;
+    position: relative;
+    font-family: helvetica;
+    border: none;
+    color:#e5a493;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    background-color: inherit;
+}
