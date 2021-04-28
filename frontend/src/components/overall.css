@@ -70,16 +70,3 @@
 .logOutBtn:hover {
     background-color: #404c72;
 }
-
-.deleteBtn
-{
-  font-size: 20px;
-  padding: 0;
-  height: 24px;
-  width: 24px;
-  text-align: left;
-  vertical-align: middle; 
-  border: none;
-  color: white;
-  background-color: rgb(34, 34, 34);
-}
