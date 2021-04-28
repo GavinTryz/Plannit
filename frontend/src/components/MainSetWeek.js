@@ -150,7 +150,7 @@ export default function MainSetWeek() {
 
     function fullHours(){
         var adjustedTime = timeArr;
-        for ( var i = 0 ; i <= 24 ; i++ ){
+        for ( var i = 0 ; i < 24 ; i++ ){
             adjustedTime.push(i);
         }
         return adjustedTime;
@@ -174,7 +174,6 @@ export default function MainSetWeek() {
                     handleSubmit = {handleSubmit}
                 />
             }
-            <button onClick={fullHours}>Show Full Day</button>
             <button onClick={clearBtn}>Clear</button>
         </div>
         
