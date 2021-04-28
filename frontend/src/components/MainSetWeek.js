@@ -5,7 +5,6 @@ import axios from 'axios';
 import {useSelector, useDispatch} from 'react-redux';
 import {setClearWeekTrue, setClearWeekFalse, setWeekTime} from '../actions';
 
-
 export default function MainSetWeek() {
     const jwt = require('jsonwebtoken');
     const storage = require('../tokenStorage');
@@ -80,23 +79,26 @@ export default function MainSetWeek() {
 
     function getEarliestStartTime()
     {
-        var startTime = 24, cols, rows, currentHour;
+        var earlySlot = 47, startTime, cols, rows;
 
         for (cols = 0; cols < calendar.length; cols++)
         {
             for (rows = 0; rows < calendar[0].length; rows++)
             {
-                if (calendar[cols][rows])
+                if (calendar[rows][cols] == true)
                 {
-                    currentHour = Math.floor(rows / 2);
-                    if (currentHour < startTime)
-                    {
-                        startTime = currentHour;
+                    if (row < earlySlot){
+                        startTime = row;
+                        break;
                     }
-                    break;
                 }
             }
         }
+
+        if (startTime % 2)
+            startTime =  Math.floor(rows / 2);
+        else
+            startTime = startTime / 2;
 
         return startTime;
 
@@ -104,20 +106,28 @@ export default function MainSetWeek() {
 
     function getLatestEndTime()
     {
-        var endTime = 0, cols, rows, currentHour;
+        var lateSlot = 0, endTime, cols, rows;
 
-        for (cols = (calendar.length - 1); cols >= 0; cols--)
+        for (cols = 0; cols < calendar.length; cols++)
         {
             for (rows = (calendar[0].length - 1); rows >= 0; rows--)
             {
-                if (calendar[cols][rows])
+                if (calendar[rows][cols] == true)
                 {
+                    if (calendar[rows][cols] == true)
+                    {
+                        if (row > lateSlot){
+                            startTime = row;
+                            break;
+                        }
+                    }
+
                     currentHour = Math.floor(rows / 2);
                     if (currentHour > endTime)
                     {
                         endTime = currentHour;
+                        break;
                     }
-                    break;
                 }
             }
         }
