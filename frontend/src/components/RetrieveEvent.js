@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import DeleteEventBtn from './DeleteEventBtn';
 
 import {useSelector, useDispatch} from 'react-redux';
-import {storeSearchEvents, storeSearchInvites, storeJWT, storeEventData} from '../actions';
+import {storeCreatorEvents, storeParticipantEvents, storeJWT, storeEventData} from '../actions';
 
 import SearchEvent from './SearchEvent';
 import LeaveEventBtn from './LeaveEventBtn';
@@ -11,9 +11,7 @@ import axios from 'axios';
 export default function RetrieveEvent(){
 
     const [searchValue, setSearchValue] = useState("");
-    const [creatorEvents, setCreatorEvents] = useState([]);
-    const [invitedEvents, setInvitedEvents] = useState([]);
-    const [searchEvents, setSearchEvents] = useState([]);
+    const [events, setEvents] = useState([]);
 
     const [loading, setLoading] = useState(true);
     const [showEvents, setShowEvents] = useState(false);
@@ -30,8 +28,7 @@ export default function RetrieveEvent(){
         };
         axios.post(bp.buildPath('api/getEvents'), payload)
         .then((res) => {
-            setCreatorEvents(res.data.creatorEvents);
-            setInvitedEvents(res.data.invitedEvents);
+            setEvents(res.data.participantEvents);
             setLoading(false);
         })
         .catch((e) => {
@@ -42,7 +39,6 @@ export default function RetrieveEvent(){
 
     function handleShowEventsClick(event) {
         event.preventDefault();
-        console.log(creatorEvents);
         setShowEvents(!showEvents);
     }
     function handleEventClick(event) {
@@ -71,11 +67,10 @@ export default function RetrieveEvent(){
         };
         axios.post(bp.buildPath('api/searchEvents'), payload)
             .then((res) => {
-                setCreatorEvents(res.data.creatorEvents);
-                setInvitedEvents(res.data.participantEvents);
+                setEvents(res.data.participantEvents);
                 dispatch(storeJWT(res.data.jwtToken));
-                dispatch(storeSearchEvents(res.data.creatorEvents));
-                dispatch(storeSearchInvites(res.data.participantEvents));
+                // dispatch(storeSearchEvents(res.data.creatorEvents));
+                // dispatch(storeSearchInvites(res.data.participantEvents));
             })
             .catch((e) => {
                 console.log(e);
@@ -89,30 +84,19 @@ export default function RetrieveEvent(){
             <button className="SideBarBtn" onClick={handleShowEventsClick}>Show My Events</button> 
             <input className="search" type="text" value={searchValue} placeholder="Search events..." name="search" onChange={handleSearch} />
             {
-                showEvents && creatorEvents &&
-                   <table class='events'> 
-                    {
-                       creatorEvents.map((item) => 
-                           <tr><td className ='eventRow'><button className='eventsBtn' itemindex={item._id} onClick={handleEventClick}>{item.eventName}</button><DeleteEventBtn eventID={item._id}/></td></tr>
-                        )
-                    }
-                   </table>
-            }
-            {
-                showEvents && invitedEvents &&
-                <div>
-                <h2>Invited</h2>
-                   <table class = 'events'> 
-                    {
-                       invitedEvents.map((item) => 
-                           <tr><td className ='eventRow'><button className='eventsBtn' itemindex={item._id} onClick={handleEventClick}>{item.eventName}</button><LeaveEventBtn eventID={item._id}/></td></tr>
-                        )
-                    }
-                   </table>
-                </div>  
+                showEvents && events &&
+                <table class = 'events'> 
+                {
+                    events.map((item) => 
+                        <tr><td className='eventButton'><button itemindex={item._id} onClick={handleEventClick}>{item.eventName}</button><DeleteEventBtn eventID={item._id} /></td></tr>
+                    )
+                }
+                </table>
             }
             </div>
         }
         </div>
     );
 }
+    
+

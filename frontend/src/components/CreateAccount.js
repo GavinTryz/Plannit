@@ -39,6 +39,7 @@ function CreateAccount()
                 {
                     setMessage('');
                     window.location.href = '/emailConfirmation';
+                    console.log('redirecting');
                 }
             }
             catch(e)
