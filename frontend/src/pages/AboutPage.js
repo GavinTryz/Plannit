@@ -20,7 +20,7 @@ const AboutPage = () =>
       fontFamily: 'helvetica',
       fontSize: '18pt',
       textAlign: 'center',
-      padding: '50px'
+      margin: '0',
   }
 
   const listStyle = 
@@ -31,6 +31,7 @@ const AboutPage = () =>
     return(
       <div style = {background}>
         <MenuBar />
+        
         <p style = {textStyle}>
 
         <h1>What is Plannit?</h1>
