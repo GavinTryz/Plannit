@@ -38,7 +38,6 @@ export default function MainSetWeek() {
                     setCalendar(res.data.week);
                 }
             }
-            dayOfWeekObj = prepData(dayOfWeekObj);
             setLoading(false);
 
         })
@@ -58,20 +57,7 @@ export default function MainSetWeek() {
         return nestedArray;
     }
 
-    function prepData(dayOfWeekObj) {
-        var newWeekObj = dayOfWeekObj;
-        if (newWeekObj != null){
-            for ( var i = 0 ; i < newWeekObj.length ; i++ ){
-                if (newWeekObj[i] != "")
-                    newWeekObj[i] = true;
-                else
-                    newWeekObj[i] = false;
-            }
-        }
-        return newWeekObj;
-    }
-
-    /*var dayOfWeekObj = {    //what days show on the calendar?
+    var dayOfWeekObj = {    //what days show on the calendar?
         sunday: true,
         monday: true,
         tuesday: true,
@@ -79,7 +65,7 @@ export default function MainSetWeek() {
         thursday: true,
         friday: true,
         saturday: true
-    };*/
+    };
 
     
     function handleSubmit(event){

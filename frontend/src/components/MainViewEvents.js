@@ -30,11 +30,14 @@ function MainViewEvents()
                 else
                     dayOfWeekObj[i] = false;
             }
+            console.log(dayOfWeekObj);
         }
+        console.log(dayOfWeekObj);
 
         for ( var i = start ; i <= end ; i++ ){
             timeArr.push(i);
         }
+        console.log(timeArr);
 
 
         //dayOfWeekObj = prepData(dayOfWeekObj);
