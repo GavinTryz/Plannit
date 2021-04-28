@@ -7,6 +7,7 @@ import axios from 'axios';
 import queryString from 'query-string';
 import {useSelector} from 'react-redux';
 
+
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 
@@ -123,7 +124,7 @@ export default function InviteUserPage(props){
         })
     }
     return(
-        <div>
+        <div className="stylePage">
             {!loading &&
                 <RetrieveCalendar
                 daysAvailable = {dayOfWeekObj}
