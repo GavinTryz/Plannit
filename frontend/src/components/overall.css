@@ -1,0 +1,33 @@
+.link {
+    font-size: 15pt;
+    font-family: helvetica;
+    color: white;
+    text-decoration: none;
+    width: 100%;
+    height: 100%;
+    background-color: #151b29;
+    box-shadow: none;
+    border: none;
+    cursor: pointer;
+    margin: 0;
+}
+
+.link:hover {
+    background-color: #404c72;
+}
+
+.signIn {
+    background-color: #191f2e;
+    font-size: 16px;
+    font-family: helvetica;
+    color: white;
+    width: 225px;
+    height: 30px;
+    padding: 5px;
+    margin: 5px 0 15px 0;
+    border: none;
+}
+
+.signIn:hover {
+    background-color: #ffd392;
+}

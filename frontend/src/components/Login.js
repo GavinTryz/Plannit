@@ -73,11 +73,11 @@ function Login()
     return(
         <div className = 'backgroundLogin'><br />
             <div className= 'loginSection'>
-                <span id = 'signInName'>Plannit Sign In</span>
+                <span id = 'signInName'>Plannit Login</span>
                 <form onSubmit = {doLogin}>
                     <input className="inputTextField" type="email" placeholder="Email" ref={(c) => loginName = c} /><br />
                     <input className="inputTextField" type="password" placeholder="Password" ref={(c) => loginPassword = c} /><br />
-                    <input id="loginButton" type="submit" class="buttons" value="Sign In" onClick={doLogin} /><br />
+                    <input id="loginButton" type="submit" class="signIn" value="Login" onClick={doLogin} /><br />
                 </form>
                 <div id="loginResult">{message}</div>
                 <span className = 'linkTextTitle'>Forgot password?</span>
