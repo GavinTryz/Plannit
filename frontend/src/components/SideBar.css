@@ -3,11 +3,13 @@
     background-color: rgba(151, 157, 175, 0.897);
     height: 100%;
     width: 180px;
+    text-align: center;
 }
 .SideBarBtn
 {
     font-size: 10pt;
-    width: 100%;
+    width: 160px;
+    position: relative;
     font-family: helvetica;
     border: 1px solid;
     border-radius: 5px;
@@ -17,4 +19,25 @@
     text-align: center;
     cursor: pointer;
     background-color: #f2d49b;
+}
+.SideBarBtn:active
+{
+    background-color: #e5a493;
+}
+.search
+{
+    font-size: 10pt;
+    width: 158px;
+    position: relative;
+    font-family: helvetica;
+    border: 1px solid;
+    border-radius: 10px;
+    border-color: rgb(168, 169, 197);
+    text-decoration: #1e2638;
+    padding: 4px 0px;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.678);
+}
+.search::placeholder{
+    color: #00000077;
 }
