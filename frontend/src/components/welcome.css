@@ -1,0 +1,21 @@
+.welcome
+{
+    margin: auto;
+    width: 108%;
+    font-family: devanagari, "Comic Sans MS", "Comic Sans", sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    padding-top: 20%;
+    text-align: center;
+    color: white;
+    position: absolute;
+    font-size: 32px;
+    line-height: 40px;
+}
+#welcomePlannit{
+    font-size: 66px;
+    letter-spacing: 4px;
+    font-weight: bold;
+    line-height: 64px;
+
+}
