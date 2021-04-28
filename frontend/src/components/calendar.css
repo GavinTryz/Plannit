@@ -37,26 +37,25 @@
    
 
 }
-
 .calendarCell input:checked + .calendarCellOn{
     background-color: rgb(107, 107, 218);
 }
-
 .calendarTable{
     margin-left: auto;
     margin-right: auto;
     border-collapse: collapse;
-    border: 1px solid black;
-
+    background-color: rgb(236, 242, 248);
 }
 
 .calendarTh, .calendarTd {
     border: 1px solid rgb(45, 56, 105);
-    
 }
 .calendarTh{
     text-align: center;
-    
+    font-size: 13px;
+    color:rgb(45, 56, 105);
+    background-color: #f2d49b;
+    padding: 4px;
 }
 .calendarTd{
     font-size: 10pt;
@@ -95,8 +94,7 @@
     bottom: 0;
 }
 
-.calendarViewCell :hover
-{
+.calendarViewCell :hover{
     background: rgb(95, 215, 255);
 }
 
