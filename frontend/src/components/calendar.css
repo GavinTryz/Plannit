@@ -35,7 +35,7 @@
 
 }
 .calendarCell input:checked + .calendarCellOn{
-    background-color: white;
+    background-color: rgb(107, 107, 218);
 }
 .calendarTable{
     margin-left: auto;
@@ -99,6 +99,6 @@
 }
 
 .calendarViewCell input:checked + .calendarCellOn{
-    background-color: white;
+    background-color: rgb(255, 68, 68);
 }
 
