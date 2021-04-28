@@ -12,7 +12,7 @@ function RetrieveEvent(){
     const[invitedList, setInvitedList] = useState("");
     const[showEventList, setShowEventList] = useState(false);
     const[myEvents, setMyEvents] = useState([{}]);
-    const[myInvitedEvents, setMyInvitedEvents] = useState([{}])
+    const[myInvitedEvents, setMyInvitedEvents] = useState([{}]);
     useEffect(() => {
         loadEvents();
     }, [])
@@ -50,7 +50,6 @@ function RetrieveEvent(){
         }
     }
     function showEvents() {
-
         setEventLists(myEvents.map(generateEventsList));
         setInvitedList(myInvitedEvents.map(generateInvitedList));
         setShowEventList(true);

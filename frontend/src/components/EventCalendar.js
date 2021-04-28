@@ -40,8 +40,6 @@ function EventCalendar(props){
             );
     }
 
-
-    
     var tableHeader = (daysOfWeek, index) =>{       
         return(
                 <th className='calendarTh' key={index}>{daysOfWeek}</th>

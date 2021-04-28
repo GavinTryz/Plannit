@@ -69,7 +69,7 @@ function EventCalendarCell(props){
                         border: "1px solid black",
                         width: "85px",
                         height: "15px",
-                        background: "hsl(200, 50%, " + (100-(value/props.numParticipants*100)) + "%)"
+                        background: "hsl( " + (((value/props.numParticipants)*120)) + " , 100%, 50%)"
                     }}>
                     <input type="checkbox" onChange={handleChange}/>
                     {/* <td style={'background: hsl(' + value + ', 100%, 50%)'}> {value}</td> */}
