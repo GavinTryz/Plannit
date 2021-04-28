@@ -8,7 +8,7 @@ import CreateAccountButton from '../components/CreateAccountButton';
 const HomePage = () =>
 {
   const background={
-    backgroundImage: 'url(/plannitgraph.png)',
+    backgroundImage: 'url(/plannitBg.png)',
     backgroundPosition: 'center',
     width: '100vw',
     height: '100vh',

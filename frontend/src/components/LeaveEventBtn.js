@@ -10,23 +10,20 @@ function LeaveEventBtn(props)
     const bp = require('./bp');
 
     const userJWT = useSelector(state => state.userJWT); 
-    const myEvents = useSelector(state => state.myEvents);
+    const searchEvents = useSelector(state => state.searchEvents);
     const userData = useSelector(state => state.userData);
-    var key = props.eventKey;
 
-    function getEventId (key) {
-        var eventId = myEvents[key]._id;
+    /*function getEventId (key) {
+        var eventId = searchEvents[key]._id;
         console.log(eventId);
         return eventId;
-    }
+    }*/
 
     const leaveEvent = async event => {
         event.preventDefault();
 
-        var eventId = getEventId(key);
-        
         var obj = {
-            eventID: eventId,
+            eventID: props.eventID,
             jwtToken: userJWT,
             userID: userData.Id
         };

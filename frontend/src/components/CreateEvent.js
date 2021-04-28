@@ -127,7 +127,7 @@ function CreateEvent()
                 dispatch(storeCreateId(res.eventID));
 
                 //link change
-                //window.location.href = '/dashboard/joinEvent';
+                window.location.href = '/joinEvent';
             }
         }
         catch(e)
@@ -139,7 +139,7 @@ function CreateEvent()
     
     return(
         <div>
-            <button className="createEventBtn" onClick={()=>setModalIsOpen(true)}>Create Event</button>
+            <button className="dashboardBtn" onClick={()=>setModalIsOpen(true)}>Create Event</button>
             <Modal id="ModalStyle"isOpen={modalIsOpen} 
                 style={{
                     overlay:{ backgroundColor: '#00000080'},

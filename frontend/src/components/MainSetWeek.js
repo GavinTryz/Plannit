@@ -5,18 +5,22 @@ import axios from 'axios';
 import {useSelector, useDispatch} from 'react-redux';
 import {setClearWeekTrue, setClearWeekFalse, setWeekTime} from '../actions';
 
-
 export default function MainSetWeek() {
     const jwt = require('jsonwebtoken');
     const storage = require('../tokenStorage');
     const bp = require('./bp');
     const [calendar, setCalendar] = useState(createCalendar());
     const [loading, setLoading] = useState(false);
+    const [fullWeek, setFullWeek] = useState(false);
+    const [startTime, setStartTime] = useState("");
+    const [endTime, setEndTime] = useState("");
+
     const dispatch = useDispatch();
     const clearWeek = useSelector(state => state.clearWeek);
     const weekTime = useSelector(state => state.weekTime);
     const eventData = useSelector(state => state.eventData);
-    var dayOfWeekObj = eventData.daysOfWeek;
+    var timeArr = [];
+
     useEffect(() => {
         setLoading(true);
         console.log('using effect');
@@ -34,6 +38,8 @@ export default function MainSetWeek() {
                 else
                 {
                     setCalendar(res.data.week);
+                    setStartTime(getEarliestStartTime());
+                    setEndTime(getLatestEndTime());
                 }
             }
             setLoading(false);
@@ -54,7 +60,8 @@ export default function MainSetWeek() {
         );
         return nestedArray;
     }
-    var dayOfWeekObj = {    //what days show on the calendar?
+
+    var dayOfWeekObj = {   
         sunday: true,
         monday: true,
         tuesday: true,
@@ -78,71 +85,85 @@ export default function MainSetWeek() {
         });
     }
 
-    function getEarliestStartTime()
-    {
-        var startTime = 24, cols, rows, currentHour;
+    function getEarliestStartTime() {
+        var earlySlot = 47, startTime, cols, rows;
 
-        for (cols = 0; cols < calendar.length; cols++)
-        {
-            for (rows = 0; rows < calendar[0].length; rows++)
-            {
-                if (calendar[cols][rows])
-                {
-                    currentHour = Math.floor(rows / 2);
-                    if (currentHour < startTime)
-                    {
-                        startTime = currentHour;
+        for (cols = 0; cols < calendar.length; cols++){
+            for (rows = 0; rows < calendar[0].length; rows++){
+                if (calendar[rows][cols] == true) {
+                    if (rows < earlySlot){
+                        startTime = rows;
+                        break;
                     }
-                    break;
                 }
             }
         }
+
+        if (startTime % 2)
+            startTime =  Math.floor(rows / 2);
+        else
+            startTime = startTime / 2;
 
         return startTime;
-
     }
 
-    function getLatestEndTime()
-    {
-        var endTime = 0, cols, rows, currentHour;
+    function getLatestEndTime() {
+        var lateSlot = 0, endTime, cols, rows;
 
-        for (cols = (calendar.length - 1); cols >= 0; cols--)
-        {
-            for (rows = (calendar[0].length - 1); rows >= 0; rows--)
-            {
-                if (calendar[cols][rows])
-                {
-                    currentHour = Math.floor(rows / 2);
-                    if (currentHour > endTime)
-                    {
-                        endTime = currentHour;
+        for (cols = 0; cols < calendar.length; cols++) {
+            for (rows = (calendar[0].length - 1); rows >= 0; rows--) {
+                if (calendar[rows][cols] == true) {
+                    if (rows > lateSlot) {
+                        endTime = rows;
+                        break;
                     }
-                    break;
                 }
             }
         }
+
+        if (endTime % 2)
+            endTime =  Math.floor(rows / 2);
+        else
+            endTime = endTime / 2;
 
         return endTime;
     }
 
-    function makeTimeArr(startTime, endTime)
-    {
-        var timeDiff = endTime - startTime;
-        var timeArr = [];
-        var i;
-        for (i = 0; i < timeDiff; i++)
-        {
-            timeArr[i] = startTime + i;
+    function prepTime(start, end) {
+        var adjustedTime = timeArr;
+
+        //adjustedTime = [0,1,2,3,4];
+
+        for ( var i = start ; i <= end ; i++ ){
+            adjustedTime.push(i);
         }
 
-        dispatch(setWeekTime(timeArr));
-
-        window.location.reload();
+        console.log(adjustedTime);
+        console.log(start);
+        console.log(end);
+        return adjustedTime;
     }
 
-    function handleFullDay()
-    {
-        makeTimeArr(0, 24);
+    function fullHours(){
+        setFullWeek( true );
+        getTime();
+    }
+
+    function getTime(){
+        /*if (fullWeek = true){
+            return prepTime(0, 24);
+        }
+        else {*/
+            return prepTime(startTime, endTime);
+        //}
+    }
+
+    function fullHours(){
+        var adjustedTime = timeArr;
+        for ( var i = 0 ; i <= 24 ; i++ ){
+            adjustedTime.push(i);
+        }
+        return adjustedTime;
     }
 
     function clearBtn()
@@ -157,13 +178,13 @@ export default function MainSetWeek() {
                 !loading &&
                 <RetrieveCalendar
                     daysAvailable = {dayOfWeekObj}
-                    time = {weekTime}
+                    time = {getTime()}
                     calendar = {calendar}
                     setCalendar = {setCalendar}
                     handleSubmit = {handleSubmit}
                 />
             }
-            <button onClick={handleFullDay}>Show Full Day</button>
+            <button onClick={fullHours}>Show Full Day</button>
             <button onClick={clearBtn}>Clear</button>
         </div>
         

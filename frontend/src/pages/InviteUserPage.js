@@ -7,6 +7,7 @@ import axios from 'axios';
 import queryString from 'query-string';
 import {useSelector} from 'react-redux';
 
+
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 
@@ -22,22 +23,47 @@ export default function InviteUserPage(props){
     const userJWT = useSelector(state => state.userJWT); 
     const createId = useSelector(state => state.createId); 
     const createName = useSelector(state => state.createName); 
+    const userData = useSelector(state => state.userData); 
     var timeArr = [];
 
     useEffect(() => {
-        axios.post(bp.buildPath('api/getWeekFromToken'), {token: values.token})
-        .then((res) => {
-            console.log(res);
-            if(!res.data.error)
-            {
-                setCalendar(res.data.week);
+        if(values.token)
+        {
+            axios.post(bp.buildPath('api/getWeekFromToken'), {token: values.token})
+            .then((res) => {
+                console.log(res);
+                if(!res.data.error)
+                {
+                    setCalendar(res.data.week);
+                }
+                console.log(calendar);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        }
+        else 
+        {
+            const payload = {
+                userID: userData.userId,
+                jwtToken: userJWT
             }
-            console.log(calendar);
-            setLoading(false);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+            axios.post(bp.buildPath('api/getWeek'), payload)
+            .then((res) => {
+                console.log(res);
+                if(!res.data.error)
+                {
+                    setCalendar(res.data.week);
+                }
+                console.log(calendar);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        }
+        
     }, []);
     function createCalendar() {
         const rows = 7;
@@ -58,7 +84,6 @@ export default function InviteUserPage(props){
         saturday: true
     };
 
-    //var timeArr = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
     function fullHours(){
         var adjustedTime = timeArr;
         for ( var i = 0 ; i <= 24 ; i++ ){
@@ -99,7 +124,8 @@ export default function InviteUserPage(props){
         })
     }
     return(
-        <div>
+        <div className="stylePage">
+            <div><br/>
             {!loading &&
                 <RetrieveCalendar
                 daysAvailable = {dayOfWeekObj}
@@ -112,6 +138,7 @@ export default function InviteUserPage(props){
             {loading &&
                 <div>loading</div>
             }
+            </div>
         </div>
         );
 }

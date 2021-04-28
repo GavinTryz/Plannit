@@ -1,12 +1,14 @@
 import React, {useState} from 'react';
 
 import DeleteEventBtn from './DeleteEventBtn';
+import LeaveEventBtn from './LeaveEventBtn';
 
 import {useSelector, useDispatch} from 'react-redux';
 import {storeSearchEvents, storeJWT, storeEventData, storeSearchInvites} from '../actions';
+import axios from 'axios';
+import { PromiseProvider } from 'mongoose';
 
-
-const SearchEvent = () =>
+export default function SearchEvent(props)
 {
     const storage = require('../tokenStorage');
     const bp = require('./bp');
@@ -23,34 +25,34 @@ const SearchEvent = () =>
     const searchEvents = useSelector(state => state.searchEvents);
     const[myEvents, setMyEvents] = useState([{}]);
     const[myInvitedEvents, setMyInvitedEvents] = useState([{}])
+    const [value, setValue] = useState("");
 
-
-    const handleSearch = async event => {
+    function handleSearch(event) {
 
         event.preventDefault();
-
+        setValue(event.target.value);
+        if(event.target.value)
+        {
+            props.hide(false);
+        }
         var obj = {
             userID: jwt.decode(tok).userId,
-            name: searchEvent.value,
+            name: event.target.value,
             jwtToken: tok
         };
         var js = JSON.stringify(obj);
 
         try
         {    
-            const response = await fetch(bp.buildPath('api/searchEvents'),
-                {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
-                
-            var res = JSON.parse(await response.text());
-       
-            setMyEvents(res.creatorEvents);
-            setMyInvitedEvents(res.participantEvents);
-
-            dispatch(storeJWT(res.jwtToken));
-            dispatch(storeSearchEvents(res.creatorEvents));
-            dispatch(storeSearchInvites(res.participantEvents));
-
-            showEvents();
+            axios.post(bp.buildPath('api/searchEvents'), obj)
+            .then((res) => {
+                setMyEvents(res.data.creatorEvents);
+                setMyInvitedEvents(res.data.participantEvents);
+                dispatch(storeJWT(res.data.jwtToken));
+                dispatch(storeSearchEvents(res.data.creatorEvents));
+                dispatch(storeSearchInvites(res.data.participantEvents));
+                showEvents();
+            })
         }
         catch(e)
         {
@@ -119,7 +121,7 @@ const SearchEvent = () =>
         return(
             <table class = 'events'>
                 <tr key={i}>
-                    <td className = 'eventButton'><button onClick={loadEventData(i, searchInvites)}>{getCreatorEvents.eventName}</button><DeleteEventBtn eventKey = {i}/></td>
+                    <td className = 'eventButton'><button onClick={loadEventData(i, searchInvites)}>{getCreatorEvents.eventName}</button><LeaveEventBtn eventKey = {i}/></td>
                 </tr>
             </table>
         );
@@ -127,16 +129,16 @@ const SearchEvent = () =>
 
     return(
         <div className="search-container">
-                 <form onChange={handleSearch}>
-                 <input className="search" type="text" placeholder="Search events..." name="search" ref={(c) => searchEvent = c} />
+                 <form>
+                    <input className="search" type="text" value={value} placeholder="Search events..." name="search" onChange={handleSearch} />
                  </form>
                  {showEventList &&
                 eventLists}
                 <br />
+                Invited Events
                 {showEventList &&
                 invitedList}
         </div>
 
     );
 };
-export default SearchEvent;

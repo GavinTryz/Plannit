@@ -1,45 +1,89 @@
 .Sidebar{
     position: fixed;
-    background-color: rgba(151, 157, 175, 0.897);
+    background-color: rgb(34, 34, 34);
     height: 100%;
-    width: 180px;
+    padding: 0 0 20px 0;
+    padding: 45px 0 0 0;
+    width: 220px;
     text-align: center;
     overflow-y:scroll;
     overflow-x:hidden;
 }
+
 .SideBarBtn
 {
     font-size: 10pt;
-    width: 160px;
+    width: 200px;
     position: relative;
     font-family: helvetica;
-    border: 1px solid;
+    border: none;
     border-radius: 5px;
-    color: #1e2638;
-    padding: 5px 15px;
+    color: #151b29;
+    padding: 10px 15px;
+    margin: 5px 0;
     text-decoration: none;
     text-align: center;
     cursor: pointer;
     background-color: #f2d49b;
 }
-.SideBarBtn:active
+.SideBarBtn:hover
 {
     background-color: #e5a493;
 }
 .search
 {
     font-size: 10pt;
-    width: 158px;
+    width: 198px;
     position: relative;
     font-family: helvetica;
     border: 1px solid;
-    border-radius: 10px;
+    border-radius: 30px;
     border-color: rgb(168, 169, 197);
     text-decoration: #1e2638;
     padding: 4px 0px;
     text-align: center;
-    background-color: rgba(255, 255, 255, 0.678);
+    background-color: white;
+    margin: 0 0 20px 0;
 }
 .search::placeholder{
     color: #00000077;
+}
+
+.eventRow{
+    background-color: rgb(34, 34, 34);
+    border: none;
+    border-top: 2px solid white;
+    border-bottom: 2px solid white;
+    width: 198px;
+    height: 35px;
+    margin: 0;
+    cursor: pointer;
+    color: white;
+}
+
+.eventRow:hover {
+    background-color: white;
+    color:black;
+}
+
+.eventsBtn {
+    background: none;
+    width: 160px;
+    height: 100%;
+    text-align: center;
+    display: inline-block;
+    font-size: 15px;
+    border: none;
+}
+
+.deleteBtn
+{
+  font-size: 20px;
+  padding: 0;
+  height: 22px;
+  width: 22px;
+  text-align: left;
+  vertical-align: middle; 
+  border: none;
+  background: none;
 }

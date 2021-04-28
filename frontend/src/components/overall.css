@@ -1,0 +1,76 @@
+.link {
+    font-size: 17px;
+    font-family: helvetica;
+    color: white;
+    text-decoration: none;
+    width: 100%;
+    height: 100%;
+    background-color: #151b29;
+    box-shadow: none;
+    border: none;
+    cursor: pointer;
+    margin: 0;
+}
+
+.link:hover {
+    background-color: #404c72;
+}
+
+.signIn {
+    background-color: #191f2e;
+    font-size: 16px;
+    font-family: helvetica;
+    color: white;
+    width: 225px;
+    height: 30px;
+    padding: 5px;
+    margin: 5px 0 15px 0;
+    border: none;
+}
+
+.signIn:hover {
+    background-color: #ffd392;
+}
+
+.dashboardBtn {
+    font-size: 15px;
+    font-family: helvetica;
+    color: white;
+    text-decoration: none;
+    width: 180px;
+    height: 40px;
+    background-color: #151b29;
+    box-shadow: none;
+    border: none;
+    cursor: pointer;
+    float: left;
+    transform: translateX(175%);
+}
+
+.dashboardBtn:hover {
+    background-color: #404c72;
+}
+
+.logOutBtn {
+    margin-right: 0;
+    font-size: 15px;
+    font-family: helvetica;
+    color: white;
+    text-decoration: none;
+    width: 190px;
+    height: 42px;
+    background-color: #151b29;
+    box-shadow: none;
+    border-style:none;
+    border-left: solid white;
+    cursor: pointer;
+    float: right;
+}
+
+.logOutBtn:hover {
+    background-color: #404c72;
+}
+
+.regMain {
+    background-color: #2c3d60;
+}
