@@ -93,7 +93,7 @@ export default function RetrieveEvent(){
                    <table class='events'> 
                     {
                        creatorEvents.map((item) => 
-                           <tr><td className='eventButton'><button itemindex={item._id} onClick={handleEventClick}>{item.eventName}</button><DeleteEventBtn eventID={item._id}/></td></tr>
+                           <tr><td className='eventsBtn'><button itemindex={item._id} onClick={handleEventClick}>{item.eventName}</button><DeleteEventBtn eventID={item._id}/></td></tr>
                         )
                     }
                    </table>
@@ -105,7 +105,7 @@ export default function RetrieveEvent(){
                    <table class = 'events'> 
                     {
                        invitedEvents.map((item) => 
-                           <tr><td className='eventButton'><button itemindex={item._id} onClick={handleEventClick}>{item.eventName}</button><LeaveEventBtn eventID={item._id}/></td></tr>
+                           <tr><td className='eventsBtn'><button itemindex={item._id} onClick={handleEventClick}>{item.eventName}</button><LeaveEventBtn eventID={item._id}/></td></tr>
                         )
                     }
                    </table>

@@ -7,7 +7,7 @@ const AboutPage = () =>
 {
   const background = 
   {
-      backgroundImage: 'url(/graphicplanet.png)',
+      backgroundImage: 'url(/plannitBg2.png)',
       backgroundPosition: 'center',
       width: '100vw',
       height: '100vh',

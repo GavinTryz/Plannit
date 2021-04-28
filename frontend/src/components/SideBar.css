@@ -14,6 +14,7 @@
     width: 200px;
     position: relative;
     font-family: helvetica;
+    border: none;
     border-radius: 5px;
     color: #1e2638;
     padding: 5px 15px;
@@ -23,7 +24,7 @@
     cursor: pointer;
     background-color: #f2d49b;
 }
-.SideBarBtn:active
+.SideBarBtn:hover
 {
     background-color: #e5a493;
 }
@@ -34,7 +35,7 @@
     position: relative;
     font-family: helvetica;
     border: 1px solid;
-    border-radius: 100%;
+    border-radius: 30px;
     border-color: rgb(168, 169, 197);
     text-decoration: #1e2638;
     padding: 4px 0px;

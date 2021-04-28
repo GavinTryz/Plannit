@@ -77,7 +77,8 @@
     border-top: 2px solid white;
     border-bottom: 2px solid white;
     color: white;
-    width: 150px;
+    width: 190px;
+    height: 20px;
     text-align: center;
     display: inline-block;
     font-size: 15px;
@@ -86,12 +87,16 @@
     cursor: pointer;
   }
 
+  .eventsBtn:hover {
+    background-color: white;
+  }
+
 .deleteBtn
 {
   font-size: 20px;
   padding: 0;
-  height: 20px;
-  width: 20px;
+  height: 24px;
+  width: 24px;
   text-align: left;
   vertical-align: middle; 
   border: none;
