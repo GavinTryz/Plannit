@@ -132,7 +132,6 @@ function CreateEvent()
         }
         catch(e)
         {
-            alert(e.toString());
             return;
         }
     }
