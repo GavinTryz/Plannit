@@ -50,7 +50,6 @@ function RetrieveEvent(){
         }
     }
     function showEvents() {
-
         setEventLists(myEvents.map(generateEventsList));
         setInvitedList(myInvitedEvents.map(generateInvitedList));
         setShowEventList(true);

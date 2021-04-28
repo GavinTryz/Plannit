@@ -5,8 +5,7 @@ import {useLocation, useHistory} from 'react-router-dom';
 import RetrieveCalendar from '../components/RetrieveCalendar';
 import axios from 'axios';
 import queryString from 'query-string';
-import {useSelector, useDispatch} from 'react-redux';
-import {storeJWT, storeCreateName, storeCreateId} from '../actions';
+import {useSelector} from 'react-redux';
 
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
