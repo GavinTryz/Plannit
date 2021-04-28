@@ -87,9 +87,9 @@ export const storeSearchEvents = data => {
     };
 };
 
-export const addSearchEvents = data => {
+export const storeSearchInvites = data => {
     return{
-        type: 'ADD_SEARCH_EVENTS',
+        type: 'ADD_SEARCH_INVITES',
         payload: data
     };
 };

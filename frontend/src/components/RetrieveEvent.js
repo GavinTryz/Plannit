@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import DeleteEventBtn from './DeleteEventBtn';
 
 import {useSelector, useDispatch} from 'react-redux';
@@ -7,21 +7,23 @@ import {storeCreatorEvents, storeParticipantEvents, storeJWT, storeEventData} fr
 import SearchEvent from './SearchEvent';
 
 function RetrieveEvent(){
-
+    
     const[eventLists, setEventLists] = useState("");
     const[invitedList, setInvitedList] = useState("");
-
+    const[showEventList, setShowEventList] = useState(false);
+    const[myEvents, setMyEvents] = useState([{}]);
+    const[myInvitedEvents, setMyInvitedEvents] = useState([{}])
+    useEffect(() => {
+        loadEvents();
+    }, [])
     const storage = require('../tokenStorage');
     const bp = require('./bp');
     const jwt = require('jsonwebtoken');
     var tok = storage.retrieveToken();
     var ud = jwt.decode(tok, {complete: true});
     const dispatch = useDispatch();
-  
-    const showEvents = async event => {
 
-        event.preventDefault();
-
+    async function loadEvents() {
         var obj = {
             userID: jwt.decode(tok).userId,
             jwtToken: tok
@@ -34,14 +36,9 @@ function RetrieveEvent(){
                 {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
                 
             var res = JSON.parse(await response.text());
-
             // Get only the object array named CreatorEvents
-            var getCreatorEvents = res.creatorEvents;
-            var getInvitedEvents = res.participantEvents;
-
-            setEventLists(getCreatorEvents.map(generateEventsList));
-            setInvitedList(getInvitedEvents.map(generateInvitedList));
-
+            setMyEvents(res.creatorEvents);
+            setMyInvitedEvents(res.participantEvents);
             dispatch(storeJWT(res.jwtToken));
             dispatch(storeCreatorEvents(res.creatorEvents));
             dispatch(storeParticipantEvents(res.participantEvents));
@@ -52,8 +49,13 @@ function RetrieveEvent(){
             return;
         }
     }
+    function showEvents() {
 
-    const myEvents = useSelector(state => state.myEvents);
+        setEventLists(myEvents.map(generateEventsList));
+        setInvitedList(myInvitedEvents.map(generateInvitedList));
+        setShowEventList(true);
+    }
+
     const invitedEvents = useSelector(state => state.participantEvents);
     function getEventId (key, list) {
         var eventId = list[key]._id;
@@ -62,7 +64,6 @@ function RetrieveEvent(){
 
     const loadEventData = (key, list) => async event => {
         event.preventDefault();
-
         var eventId = getEventId(key, list);
 
         var obj = {
@@ -79,8 +80,6 @@ function RetrieveEvent(){
                 
             var res = JSON.parse(await response.text());
 
-            console.log(res);
-            console.log(res.participants);
 
             dispatch(storeEventData(res));
 
@@ -119,9 +118,11 @@ function RetrieveEvent(){
         <div>
             
             <button className="SideBarBtn" onClick={showEvents}>Show My Events</button> 
-            {eventLists}
+            {showEventList &&
+            eventLists}
             <br />
-            {invitedList}
+            {showEventList &&
+            invitedList}
             <SearchEvent />
         </div>
     );

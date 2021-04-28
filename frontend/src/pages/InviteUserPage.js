@@ -62,17 +62,17 @@ export default function InviteUserPage(props){
     function handleSubmit(e) {
         e.preventDefault();
 
-        const payload = {};
+        var payload = {};
 
         if (login) {    //if user is logged in
-            const payload = {
+            payload = {
                 availability: calendar,
                 jwtToken: userJWT,
                 eventID: createId,
                 eventName: createName
             }
         } else {
-            const payload = {
+            payload = {
                 token: values.token,
                 availability: calendar
             }

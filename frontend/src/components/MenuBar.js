@@ -23,12 +23,14 @@ function MenuBar()
 
     return(
         <div>
-            <table class = 'menu'>
-                <tr>
-                    <td><Link style= {navLink} to= '/'>Home </Link></td> 
-                    <td><Link style= {navLink} to='/about'>About</Link></td>
-                    <td><Link to ='/login'><button style={navButton}>Sign In</button></Link></td>
-                </tr>
+            <table className = 'menu'>
+                <tbody>
+                    <tr>
+                        <td><Link style= {navLink} to= '/'>Home </Link></td> 
+                        <td><Link style= {navLink} to='/about'>About</Link></td>
+                        <td><Link to ='/login'><button style={navButton}>Sign In</button></Link></td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     );

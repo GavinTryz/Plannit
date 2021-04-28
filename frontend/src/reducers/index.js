@@ -12,6 +12,7 @@ import storeSearchEvents from './storeSearchEvents';
 import storeLogin from './storeLogin';
 import storeCreateId from './storeCreateId';
 import storeCreateName from './storeCreateName';
+import storeSearchInvites from './storeSearchInvites';
 
 import {combineReducers} from 'redux';
 
@@ -28,6 +29,7 @@ const allReducers = combineReducers ({
     clearWeek : setClearWeek,
     weekTime: setWeekTime,
     searchEvents : storeSearchEvents,
+    searchInvites : storeSearchInvites,
     login : storeLogin,
     createId : storeCreateId,
     createName : storeCreateName

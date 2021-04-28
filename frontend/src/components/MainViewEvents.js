@@ -8,12 +8,72 @@ import axios from 'axios';
 
 function MainViewEvents()
 {
+    const [loading, setLoading] = useState(true);
+    const [availability, setAvailability] = useState([[]]);
     const eventData = useSelector(state => state.eventData);
+    var dayOfWeekObj = eventData.daysOfWeek;
+    var start = parseInt(eventData.startTime);
+    var end = parseInt(eventData.endTime);
+    var timeArr = [];
+
+    useEffect(() => {
+        setAvailability(calculateAvailability());
+        while(!availability)
+        {
+
+        }
+
+        /*if (dayOfWeekObj != null){
+            for ( var i = 0 ; i < dayOfWeekObj.length ; i++ ){
+                if (dayOfWeekObj[i] != "")
+                    dayOfWeekObj[i] = true;
+                else
+                    dayOfWeekObj[i] = false;
+            }
+            console.log(dayOfWeekObj);
+        }*/
+        console.log(dayOfWeekObj);
+
+        /*for ( var i = start ; i <= end ; i++ ){
+            timeArr.push(i);
+        }*/
+        console.log(timeArr);
+
+
+        //dayOfWeekObj = prepData(dayOfWeekObj);
+        //timeArr = prepTime(timeArr);
+        setLoading(false);
+    }, [])
+
+    function prepData() {
+        var newWeekObj = dayOfWeekObj;
+        if (newWeekObj != null){
+            for ( var i = 0 ; i < newWeekObj.length ; i++ ){
+                if (newWeekObj[i] != "")
+                    newWeekObj[i] = true;
+                else
+                    newWeekObj[i] = false;
+            }
+        }
+        console.log(newWeekObj);
+        return(newWeekObj);
+    }
+
+    function prepTime() {
+        var adjustedTime = timeArr;
+        var start = parseInt(eventData.startTime);
+        var end = parseInt(eventData.endTime);
+
+        for ( var i = start ; i <= end ; i++ ){
+            adjustedTime.push(i);
+        }
+        console.log(adjustedTime);
+        return adjustedTime;
+    }
 
     function calculateAvailability() {
         const rows = 7;
         const cols = 48;
-
         var availabilityTable = Array.from({ length: rows }, () => 
         Array.from({ length: cols }, () => 0)
         );
@@ -33,17 +93,23 @@ function MainViewEvents()
         }
         return availabilityTable;
     }
-    var timeArr = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+    
     return(
-        <div class="main">
-            <span>{eventData.eventName}</span>
+        <div>
+        { 
+            !loading &&
+            <div class="main">
+                <span>{eventData.eventName}</span>
                 <InvitationPopover />
                 <EventCalendar 
-                    daysAvailable={eventData.daysOfWeek}
-                    time={timeArr}
+                    daysAvailable={prepData()}
+                    time={prepTime()}
                     calendar={calculateAvailability()}
                     numParticipants={eventData.participants.length}
                 /> 
+            </div>
+        
+        }
         </div>
     );
 }

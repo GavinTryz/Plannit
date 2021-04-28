@@ -15,6 +15,10 @@ export default function MainSetWeek() {
     const dispatch = useDispatch();
     const clearWeek = useSelector(state => state.clearWeek);
     const weekTime = useSelector(state => state.weekTime);
+    const eventData = useSelector(state => state.eventData);
+    var dayOfWeekObj = eventData.daysOfWeek;
+
+
     useEffect(() => {
         setLoading(true);
         console.log('using effect');
@@ -35,6 +39,7 @@ export default function MainSetWeek() {
                 }
             }
             setLoading(false);
+
         })
         .catch((error) => {
             console.log(error);
@@ -51,6 +56,7 @@ export default function MainSetWeek() {
         );
         return nestedArray;
     }
+
     var dayOfWeekObj = {    //what days show on the calendar?
         sunday: true,
         monday: true,
@@ -62,7 +68,6 @@ export default function MainSetWeek() {
     };
 
     
-
     function handleSubmit(event){
         event.preventDefault();
         var tok = storage.retrieveToken();
