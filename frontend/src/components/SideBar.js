@@ -8,8 +8,8 @@ function SideBar()
     return(
         <div>
             <p className="Sidebar"><br/><br/><br/>
-            {/*<RetrieveEvent />
-            <SetWeekButton />*/}
+            <RetrieveEvent />
+            <SetWeekButton />
             </p>
         </div>
     );
